@@ -79,6 +79,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // on success, let the request continue
+        return ($token) ? 'Bearer: '.$token : '';
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse

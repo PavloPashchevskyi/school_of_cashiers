@@ -58,12 +58,13 @@ class SecurityController extends AbstractController
                     'message' => 'Authentication data is NOT correct!',
                 ], JsonResponse::HTTP_UNAUTHORIZED);
             }
-            $result = [
+            $session = $this->get('session');
+            $session->set('hr_id', $authenticationResult['hr_id']);
+            return $this->json([
                 'code' => 0,
                 'message' => 'OK',
-            ];
-
-            return $this->json(($result + $authenticationResult), JsonResponse::HTTP_OK);
+                'hr_id' => $session->get('hr_id'),
+            ]);
         } catch (Exception $exc) {
             return $this->json([
                 'errors' => [

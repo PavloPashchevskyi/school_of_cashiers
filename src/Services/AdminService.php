@@ -5,7 +5,6 @@ namespace App\Services;
 
 use App\Repository\AdminRepository;
 use App\Entity\Admin;
-use App\Security\TokenAuthenticator;
 use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -17,20 +16,15 @@ class AdminService
     /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;
 
-    /** @var TokenAuthenticator */
-    private $guardAuthenticator;
-
     /**
      * AdminService constructor.
      * @param AdminRepository $adminRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param TokenAuthenticator $guardAuthenticator
      */
-    public function __construct(AdminRepository $adminRepository, UserPasswordEncoderInterface $passwordEncoder, TokenAuthenticator $guardAuthenticator)
+    public function __construct(AdminRepository $adminRepository, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->adminRepository = $adminRepository;
         $this->passwordEncoder = $passwordEncoder;
-        $this->guardAuthenticator = $guardAuthenticator;
     }
 
     /**
@@ -48,19 +42,11 @@ class AdminService
 
         $result = [];
         if ($this->passwordEncoder->isPasswordValid($admin, $authenticationData['password'])) {
-            $result['guardAuthenticator'] = $this->guardAuthenticator;
+            $result = [
+                'hr_id' => $admin->getId(),
+            ];
         }
 
         return $result;
-    }
-
-    private function generateRandomString($length = 32) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 }
