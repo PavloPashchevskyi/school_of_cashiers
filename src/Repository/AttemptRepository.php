@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
 use App\Entity\Attempt;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +21,17 @@ class AttemptRepository extends ServiceEntityRepository
         parent::__construct($registry, Attempt::class);
     }
 
-    // /**
-    //  * @return Attempt[] Returns an array of Attempt objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getUsersAttempts(): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $sql = "
+            SELECT u.name, u.city, u.email, u.phone, t.name, a.start_timestamp, a.end_timestamp, a.number_of_points
+            FROM user u
+            JOIN attempt a ON (a.user_id = u.id)
+            JOIN test t ON(a.test_id = t.id)
+            ";
 
-    /*
-    public function findOneBySomeField($value): ?Attempt
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->getEntityManager()->getConnection()->query($sql);
+
+        return $query->fetchAll();
     }
-    */
 }
