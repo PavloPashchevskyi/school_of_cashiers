@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +39,16 @@ class User
      * @ORM\Column(type="string", length=15, nullable=false)
      */
     private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Attempt::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $attempts;
+
+    public function __construct()
+    {
+        $this->attempts = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -114,6 +127,37 @@ class User
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attempt[]
+     */
+    public function getAttempts(): Collection
+    {
+        return $this->attempts;
+    }
+
+    public function addAttempt(Attempt $attempt): self
+    {
+        if (!$this->attempts->contains($attempt)) {
+            $this->attempts[] = $attempt;
+            $attempt->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttempt(Attempt $attempt): self
+    {
+        if ($this->attempts->contains($attempt)) {
+            $this->attempts->removeElement($attempt);
+            // set the owning side to null (unless already changed)
+            if ($attempt->getUser() === $this) {
+                $attempt->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -37,7 +37,7 @@ class AdminService
         $admin = $this->adminRepository->findOneBy(['email' => $authenticationData['email']]);
 
         if (!($admin instanceof Admin)) {
-            throw new Exception('User with this e-mail has not been found!', 1);
+            throw new Exception('Admin with this e-mail has not been found!', 1);
         }
 
         $result = [];
