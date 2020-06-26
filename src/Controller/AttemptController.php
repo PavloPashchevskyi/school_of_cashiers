@@ -7,7 +7,6 @@ use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Services\AttemptService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Exception;
 
@@ -22,9 +21,8 @@ class AttemptController extends AbstractController
     }
 
     /**
-     * @Route("/api/{userId}/attempts", methods={"GET"})
+     * @Route("/api/attempts", methods={"GET"})
      *
-     * @SWG\Parameter(name="userId", in="path", type="integer", required=true, description="ID of User, which attemts we`re going to get", @SWG\Schema(type="integer"))
      * @SWG\Response(
      *     response="200",
      *     description="Returns list of users attempts",
@@ -39,10 +37,9 @@ class AttemptController extends AbstractController
      *     @SWG\Parameter(name="message", type="string", description="Description of an error", @SWG\Schema(type="string"))
      * )
      *
-     * @param Request $request
      * @return JsonResponse
      */
-    public function list(Request $request): JsonResponse
+    public function list(): JsonResponse
     {
         if (!$this->isAdminAuthenticated()) {
             return $this->json([
@@ -51,8 +48,7 @@ class AttemptController extends AbstractController
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
         try {
-            $userId = $request->attributes->getInt('userId');
-            $attempts = $this->attemptService->getUserAttempts($userId);
+            $attempts = $this->attemptService->getUsersAttempts();
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',
