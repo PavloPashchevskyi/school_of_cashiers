@@ -26,7 +26,9 @@ class UserService
         $user = new User();
         $user->setName($data['name']);
         $user->setCity($data['city']);
-        $user->setEmail($data['email']);
+        if (!empty($data['email'])) {
+            $user->setEmail($data['email']);
+        }
         $user->setPhone($data['phone']);
 
         $this->userRepository->store($user);
