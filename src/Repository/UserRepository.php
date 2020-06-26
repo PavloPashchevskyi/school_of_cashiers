@@ -19,4 +19,15 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    /**
+     * @param User $entity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function store(User $entity)
+    {
+        $this->_em->persist($entity);
+        $this->_em->flush();
+    }
 }
