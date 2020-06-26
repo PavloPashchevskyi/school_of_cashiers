@@ -19,4 +19,15 @@ class AttemptRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Attempt::class);
     }
+
+    /**
+     * @param Attempt $entity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function store(Attempt $entity)
+    {
+        $this->_em->persist($entity);
+        $this->_em->flush();
+    }
 }

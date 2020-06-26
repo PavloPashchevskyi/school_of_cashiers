@@ -20,6 +20,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function getUserInfo(User $user)
+    {
+        $result = $this->createQueryBuilder('u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getArrayResult();
+
+        return $result[0] ? $result[0] : [];
+    }
+
     /**
      * @param User $entity
      * @throws \Doctrine\ORM\ORMException

@@ -33,4 +33,14 @@ class UserService
 
         $this->userRepository->store($user);
     }
+
+    public function convertToArray(User $user)
+    {
+        return [
+            'name' => $user->getName(),
+            'city' => $user->getCity(),
+            'email' => $user->getEmail(),
+            'phone' => $user->getPhone(),
+        ];
+    }
 }
