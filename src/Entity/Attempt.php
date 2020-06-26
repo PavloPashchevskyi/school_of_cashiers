@@ -40,12 +40,12 @@ class Attempt
     /**
      * @ORM\Column(type="integer")
      */
-    private $startTimestamp;
+    private $startTimestamp = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $endTimestamp;
+    private $endTimestamp = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="attempt", orphanRemoval=true)
