@@ -14,7 +14,7 @@ class AttemptFixture extends Fixture implements OrderedFixtureInterface
     {
         $attempt1 = new Attempt();
         $attempt1->setUser($this->getReference('user-tsapko'));
-        $attempt1->setTest($this->getReference('test-the-first'));
+        $attempt1->setTest($this->getReference('test-value'));
         $attempt1->setNumberOfPoints(12);
         $attempt1->setStartTimestamp((int) (new \DateTime())->sub(new \DateInterval('PT8H'))->format('U'));
         $attempt1->setEndTimestamp((int) (new \DateTime())->format('U'));

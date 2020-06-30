@@ -12,12 +12,20 @@ class TestFixture extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $test1 = new Test();
-        $test1->setName('The first test in data fixture');
-        $test1->setMaxTime(28800);
+        $testValue = new Test();
+        $testValue->setName('валюта');
+        $testValue->setMaxTime(1800);
 
-        $this->addReference('test-the-first', $test1);
-        $manager->persist($test1);
+        $this->addReference('test-value', $testValue);
+        $manager->persist($testValue);
+
+        $testSB = new Test();
+        $testSB->setName('СБ');
+        $testSB->setMaxTime(1800);
+
+        $this->addReference('test-sb', $testSB);
+        $manager->persist($testSB);
+
         $manager->flush();
     }
 
