@@ -166,6 +166,146 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('variant-vladimir-vernadskyi', $variantVladimirVernadskyi);
         $manager->persist($variantVladimirVernadskyi);
 
+        $variantLinaKostenko = new Variant();
+        $variantLinaKostenko->setText('Лина Костенко');
+        $variantLinaKostenko->setValue(0);
+        $variantLinaKostenko->setQuestion($this->getReference('question-6'));
+        $this->addReference('variant-lina-kostenko', $variantLinaKostenko);
+        $manager->persist($variantLinaKostenko);
+
+        $variantTarasShevchenko = new Variant();
+        $variantTarasShevchenko->setText('Тарас Шевченко');
+        $variantTarasShevchenko->setValue(0);
+        $variantTarasShevchenko->setQuestion($this->getReference('question-6'));
+        $this->addReference('variant-taras-shevchenko', $variantTarasShevchenko);
+        $manager->persist($variantTarasShevchenko);
+
+        $variantLesyaUkrayinka = new Variant();
+        $variantLesyaUkrayinka->setText('Леся Украинка');
+        $variantLesyaUkrayinka->setValue(1);
+        $variantLesyaUkrayinka->setQuestion($this->getReference('question-6'));
+        $this->addReference('variant-lesya-ukrayinka', $variantLesyaUkrayinka);
+        $manager->persist($variantLesyaUkrayinka);
+
+        $variantIvanFranko = new Variant();
+        $variantIvanFranko->setText('Иван Франко');
+        $variantIvanFranko->setValue(0);
+        $variantIvanFranko->setQuestion($this->getReference('question-6'));
+        $this->addReference('variant-ivan-franko', $variantIvanFranko);
+        $manager->persist($variantIvanFranko);
+
+        $variantUltravioletInscription = new Variant();
+        $variantUltravioletInscription->setText('Специальная надпись которую видно в ультрофиолете');
+        $variantUltravioletInscription->setValue(0);
+        $variantUltravioletInscription->setQuestion($this->getReference('question-7'));
+        $this->addReference('variant-ultraviolet-inscription', $variantUltravioletInscription);
+        $manager->persist($variantUltravioletInscription);
+
+        $variantSignsForLowVision = new Variant();
+        $variantSignsForLowVision->setText('спец знаки для ослабленного зрения');
+        $variantSignsForLowVision->setValue(0);
+        $variantSignsForLowVision->setQuestion($this->getReference('question-7'));
+        $this->addReference('variant-signs-for-low-vision', $variantSignsForLowVision);
+        $manager->persist($variantSignsForLowVision);
+
+        $variantHiddenFaceValueImage = new Variant();
+        $variantHiddenFaceValueImage->setText('Скрытое изображение номинала');
+        $variantHiddenFaceValueImage->setValue(1);
+        $variantHiddenFaceValueImage->setQuestion($this->getReference('question-7'));
+        $this->addReference('variant-hidden-face-value-image', $variantHiddenFaceValueImage);
+        $manager->persist($variantHiddenFaceValueImage);
+
+        $variantMicroSeal = new Variant();
+        $variantMicroSeal->setText('микропечать');
+        $variantMicroSeal->setValue(0);
+        $variantMicroSeal->setQuestion($this->getReference('question-7'));
+        $this->addReference('variant-micro-seal', $variantMicroSeal);
+        $manager->persist($variantMicroSeal);
+
+        $variantLatentImage = new Variant();
+        $variantLatentImage->setText('Скрытое изображение на рисунке, которое видно при определенном угле наклона');
+        $variantLatentImage->setValue(0);
+        $variantLatentImage->setQuestion($this->getReference('question-8'));
+        $this->addReference('variant-latent-image', $variantLatentImage);
+        $manager->persist($variantLatentImage);
+
+        $variantSignsForLowVision8 = new Variant();
+        $variantSignsForLowVision8->setText('спец знаки для ослабленного зрения');
+        $variantSignsForLowVision8->setValue(0);
+        $variantSignsForLowVision8->setQuestion($this->getReference('question-8'));
+        $this->addReference('variant-signs-for-low-vision-8', $variantSignsForLowVision8);
+        $manager->persist($variantSignsForLowVision8);
+
+        $variantUltravioletInscription8 = new Variant();
+        $variantUltravioletInscription8->setText('Специальная надпись которую видно в ультрофиолете');
+        $variantUltravioletInscription8->setValue(1);
+        $variantUltravioletInscription8->setQuestion($this->getReference('question-8'));
+        $this->addReference('variant-ultraviolet-inscription-8', $variantUltravioletInscription8);
+        $manager->persist($variantUltravioletInscription8);
+
+        $variantMicroSeal8 = new Variant();
+        $variantMicroSeal8->setText('микропечать');
+        $variantMicroSeal8->setValue(0);
+        $variantMicroSeal8->setQuestion($this->getReference('question-8'));
+        $this->addReference('variant-micro-seal-8', $variantMicroSeal8);
+        $manager->persist($variantMicroSeal8);
+
+        $variantFrontSideWithUltraviolet = new Variant();
+        $variantFrontSideWithUltraviolet->setText('только с лицевой строны при ультрофиолете');
+        $variantFrontSideWithUltraviolet->setValue(0);
+        $variantFrontSideWithUltraviolet->setQuestion($this->getReference('question-9'));
+        $this->addReference('variant-front-side-with-ultraviolet', $variantFrontSideWithUltraviolet);
+        $manager->persist($variantFrontSideWithUltraviolet);
+
+        $variantBothSidesWithUltraviolet = new Variant();
+        $variantBothSidesWithUltraviolet->setText('нить видно с двух сторон при ультрофиолете');
+        $variantBothSidesWithUltraviolet->setValue(0);
+        $variantBothSidesWithUltraviolet->setQuestion($this->getReference('question-9'));
+        $this->addReference('variant-both-sides-with-ultraviolet', $variantBothSidesWithUltraviolet);
+        $manager->persist($variantBothSidesWithUltraviolet);
+
+        $variantBackSideWithInfrared = new Variant();
+        $variantBackSideWithInfrared->setText('только с обратной стороны при инфракрасном контроле');
+        $variantBackSideWithInfrared->setValue(1);
+        $variantBackSideWithInfrared->setQuestion($this->getReference('question-9'));
+        $this->addReference('variant-back-side-with-infrared', $variantBackSideWithInfrared);
+        $manager->persist($variantBackSideWithInfrared);
+
+        $variantBothSidesWithInfrared = new Variant();
+        $variantBothSidesWithInfrared->setText('нить видно с двух сторон при инфракрасном контроле');
+        $variantBothSidesWithInfrared->setValue(0);
+        $variantBothSidesWithInfrared->setQuestion($this->getReference('question-9'));
+        $this->addReference('variant-both-sides-with-infrared', $variantBothSidesWithInfrared);
+        $manager->persist($variantBothSidesWithInfrared);
+
+        $variantRR = new Variant();
+        $variantRR->setText('РР');
+        $variantRR->setValue(0);
+        $variantRR->setQuestion($this->getReference('question-10'));
+        $this->addReference('variant-rr', $variantRR);
+        $manager->persist($variantRR);
+
+        $variantNominal = new Variant();
+        $variantNominal->setText('номинал');
+        $variantNominal->setValue(0);
+        $variantNominal->setQuestion($this->getReference('question-10'));
+        $this->addReference('variant-nominal', $variantNominal);
+        $manager->persist($variantNominal);
+
+        $variantRF = new Variant();
+        $variantRF->setText('РФ');
+        $variantRF->setValue(1);
+        $variantRF->setQuestion($this->getReference('question-10'));
+        $this->addReference('variant-rf', $variantRF);
+        $manager->persist($variantRF);
+
+        $variantTsrb = new Variant();
+        $variantTsrb->setText('ЦРБ');
+        $variantTsrb->setValue(0);
+        $variantTsrb->setQuestion($this->getReference('question-10'));
+        $this->addReference('variant-tsrb', $variantTsrb);
+        $manager->persist($variantTsrb);
+
         $manager->flush();
 
         /** @var \App\Entity\Question $question1 */
@@ -209,6 +349,46 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $question5->addVariant($this->getReference('variant-vladimir-great'));
         $question5->addVariant($this->getReference('variant-vladimir-vernadskyi'));
         $manager->persist($question5);
+
+        /** @var \App\Entity\Question $question6 */
+        $question6 = $this->getReference('question-6');
+        $question6->addVariant($this->getReference('variant-lina-kostenko'));
+        $question6->addVariant($this->getReference('variant-taras-shevchenko'));
+        $question6->addVariant($this->getReference('variant-lesya-ukrayinka'));
+        $question6->addVariant($this->getReference('variant-ivan-franko'));
+        $manager->persist($question6);
+
+        /** @var \App\Entity\Question $question7 */
+        $question7 = $this->getReference('question-7');
+        $question7->addVariant($this->getReference('variant-ultraviolet-inscription'));
+        $question7->addVariant($this->getReference('variant-signs-for-low-vision'));
+        $question7->addVariant($this->getReference('variant-hidden-face-value-image'));
+        $question7->addVariant($this->getReference('variant-micro-seal'));
+        $manager->persist($question7);
+
+        /** @var \App\Entity\Question $question8 */
+        $question8 = $this->getReference('question-8');
+        $question8->addVariant($this->getReference('variant-latent-image'));
+        $question8->addVariant($this->getReference('variant-signs-for-low-vision-8'));
+        $question8->addVariant($this->getReference('variant-ultraviolet-inscription-8'));
+        $question8->addVariant($this->getReference('variant-micro-seal-8'));
+        $manager->persist($question8);
+
+        /** @var \App\Entity\Question $question9 */
+        $question9 = $this->getReference('question-9');
+        $question9->addVariant($this->getReference('variant-front-side-with-ultraviolet'));
+        $question9->addVariant($this->getReference('variant-both-sides-with-ultraviolet'));
+        $question9->addVariant($this->getReference('variant-back-side-with-infrared'));
+        $question9->addVariant($this->getReference('variant-both-sides-with-infrared'));
+        $manager->persist($question9);
+
+        /** @var \App\Entity\Question $question10 */
+        $question10 = $this->getReference('question-10');
+        $question10->addVariant($this->getReference('variant-rr'));
+        $question10->addVariant($this->getReference('variant-nominal'));
+        $question10->addVariant($this->getReference('variant-rf'));
+        $question10->addVariant($this->getReference('variant-tsrb'));
+        $manager->persist($question10);
 
         $manager->flush();
     }
