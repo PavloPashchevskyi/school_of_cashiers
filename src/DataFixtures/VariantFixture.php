@@ -82,6 +82,90 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('variant-magnetic-control', $variantMagneticControl);
         $manager->persist($variantMagneticControl);
 
+        $variantPortraits = new Variant();
+        $variantPortraits->setText('портреты известных людей');
+        $variantPortraits->setValue(0);
+        $variantPortraits->setQuestion($this->getReference('question-3'));
+        $this->addReference('variant-portraits', $variantPortraits);
+        $manager->persist($variantPortraits);
+
+        $variantArchitecturalStructures = new Variant();
+        $variantArchitecturalStructures->setText('архитектурные сооружения');
+        $variantArchitecturalStructures->setValue(0);
+        $variantArchitecturalStructures->setQuestion($this->getReference('question-3'));
+        $this->addReference('variant-architectural-structures', $variantArchitecturalStructures);
+        $manager->persist($variantArchitecturalStructures);
+
+        $variantAnimals = new Variant();
+        $variantAnimals->setText('изображения животных');
+        $variantAnimals->setValue(1);
+        $variantAnimals->setQuestion($this->getReference('question-3'));
+        $this->addReference('variant-animals', $variantAnimals);
+        $manager->persist($variantAnimals);
+
+        $variantCoatOfArms = new Variant();
+        $variantCoatOfArms->setText('изображение герба');
+        $variantCoatOfArms->setValue(0);
+        $variantCoatOfArms->setQuestion($this->getReference('question-3'));
+        $this->addReference('variant-coat-of-arms', $variantCoatOfArms);
+        $manager->persist($variantCoatOfArms);
+
+        $variant200Euros = new Variant();
+        $variant200Euros->setText('200 евро');
+        $variant200Euros->setValue(0);
+        $variant200Euros->setQuestion($this->getReference('question-4'));
+        $this->addReference('variant-200-euros', $variant200Euros);
+        $manager->persist($variant200Euros);
+
+        $variant1000Euros = new Variant();
+        $variant1000Euros->setText('1000 евро');
+        $variant1000Euros->setValue(0);
+        $variant1000Euros->setQuestion($this->getReference('question-4'));
+        $this->addReference('variant-1000-euros', $variant1000Euros);
+        $manager->persist($variant1000Euros);
+
+        $variant500Euros = new Variant();
+        $variant500Euros->setText('500 евро');
+        $variant500Euros->setValue(1);
+        $variant500Euros->setQuestion($this->getReference('question-4'));
+        $this->addReference('variant-500-euros', $variant500Euros);
+        $manager->persist($variant500Euros);
+
+        $variant10000Euros = new Variant();
+        $variant10000Euros->setText('10000 евро');
+        $variant10000Euros->setValue(0);
+        $variant10000Euros->setQuestion($this->getReference('question-4'));
+        $this->addReference('variant-10000-euros', $variant10000Euros);
+        $manager->persist($variant10000Euros);
+
+        $variantGrushevskyi = new Variant();
+        $variantGrushevskyi->setText('Михаил Грушевский');
+        $variantGrushevskyi->setValue(0);
+        $variantGrushevskyi->setQuestion($this->getReference('question-5'));
+        $this->addReference('variant-grushevskyi', $variantGrushevskyi);
+        $manager->persist($variantGrushevskyi);
+
+        $variantSkovoroda = new Variant();
+        $variantSkovoroda->setText('Григорий Сковорода');
+        $variantSkovoroda->setValue(0);
+        $variantSkovoroda->setQuestion($this->getReference('question-5'));
+        $this->addReference('variant-skovoroda', $variantSkovoroda);
+        $manager->persist($variantSkovoroda);
+
+        $variantVladimirGreat = new Variant();
+        $variantVladimirGreat->setText('Владимир Великий');
+        $variantVladimirGreat->setValue(0);
+        $variantVladimirGreat->setQuestion($this->getReference('question-5'));
+        $this->addReference('variant-vladimir-great', $variantVladimirGreat);
+        $manager->persist($variantVladimirGreat);
+
+        $variantVladimirVernadskyi = new Variant();
+        $variantVladimirVernadskyi->setText('Владимир Вернадский');
+        $variantVladimirVernadskyi->setValue(1);
+        $variantVladimirVernadskyi->setQuestion($this->getReference('question-5'));
+        $this->addReference('variant-vladimir-vernadskyi', $variantVladimirVernadskyi);
+        $manager->persist($variantVladimirVernadskyi);
+
         $manager->flush();
 
         /** @var \App\Entity\Question $question1 */
@@ -101,6 +185,30 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $question2->addVariant($this->getReference('variant-luminescent-fibers'));
         $question2->addVariant($this->getReference('variant-magnetic-control'));
         $manager->persist($question2);
+
+        /** @var \App\Entity\Question $question3 */
+        $question3 = $this->getReference('question-3');
+        $question3->addVariant($this->getReference('variant-portraits'));
+        $question3->addVariant($this->getReference('variant-architectural-structures'));
+        $question3->addVariant($this->getReference('variant-animals'));
+        $question3->addVariant($this->getReference('variant-coat-of-arms'));
+        $manager->persist($question3);
+
+        /** @var \App\Entity\Question $question4 */
+        $question4 = $this->getReference('question-4');
+        $question4->addVariant($this->getReference('variant-200-euros'));
+        $question4->addVariant($this->getReference('variant-1000-euros'));
+        $question4->addVariant($this->getReference('variant-500-euros'));
+        $question4->addVariant($this->getReference('variant-10000-euros'));
+        $manager->persist($question4);
+
+        /** @var \App\Entity\Question $question5 */
+        $question5 = $this->getReference('question-5');
+        $question5->addVariant($this->getReference('variant-grushevskyi'));
+        $question5->addVariant($this->getReference('variant-skovoroda'));
+        $question5->addVariant($this->getReference('variant-vladimir-great'));
+        $question5->addVariant($this->getReference('variant-vladimir-vernadskyi'));
+        $manager->persist($question5);
 
         $manager->flush();
     }
