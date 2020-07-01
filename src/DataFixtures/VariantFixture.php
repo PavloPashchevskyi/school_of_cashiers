@@ -974,6 +974,57 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $question20->addVariant($this->getReference('variant-will-take-and-deduct'));
         $manager->persist($question20);
 
+        /** @var \App\Entity\Question $question21 */
+        $question21 = $this->getReference('question-21');
+        $question21->addVariant($this->getReference('variant-21-1'));
+        $question21->addVariant($this->getReference('variant-21-2'));
+        $question21->addVariant($this->getReference('variant-21-3'));
+        $question21->addVariant($this->getReference('variant-21-4'));
+        $manager->persist($question21);
+
+        /** @var \App\Entity\Question $question22 */
+        $question22 = $this->getReference('question-22');
+        $question22->addVariant($this->getReference('variant-22-1'));
+        $question22->addVariant($this->getReference('variant-22-2'));
+        $question22->addVariant($this->getReference('variant-22-3'));
+        $question22->addVariant($this->getReference('variant-22-4'));
+        $manager->persist($question22);
+
+        /** @var \App\Entity\Question $question23 */
+        $question23 = $this->getReference('question-23');
+        $question23->addVariant($this->getReference('variant-23-1'));
+        $question23->addVariant($this->getReference('variant-23-2'));
+        $question23->addVariant($this->getReference('variant-23-3'));
+        $question23->addVariant($this->getReference('variant-23-4'));
+        $manager->persist($question23);
+
+        /** @var \App\Entity\Question $question24 */
+        $question24 = $this->getReference('question-24');
+        $question24->addVariant($this->getReference('variant-24-1'));
+        $question24->addVariant($this->getReference('variant-24-2'));
+        $question24->addVariant($this->getReference('variant-24-3'));
+        $question24->addVariant($this->getReference('variant-24-4'));
+        $question24->addVariant($this->getReference('variant-24-5'));
+        $question24->addVariant($this->getReference('variant-24-6'));
+        $question24->addVariant($this->getReference('variant-24-7'));
+        $question24->addVariant($this->getReference('variant-24-8'));
+        $question24->addVariant($this->getReference('variant-24-9'));
+        $manager->persist($question24);
+
+        /** @var \App\Entity\Question $question25 */
+        $question25 = $this->getReference('question-25');
+        $question25->addVariant($this->getReference('variant-25-1'));
+        $question25->addVariant($this->getReference('variant-25-2'));
+        $question25->addVariant($this->getReference('variant-25-3'));
+        $question25->addVariant($this->getReference('variant-25-4'));
+        $question25->addVariant($this->getReference('variant-25-5'));
+        $question25->addVariant($this->getReference('variant-25-6'));
+        $question25->addVariant($this->getReference('variant-25-7'));
+        $question25->addVariant($this->getReference('variant-25-8'));
+        $question25->addVariant($this->getReference('variant-25-9'));
+        $question25->addVariant($this->getReference('variant-25-10'));
+        $manager->persist($question25);
+
         $manager->flush();
     }
 
