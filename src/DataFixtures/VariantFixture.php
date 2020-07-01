@@ -446,6 +446,146 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('variant-nominal-in-letters', $variantNominalInLetters);
         $manager->persist($variantNominalInLetters);
 
+        $variantUsd = new Variant();
+        $variantUsd->setText('Доллар');
+        $variantUsd->setValue(1);
+        $variantUsd->setQuestion($this->getReference('question-16'));
+        $this->addReference('variant-usd-16', $variantUsd);
+        $manager->persist($variantUsd);
+
+        $variantGbp = new Variant();
+        $variantGbp->setText('Фунты');
+        $variantGbp->setValue(0);
+        $variantGbp->setQuestion($this->getReference('question-16'));
+        $this->addReference('variant-gbp', $variantGbp);
+        $manager->persist($variantGbp);
+
+        $variantEur = new Variant();
+        $variantEur->setText('Евро');
+        $variantEur->setValue(0);
+        $variantEur->setQuestion($this->getReference('question-16'));
+        $this->addReference('variant-eur-16', $variantEur);
+        $manager->persist($variantEur);
+
+        $variantUah = new Variant();
+        $variantUah->setText('Гривны');
+        $variantUah->setValue(0);
+        $variantUah->setQuestion($this->getReference('question-16'));
+        $this->addReference('variant-uah-16', $variantUah);
+        $manager->persist($variantUah);
+
+        $variant121050100 = new Variant();
+        $variant121050100->setText('1, 2, 10, 50, 100');
+        $variant121050100->setValue(0);
+        $variant121050100->setQuestion($this->getReference('question-17'));
+        $this->addReference('variant-121050100', $variant121050100);
+        $manager->persist($variant121050100);
+
+        $variant151050100 = new Variant();
+        $variant151050100->setText('1, 5, 10, 50, 100');
+        $variant151050100->setValue(0);
+        $variant151050100->setQuestion($this->getReference('question-17'));
+        $this->addReference('variant-151050100', $variant151050100);
+        $manager->persist($variant151050100);
+
+        $variant151020501001000 = new Variant();
+        $variant151020501001000->setText('1, 5, 10, 20, 50, 100, 1000');
+        $variant151020501001000->setValue(0);
+        $variant151020501001000->setQuestion($this->getReference('question-17'));
+        $this->addReference('variant-151020501001000', $variant151020501001000);
+        $manager->persist($variant151020501001000);
+
+        $variant125102050100 = new Variant();
+        $variant125102050100->setText('1, 2, 5, 10, 20, 50, 100');
+        $variant125102050100->setValue(1);
+        $variant125102050100->setQuestion($this->getReference('question-17'));
+        $this->addReference('variant-125102050100', $variant125102050100);
+        $manager->persist($variant125102050100);
+
+        $variant102050100200 = new Variant();
+        $variant102050100200->setText('10, 20, 50, 100, 200');
+        $variant102050100200->setValue(1);
+        $variant102050100200->setQuestion($this->getReference('question-18'));
+        $this->addReference('variant-102050100200', $variant102050100200);
+        $manager->persist($variant102050100200);
+
+        $variant102050100200500 = new Variant();
+        $variant102050100200500->setText('10, 20, 50, 100, 200, 500');
+        $variant102050100200500->setValue(0);
+        $variant102050100200500->setQuestion($this->getReference('question-18'));
+        $this->addReference('variant-102050100200500', $variant102050100200500);
+        $manager->persist($variant102050100200500);
+
+        $variant5102050100200 = new Variant();
+        $variant5102050100200->setText('5, 10, 20, 50, 100, 200');
+        $variant5102050100200->setValue(0);
+        $variant5102050100200->setQuestion($this->getReference('question-18'));
+        $this->addReference('variant-5102050100200', $variant5102050100200);
+        $manager->persist($variant5102050100200);
+
+        $variant51020501002005001000 = new Variant();
+        $variant51020501002005001000->setText('5, 10, 20, 50, 100, 200, 500, 1000');
+        $variant51020501002005001000->setValue(0);
+        $variant51020501002005001000->setQuestion($this->getReference('question-18'));
+        $this->addReference('variant-51020501002005001000', $variant51020501002005001000);
+        $manager->persist($variant51020501002005001000);
+
+        $variantGbp = new Variant();
+        $variantGbp->setText('Фунты');
+        $variantGbp->setValue(0);
+        $variantGbp->setQuestion($this->getReference('question-19'));
+        $this->addReference('variant-gbp-19', $variantGbp);
+        $manager->persist($variantGbp);
+
+        $variantEur = new Variant();
+        $variantEur->setText('Евро');
+        $variantEur->setValue(0);
+        $variantEur->setQuestion($this->getReference('question-19'));
+        $this->addReference('variant-eur-19', $variantEur);
+        $manager->persist($variantEur);
+
+        $variantUsd = new Variant();
+        $variantUsd->setText('Доллары');
+        $variantUsd->setValue(0);
+        $variantUsd->setQuestion($this->getReference('question-19'));
+        $this->addReference('variant-usd-19', $variantUsd);
+        $manager->persist($variantUsd);
+
+        $variantPln = new Variant();
+        $variantPln->setText('Злотые');
+        $variantPln->setValue(1);
+        $variantPln->setQuestion($this->getReference('question-19'));
+        $this->addReference('variant-pln', $variantPln);
+        $manager->persist($variantPln);
+
+        $variantWillNotTake = new Variant();
+        $variantWillNotTake->setText('Не буду принимать');
+        $variantWillNotTake->setValue(0);
+        $variantWillNotTake->setQuestion($this->getReference('question-20'));
+        $this->addReference('variant-will-not-take', $variantWillNotTake);
+        $manager->persist($variantWillNotTake);
+
+        $variantWillEvaluate = new Variant();
+        $variantWillEvaluate->setText('Оценю по шкале ветхости');
+        $variantWillEvaluate->setValue(1);
+        $variantWillEvaluate->setQuestion($this->getReference('question-20'));
+        $this->addReference('variant-will-evaluate', $variantWillEvaluate);
+        $manager->persist($variantWillEvaluate);
+
+        $variantWillTakeAsUsual = new Variant();
+        $variantWillTakeAsUsual->setText('Прийму как обычную купюру');
+        $variantWillTakeAsUsual->setValue(0);
+        $variantWillTakeAsUsual->setQuestion($this->getReference('question-20'));
+        $this->addReference('variant-will-take-as-usual', $variantWillTakeAsUsual);
+        $manager->persist($variantWillTakeAsUsual);
+
+        $variantWillTakeAndDeduct = new Variant();
+        $variantWillTakeAndDeduct->setText('Ветхие купюры прийму и вычту 20% стоимости');
+        $variantWillTakeAndDeduct->setValue(0);
+        $variantWillTakeAndDeduct->setQuestion($this->getReference('question-20'));
+        $this->addReference('variant-will-take-and-deduct', $variantWillTakeAndDeduct);
+        $manager->persist($variantWillTakeAndDeduct);
+
         $manager->flush();
 
         /** @var \App\Entity\Question $question1 */
@@ -569,6 +709,46 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $question15->addVariant($this->getReference('variant-usa-subscription'));
         $question15->addVariant($this->getReference('variant-nominal-in-letters'));
         $manager->persist($question15);
+
+        /** @var \App\Entity\Question $question16 */
+        $question16 = $this->getReference('question-16');
+        $question16->addVariant($this->getReference('variant-usd-16'));
+        $question16->addVariant($this->getReference('variant-gbp'));
+        $question16->addVariant($this->getReference('variant-eur-16'));
+        $question16->addVariant($this->getReference('variant-uah-16'));
+        $manager->persist($question16);
+
+        /** @var \App\Entity\Question $question17 */
+        $question17 = $this->getReference('question-17');
+        $question17->addVariant($this->getReference('variant-121050100'));
+        $question17->addVariant($this->getReference('variant-151050100'));
+        $question17->addVariant($this->getReference('variant-151020501001000'));
+        $question17->addVariant($this->getReference('variant-125102050100'));
+        $manager->persist($question17);
+
+        /** @var \App\Entity\Question $question18 */
+        $question18 = $this->getReference('question-18');
+        $question18->addVariant($this->getReference('variant-102050100200'));
+        $question18->addVariant($this->getReference('variant-102050100200500'));
+        $question18->addVariant($this->getReference('variant-5102050100200'));
+        $question18->addVariant($this->getReference('variant-51020501002005001000'));
+        $manager->persist($question18);
+
+        /** @var \App\Entity\Question $question19 */
+        $question19 = $this->getReference('question-19');
+        $question19->addVariant($this->getReference('variant-gbp-19'));
+        $question19->addVariant($this->getReference('variant-eur-19'));
+        $question19->addVariant($this->getReference('variant-usd-19'));
+        $question19->addVariant($this->getReference('variant-pln'));
+        $manager->persist($question19);
+
+        /** @var \App\Entity\Question $question20 */
+        $question20 = $this->getReference('question-20');
+        $question20->addVariant($this->getReference('variant-will-not-take'));
+        $question20->addVariant($this->getReference('variant-will-evaluate'));
+        $question20->addVariant($this->getReference('variant-will-take-as-usual'));
+        $question20->addVariant($this->getReference('variant-will-take-and-deduct'));
+        $manager->persist($question20);
 
         $manager->flush();
     }
