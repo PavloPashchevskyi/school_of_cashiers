@@ -586,6 +586,230 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('variant-will-take-and-deduct', $variantWillTakeAndDeduct);
         $manager->persist($variantWillTakeAndDeduct);
 
+        $variant211 = new Variant();
+        $variant211->setText('открыть отделение, ввести код доступа охранной сигнализации, включить свет');
+        $variant211->setValue(0);
+        $variant211->setQuestion($this->getReference('question-21'));
+        $this->addReference('variant-21-1', $variant211);
+        $manager->persist($variant211);
+
+        $variant212 = new Variant();
+        $variant212->setText('открыть отделение, сообщить видеооператору о начале работы');
+        $variant212->setValue(0);
+        $variant212->setQuestion($this->getReference('question-21'));
+        $this->addReference('variant-21-2', $variant212);
+        $manager->persist($variant212);
+
+        $variant213 = new Variant();
+        $variant213->setText('осмотреть объект визуально, открыть отделение, включить свет, ввести код доступа охранной сигнализации');
+        $variant213->setValue(1);
+        $variant213->setQuestion($this->getReference('question-21'));
+        $this->addReference('variant-21-3', $variant213);
+        $manager->persist($variant213);
+
+        $variant214 = new Variant();
+        $variant214->setText('открыть отделение, снять сигнализацию, сообщить видеооператору о начале работы');
+        $variant214->setValue(0);
+        $variant214->setQuestion($this->getReference('question-21'));
+        $this->addReference('variant-21-4', $variant214);
+        $manager->persist($variant214);
+
+        $variant221 = new Variant();
+        $variant221->setText('Предупредить видеооператора про закрытие отделения, ввести код доступа на сигнализацию, выключить электро приборы, свет, закрыть отделение');
+        $variant221->setValue(0);
+        $variant221->setQuestion($this->getReference('question-22'));
+        $this->addReference('variant-22-1', $variant221);
+        $manager->persist($variant221);
+
+        $variant222 = new Variant();
+        $variant222->setText('Закрыть сейф, закрыть окна, ввести код доступа охранной сигнализации, выключить электроприборы, выключить свет, закрыть дверь');
+        $variant222->setValue(1);
+        $variant222->setQuestion($this->getReference('question-22'));
+        $this->addReference('variant-22-2', $variant222);
+        $manager->persist($variant222);
+
+        $variant223 = new Variant();
+        $variant223->setText('Закрыть окна, ввести код доступа охранной сигнализации, выключить электроприборы, выключить свет, закрыть дверь');
+        $variant223->setValue(0);
+        $variant223->setQuestion($this->getReference('question-22'));
+        $this->addReference('variant-22-3', $variant223);
+        $manager->persist($variant223);
+
+        $variant224 = new Variant();
+        $variant224->setText('Закрыть сейф, закрыть окна, выключить электроприборы, выключить свет, закрыть дверь');
+        $variant224->setValue(0);
+        $variant224->setQuestion($this->getReference('question-22'));
+        $this->addReference('variant-22-4', $variant224);
+        $manager->persist($variant224);
+
+        $variant231 = new Variant();
+        $variant231->setText('Проверка внутренней службой безопасности');
+        $variant231->setValue(1);
+        $variant231->setQuestion($this->getReference('question-23'));
+        $this->addReference('variant-23-1', $variant231);
+        $manager->persist($variant231);
+
+        $variant232 = new Variant();
+        $variant232->setText('Проверка Фискальной службой (налоговая)');
+        $variant232->setValue(1);
+        $variant232->setQuestion($this->getReference('question-23'));
+        $this->addReference('variant-23-2', $variant232);
+        $manager->persist($variant232);
+
+        $variant233 = new Variant();
+        $variant233->setText('Проверка НБУ');
+        $variant233->setValue(1);
+        $variant233->setQuestion($this->getReference('question-23'));
+        $this->addReference('variant-23-3', $variant233);
+        $manager->persist($variant233);
+
+        $variant234 = new Variant();
+        $variant234->setText('Обыск (проведение следственных действий)');
+        $variant234->setValue(1);
+        $variant234->setQuestion($this->getReference('question-23'));
+        $this->addReference('variant-23-4', $variant234);
+        $manager->persist($variant234);
+
+        $variant241 = new Variant();
+        $variant241->setText('Сверить предьявленные документы, удостоверяющие личность, с фамилиями в приказе на общий доступ в отделение');
+        $variant241->setValue(3);
+        $variant241->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-1', $variant241);
+        $manager->persist($variant241);
+
+        $variant242 = new Variant();
+        $variant242->setText('Сообщить о проверке видеооператору');
+        $variant242->setValue(1);
+        $variant242->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-2', $variant242);
+        $manager->persist($variant242);
+
+        $variant243 = new Variant();
+        $variant243->setText('Сообщить о проверке главному кассиру');
+        $variant243->setValue(0);
+        $variant243->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-3', $variant243);
+        $manager->persist($variant243);
+
+        $variant244 = new Variant();
+        $variant244->setText('Открыть отделение и предоставить всю необходимую информацию, документацию, произвести пересчет денег в присутствии проверяющего и т.д.');
+        $variant244->setValue(4);
+        $variant244->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-4', $variant244);
+        $manager->persist($variant244);
+
+        $variant245 = new Variant();
+        $variant245->setText('Перед тем, как открыть отделение, удостовериться, что сейф закрыт');
+        $variant245->setValue(0);
+        $variant245->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-5', $variant245);
+        $manager->persist($variant245);
+
+        $variant246 = new Variant();
+        $variant246->setText('Попросить видеооператора идентифицировать всех проверяющих');
+        $variant246->setValue(2);
+        $variant246->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-6', $variant246);
+        $manager->persist($variant246);
+
+        $variant247 = new Variant();
+        $variant247->setText('Закрыть все программы на рабочем столе.');
+        $variant247->setValue(0);
+        $variant247->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-7', $variant247);
+        $manager->persist($variant247);
+
+        $variant248 = new Variant();
+        $variant248->setText('Не открывать отделение поскольку не было предупреждения о предстоящей проверке');
+        $variant248->setValue(0);
+        $variant248->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-8', $variant248);
+        $manager->persist($variant248);
+
+        $variant249 = new Variant();
+        $variant249->setText('Пересчитать кассу, закрыть сейф и только потом открыть отделение');
+        $variant249->setValue(0);
+        $variant249->setQuestion($this->getReference('question-24'));
+        $this->addReference('variant-24-9', $variant249);
+        $manager->persist($variant249);
+
+        $variant251 = new Variant();
+        $variant251->setText('Незамедлительно открыть отделение и предоставить требуемую документацию и информацию');
+        $variant251->setValue(0);
+        $variant251->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-1', $variant251);
+        $manager->persist($variant251);
+
+        $variant252 = new Variant();
+        $variant252->setText('Сообщить о проверке главному кассиру и сотруднику видеонаблюдения');
+        $variant252->setValue(3);
+        $variant252->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-2', $variant252);
+        $manager->persist($variant252);
+
+        $variant253 = new Variant();
+        $variant253->setText('Закрыть все окна на своем пк и включить кнопку SOS');
+        $variant253->setValue(2);
+        $variant253->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-3', $variant253);
+        $manager->persist($variant253);
+
+        $variant254 = new Variant();
+        $variant254->setText('Закрыть сейф');
+        $variant254->setValue(0);
+        $variant254->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-4', $variant254);
+        $manager->persist($variant254);
+
+        $variant255 = new Variant();
+        $variant255->setText('Взять документы проверяющих через окошко и внимательно изучить');
+        $variant255->setValue(1);
+        $variant255->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-5', $variant255);
+        $manager->persist($variant255);
+
+        $variant256 = new Variant();
+        $variant256->setText('Попросить документы, удостоверяющие личность, поручение на проверку и переписать на лист бумаги необходимую информацию');
+        $variant256->setValue(4);
+        $variant256->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-6', $variant256);
+        $manager->persist($variant256);
+
+        $variant257 = new Variant();
+        $variant257->setText('По требованию проверяющих открыть сейф и предоставить возможность пересчитать деньги');
+        $variant257->setValue(0);
+        $variant257->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-7', $variant257);
+        $manager->persist($variant257);
+
+        $variant258 = new Variant();
+        $variant258->setText('По просьбе проверяющих покинуть отделение и вызвать на торговую точку вышестоящее руководство');
+        $variant258->setValue(0);
+        $variant258->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-8', $variant258);
+        $manager->persist($variant258);
+
+        $variant259 = new Variant();
+        $variant259->setText('Ознакомиться с актом проверки и сделать копию');
+        $variant259->setValue(0);
+        $variant259->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-9', $variant259);
+        $manager->persist($variant259);
+
+        $variant2510 = new Variant();
+        $variant2510->setText('Ознакомиться с актом проверки, согласовав с главным кассиром компании, подписать акт и потребовать свой экземпляр');
+        $variant2510->setValue(5);
+        $variant2510->setQuestion($this->getReference('question-25'));
+        $this->addReference('variant-25-10', $variant2510);
+        $manager->persist($variant2510);
+
+//        $variant = new Variant();
+//        $variant->setText('');
+//        $variant->setValue();
+//        $variant->setQuestion($this->getReference('question-'));
+//        $this->addReference('variant-', $variant);
+//        $manager->persist($variant);
+
         $manager->flush();
 
         /** @var \App\Entity\Question $question1 */
