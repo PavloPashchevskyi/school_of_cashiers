@@ -306,6 +306,146 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('variant-tsrb', $variantTsrb);
         $manager->persist($variantTsrb);
 
+        $variant500Rub = new Variant();
+        $variant500Rub->setText('500рублей');
+        $variant500Rub->setValue(0);
+        $variant500Rub->setQuestion($this->getReference('question-11'));
+        $this->addReference('variant-500-rub', $variant500Rub);
+        $manager->persist($variant500Rub);
+
+        $variant2000Rub = new Variant();
+        $variant2000Rub->setText('2000рублей');
+        $variant2000Rub->setValue(0);
+        $variant2000Rub->setQuestion($this->getReference('question-11'));
+        $this->addReference('variant-2000-rub', $variant2000Rub);
+        $manager->persist($variant2000Rub);
+
+        $variant1000Rub = new Variant();
+        $variant1000Rub->setText('1000рублей');
+        $variant1000Rub->setValue(0);
+        $variant1000Rub->setQuestion($this->getReference('question-11'));
+        $this->addReference('variant-1000-rub', $variant1000Rub);
+        $manager->persist($variant1000Rub);
+
+        $variant5000Rub = new Variant();
+        $variant5000Rub->setText('5000рублей');
+        $variant5000Rub->setValue(1);
+        $variant5000Rub->setQuestion($this->getReference('question-11'));
+        $this->addReference('variant-5000-rub', $variant5000Rub);
+        $manager->persist($variant5000Rub);
+
+        $variantUah = new Variant();
+        $variantUah->setText('Гривны');
+        $variantUah->setValue(0);
+        $variantUah->setQuestion($this->getReference('question-12'));
+        $this->addReference('variant-uah', $variantUah);
+        $manager->persist($variantUah);
+
+        $variantRub = new Variant();
+        $variantRub->setText('Рубли');
+        $variantRub->setValue(0);
+        $variantRub->setQuestion($this->getReference('question-12'));
+        $this->addReference('variant-rub', $variantRub);
+        $manager->persist($variantRub);
+
+        $variantEur = new Variant();
+        $variantEur->setText('Евро');
+        $variantEur->setValue(1);
+        $variantEur->setQuestion($this->getReference('question-12'));
+        $this->addReference('variant-eur', $variantEur);
+        $manager->persist($variantEur);
+
+        $variantUsd = new Variant();
+        $variantUsd->setText('Доллары');
+        $variantUsd->setValue(0);
+        $variantUsd->setQuestion($this->getReference('question-12'));
+        $this->addReference('variant-usd', $variantUsd);
+        $manager->persist($variantUsd);
+
+        $variantVarnish = new Variant();
+        $variantVarnish->setText('эмблема нанесена цветопеременным лаком');
+        $variantVarnish->setValue(1);
+        $variantVarnish->setQuestion($this->getReference('question-13'));
+        $this->addReference('variant-varnish', $variantVarnish);
+        $manager->persist($variantVarnish);
+
+        $variantInTheLight = new Variant();
+        $variantInTheLight->setText('Эмблема видна только на просвет');
+        $variantInTheLight->setValue(0);
+        $variantInTheLight->setQuestion($this->getReference('question-13'));
+        $this->addReference('variant-in-the-light', $variantInTheLight);
+        $manager->persist($variantInTheLight);
+
+        $variantWithUltraviolet = new Variant();
+        $variantWithUltraviolet->setText('эмблему видно только при ультрафиолете');
+        $variantWithUltraviolet->setValue(0);
+        $variantWithUltraviolet->setQuestion($this->getReference('question-13'));
+        $this->addReference('variant-with-ultraviolet', $variantWithUltraviolet);
+        $manager->persist($variantWithUltraviolet);
+
+        $variantWithInfrared = new Variant();
+        $variantWithInfrared->setText('эмблему видно только при инфракрасном просвете');
+        $variantWithInfrared->setValue(0);
+        $variantWithInfrared->setQuestion($this->getReference('question-13'));
+        $this->addReference('variant-with-infrared', $variantWithInfrared);
+        $manager->persist($variantWithInfrared);
+
+        $variantRightBottomFront = new Variant();
+        $variantRightBottomFront->setText('Справа в нижнем углу лицевой стороны');
+        $variantRightBottomFront->setValue(0);
+        $variantRightBottomFront->setQuestion($this->getReference('question-14'));
+        $this->addReference('variant-right-bottom-front', $variantRightBottomFront);
+        $manager->persist($variantRightBottomFront);
+
+        $variantRightBottomBack = new Variant();
+        $variantRightBottomBack->setText('Справа в нижнем углу обратной стороны');
+        $variantRightBottomBack->setValue(0);
+        $variantRightBottomBack->setQuestion($this->getReference('question-14'));
+        $this->addReference('variant-right-bottom-back', $variantRightBottomBack);
+        $manager->persist($variantRightBottomBack);
+
+        $variantLeftBottomFront = new Variant();
+        $variantLeftBottomFront->setText('Слева в нижнем углу лицевой стороны');
+        $variantLeftBottomFront->setValue(1);
+        $variantLeftBottomFront->setQuestion($this->getReference('question-14'));
+        $this->addReference('variant-left-bottom-front', $variantLeftBottomFront);
+        $manager->persist($variantLeftBottomFront);
+
+        $variantLeftBottomBack = new Variant();
+        $variantLeftBottomBack->setText('Слева в нижнем углу обратной стороны');
+        $variantLeftBottomBack->setValue(0);
+        $variantLeftBottomBack->setQuestion($this->getReference('question-14'));
+        $this->addReference('variant-left-bottom-back', $variantLeftBottomBack);
+        $manager->persist($variantLeftBottomBack);
+
+        $variantNominalInDigits = new Variant();
+        $variantNominalInDigits->setText('номенал купюры цифрами');
+        $variantNominalInDigits->setValue(0);
+        $variantNominalInDigits->setQuestion($this->getReference('question-15'));
+        $this->addReference('variant-nominal-in-digits', $variantNominalInDigits);
+        $manager->persist($variantNominalInDigits);
+
+        $variantPortraitCollar = new Variant();
+        $variantPortraitCollar->setText('воротник портрета');
+        $variantPortraitCollar->setValue(1);
+        $variantPortraitCollar->setQuestion($this->getReference('question-15'));
+        $this->addReference('variant-portrait-collar', $variantPortraitCollar);
+        $manager->persist($variantPortraitCollar);
+
+        $variantUsaSubscription = new Variant();
+        $variantUsaSubscription->setText('надпись the united states of Amerika');
+        $variantUsaSubscription->setValue(1);
+        $variantUsaSubscription->setQuestion($this->getReference('question-15'));
+        $this->addReference('variant-usa-subscription', $variantUsaSubscription);
+        $manager->persist($variantUsaSubscription);
+
+        $variantNominalInLetters = new Variant();
+        $variantNominalInLetters->setText('номенал купюры буквами');
+        $variantNominalInLetters->setValue(1);
+        $variantNominalInLetters->setQuestion($this->getReference('question-15'));
+        $this->addReference('variant-nominal-in-letters', $variantNominalInLetters);
+        $manager->persist($variantNominalInLetters);
+
         $manager->flush();
 
         /** @var \App\Entity\Question $question1 */
@@ -389,6 +529,46 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $question10->addVariant($this->getReference('variant-rf'));
         $question10->addVariant($this->getReference('variant-tsrb'));
         $manager->persist($question10);
+
+        /** @var \App\Entity\Question $question11 */
+        $question11 = $this->getReference('question-11');
+        $question11->addVariant($this->getReference('variant-500-rub'));
+        $question11->addVariant($this->getReference('variant-2000-rub'));
+        $question11->addVariant($this->getReference('variant-1000-rub'));
+        $question11->addVariant($this->getReference('variant-5000-rub'));
+        $manager->persist($question11);
+
+        /** @var \App\Entity\Question $question12 */
+        $question12 = $this->getReference('question-12');
+        $question12->addVariant($this->getReference('variant-uah'));
+        $question12->addVariant($this->getReference('variant-rub'));
+        $question12->addVariant($this->getReference('variant-eur'));
+        $question12->addVariant($this->getReference('variant-usd'));
+        $manager->persist($question12);
+
+        /** @var \App\Entity\Question $question13 */
+        $question13 = $this->getReference('question-13');
+        $question13->addVariant($this->getReference('variant-varnish'));
+        $question13->addVariant($this->getReference('variant-in-the-light'));
+        $question13->addVariant($this->getReference('variant-with-ultraviolet'));
+        $question13->addVariant($this->getReference('variant-with-infrared'));
+        $manager->persist($question13);
+
+        /** @var \App\Entity\Question $question14 */
+        $question14 = $this->getReference('question-14');
+        $question14->addVariant($this->getReference('variant-right-bottom-front'));
+        $question14->addVariant($this->getReference('variant-right-bottom-back'));
+        $question14->addVariant($this->getReference('variant-left-bottom-front'));
+        $question14->addVariant($this->getReference('variant-left-bottom-back'));
+        $manager->persist($question14);
+
+        /** @var \App\Entity\Question $question15 */
+        $question15 = $this->getReference('question-15');
+        $question15->addVariant($this->getReference('variant-nominal-in-digits'));
+        $question15->addVariant($this->getReference('variant-portrait-collar'));
+        $question15->addVariant($this->getReference('variant-usa-subscription'));
+        $question15->addVariant($this->getReference('variant-nominal-in-letters'));
+        $manager->persist($question15);
 
         $manager->flush();
     }
