@@ -803,6 +803,91 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('variant-25-10', $variant2510);
         $manager->persist($variant2510);
 
+        $variant261 = new Variant();
+        $variant261->setText('ФИО и должность проверяющего');
+        $variant261->setValue(1);
+        $variant261->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-1', $variant261);
+        $manager->persist($variant261);
+
+        $variant262 = new Variant();
+        $variant262->setText('Наименование и адрес ТТ на которое выписано направление');
+        $variant262->setValue(1);
+        $variant262->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-2', $variant262);
+        $manager->persist($variant262);
+
+        $variant263 = new Variant();
+        $variant263->setText('Дата составления направления');
+        $variant263->setValue(1);
+        $variant263->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-3', $variant263);
+        $manager->persist($variant263);
+
+        $variant264 = new Variant();
+        $variant264->setText('Тематика проверки');
+        $variant264->setValue(1);
+        $variant264->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-4', $variant264);
+        $manager->persist($variant264);
+
+        $variant265 = new Variant();
+        $variant265->setText('Период проведения проверки');
+        $variant265->setValue(1);
+        $variant265->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-5', $variant265);
+        $manager->persist($variant265);
+
+        $variant266 = new Variant();
+        $variant266->setText('Перечень всех ТТ сети где будут проведена проверка');
+        $variant266->setValue(0);
+        $variant266->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-6', $variant266);
+        $manager->persist($variant266);
+
+        $variant267 = new Variant();
+        $variant267->setText('Служебная записка');
+        $variant267->setValue(0);
+        $variant267->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-7', $variant267);
+        $manager->persist($variant267);
+
+        $variant268 = new Variant();
+        $variant268->setText('Военный билет');
+        $variant268->setValue(0);
+        $variant268->setQuestion($this->getReference('question-26'));
+        $this->addReference('variant-26-8', $variant268);
+        $manager->persist($variant268);
+
+        $variant271 = new Variant();
+        $variant271->setText('1 проверяющий');
+        $variant271->setValue(0);
+        $variant271->setQuestion($this->getReference('question-27'));
+        $this->addReference('variant-27-1', $variant271);
+        $manager->persist($variant271);
+
+        $variant272 = new Variant();
+        $variant272->setText('Всегда больше 2-х человек');
+        $variant272->setValue(0);
+        $variant272->setQuestion($this->getReference('question-27'));
+        $this->addReference('variant-27-2', $variant272);
+        $manager->persist($variant272);
+
+        $variant273 = new Variant();
+        $variant273->setText('Минимум два проверяющих');
+        $variant273->setValue(1);
+        $variant273->setQuestion($this->getReference('question-27'));
+        $this->addReference('variant-27-3', $variant273);
+        $manager->persist($variant273);
+
+        $variant274 = new Variant();
+        $variant274->setText('Не регламентировано количество');
+        $variant274->setValue(0);
+        $variant274->setQuestion($this->getReference('question-27'));
+        $this->addReference('variant-27-4', $variant274);
+        $manager->persist($variant274);
+
+
 //        $variant = new Variant();
 //        $variant->setText('');
 //        $variant->setValue();
@@ -1024,6 +1109,26 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $question25->addVariant($this->getReference('variant-25-9'));
         $question25->addVariant($this->getReference('variant-25-10'));
         $manager->persist($question25);
+
+        /** @var \App\Entity\Question $question26 */
+        $question26 = $this->getReference('question-26');
+        $question26->addVariant($this->getReference('variant-26-1'));
+        $question26->addVariant($this->getReference('variant-26-2'));
+        $question26->addVariant($this->getReference('variant-26-3'));
+        $question26->addVariant($this->getReference('variant-26-4'));
+        $question26->addVariant($this->getReference('variant-26-5'));
+        $question26->addVariant($this->getReference('variant-26-6'));
+        $question26->addVariant($this->getReference('variant-26-7'));
+        $question26->addVariant($this->getReference('variant-26-8'));
+        $manager->persist($question26);
+
+        /** @var \App\Entity\Question $question27 */
+        $question27 = $this->getReference('question-27');
+        $question27->addVariant($this->getReference('variant-27-1'));
+        $question27->addVariant($this->getReference('variant-27-2'));
+        $question27->addVariant($this->getReference('variant-27-3'));
+        $question27->addVariant($this->getReference('variant-27-4'));
+        $manager->persist($question27);
 
         $manager->flush();
     }
