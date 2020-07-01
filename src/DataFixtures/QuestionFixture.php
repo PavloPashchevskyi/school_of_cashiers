@@ -152,6 +152,104 @@ class QuestionFixture extends Fixture implements OrderedFixtureInterface
         $this->addReference('question-20', $question20);
         $manager->persist($question20);
 
+        $question21 = new Question();
+        $question21->setType(1);
+        $question21->setText('Опишите правильный алгоритм открытия отделения');
+        $question21->setTest($this->getReference('test-sb'));
+        $this->addReference('question-21', $question21);
+        $manager->persist($question21);
+
+        $question22 = new Question();
+        $question22->setType(1);
+        $question22->setText('Опишите правильный алгоритм закрытия отделения');
+        $question22->setTest($this->getReference('test-sb'));
+        $this->addReference('question-22', $question22);
+        $manager->persist($question22);
+
+        $question23 = new Question();
+        $question23->setType(1);
+        $question23->setText('Какие бывают проверки работы отделения?');
+        $question23->setTest($this->getReference('test-sb'));
+        $this->addReference('question-23', $question23);
+        $manager->persist($question23);
+
+        $question24 = new Question();
+        $question24->setType(2);
+        $question24->setText('Представьте ситуацию: вы работаете неделю, в ваше отделение приехала проверка. Представились как сотрудники компании, ведут себя уверенно, поросили открыть отделение для внутреннего аудита. Вы помните что с некоторыми из прибывших вы встречались в офисе компании. Ваши действия?Прошу расставить по порядку. (могут быть задействованы не все пункты)');
+        $question24->setTest($this->getReference('test-sb'));
+        $this->addReference('question-24', $question24);
+        $manager->persist($question24);
+
+        $question25 = new Question();
+        $question25->setType(2);
+        $question25->setText('Ваши действия при проверке НБУ или Фискальной службы (необходимо отметить и пронумеровать последовательность действий)');
+        $question25->setTest($this->getReference('test-sb'));
+        $this->addReference('question-25', $question25);
+        $manager->persist($question25);
+
+        $question26 = new Question();
+        $question26->setType(1);
+        $question26->setText('Поручение на проверку НБУ содержит такую информацию, с которой необходимо внимательно ознакомиться');
+        $question26->setTest($this->getReference('test-sb'));
+        $this->addReference('question-26', $question26);
+        $manager->persist($question26);
+
+        $question27 = new Question();
+        $question27->setType(1);
+        $question27->setText('Налоговая проверка проводится:');
+        $question27->setTest($this->getReference('test-sb'));
+        $this->addReference('question-27', $question27);
+        $manager->persist($question27);
+
+        $question28 = new Question();
+        $question28->setType(1);
+        $question28->setText('Что должны предьявить контролирующие органы Фискальной службы до начала проверки кассиру?');
+        $question28->setTest($this->getReference('test-sb'));
+        $this->addReference('question-28', $question28);
+        $manager->persist($question28);
+
+        $question29 = new Question();
+        $question29->setType(1);
+        $question29->setText('Какая информация содержится в копии приказа на проведение проверки Фискальной службой?');
+        $question29->setTest($this->getReference('test-sb'));
+        $this->addReference('question-29', $question29);
+        $manager->persist($question29);
+
+        $question30 = new Question();
+        $question30->setType(1);
+        $question30->setText('Ваши действия при проведении следственных действий (обыск)');
+        $question30->setTest($this->getReference('test-sb'));
+        $this->addReference('question-30', $question30);
+        $manager->persist($question30);
+
+        $question31 = new Question();
+        $question31->setType(1);
+        $question31->setText('Выше какого лимита личных денежных средств (во время работы на торговой точке) необходимо сообщать видеооператору и ст. кассиру?');
+        $question31->setTest($this->getReference('test-sb'));
+        $this->addReference('question-31', $question31);
+        $manager->persist($question31);
+
+        $question32 = new Question();
+        $question32->setType(1);
+        $question32->setText('Какие документы должны быть у кассира при выходе на смену?');
+        $question32->setTest($this->getReference('test-sb'));
+        $this->addReference('question-32', $question32);
+        $manager->persist($question32);
+
+        $question33 = new Question();
+        $question33->setType(1);
+        $question33->setText('На какой промежуток времени кассир может покидать отделение, без уведомления сотрудника видеонаблюдения?');
+        $question33->setTest($this->getReference('test-sb'));
+        $this->addReference('question-33', $question33);
+        $manager->persist($question33);
+
+        $question34 = new Question();
+        $question34->setType(1);
+        $question34->setText('При необходимости покинуть отделение на 5 минут деньги необходимо положить в сейф');
+        $question34->setTest($this->getReference('test-sb'));
+        $this->addReference('question-34', $question34);
+        $manager->persist($question34);
+
         $manager->flush();
 
     }
