@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repository\AttemptRepository;
-use App\Repository\TestRepository;
 use App\Repository\UserRepository;
-use Exception;
+use App\Repository\TestRepository;
 use App\Entity\Attempt;
+use DateTime;
+use App\Entity\Question;
+use Exception;
 
 class AnswerService
 {
@@ -39,7 +41,7 @@ class AnswerService
         }
         $dataToCheck = [
             'attempt_id' => $attemptId,
-            'current_date' => (new \DateTime())->format('Ymd'),
+            'current_date' => (new DateTime())->format('Ymd'),
             'user' => $this->userRepository->getUserInfo($attempt->getUser()),
             'test' => $this->testRepository->getTestInfo($attempt->getTest()),
         ];
@@ -58,11 +60,18 @@ class AnswerService
             'test' => $attempt->getTest()->getName(),
             'questions' => [],
         ];
+        /**
+         * @var int $i
+         * @var Question $question
+         */
         foreach ($questions as $i => $question) {
+            $rvq = $this->getRightVariantsQuantity($question);
             $questionsWithVariantsList['questions'][$i] = [
                 'question_id' => $question->getId(),
                 'question' => $question->getText(),
                 'question_type' => $question->getType(),
+                'value' => ($rvq > 1) ? [] : '',
+                'field_type' => ($rvq > 1) ? 1 : 0,
                 'variants' => [],
             ];
             foreach ($question->getVariants() as $variant) {
@@ -71,5 +80,15 @@ class AnswerService
         }
 
         return $questionsWithVariantsList;
+    }
+
+    private function getRightVariantsQuantity(Question $question): int
+    {
+        $rvq = 0;
+        foreach ($question->getVariants() as $variant) {
+            $rvq += ($variant->getValue() > 0) ? 1 : 0;
+        }
+
+        return $rvq;
     }
 }
