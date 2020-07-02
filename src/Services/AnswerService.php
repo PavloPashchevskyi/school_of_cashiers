@@ -60,7 +60,9 @@ class AnswerService
         ];
         foreach ($questions as $i => $question) {
             $questionsWithVariantsList['questions'][$i] = [
+                'question_id' => $question->getId(),
                 'question' => $question->getText(),
+                'question_type' => $question->getType(),
                 'variants' => [],
             ];
             foreach ($question->getVariants() as $variant) {
