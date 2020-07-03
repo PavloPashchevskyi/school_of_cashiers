@@ -10,6 +10,7 @@ use App\Entity\Attempt;
 use DateTime;
 use App\Entity\Question;
 use Exception;
+use App\Entity\Answer;
 
 class AnswerService
 {
@@ -80,6 +81,17 @@ class AnswerService
         }
 
         return $questionsWithVariantsList;
+    }
+
+    public function getAnswersFromUser(int $attemptId, array $answers)
+    {
+        /** @var Attempt $attempt */
+        $attempt = $this->attemptRepository->find($attemptId);
+        if (!($attempt instanceof Attempt)) {
+            throw new Exception('Attempt with this ID has not been registered by HR manager!', 1);
+        }
+
+        return $answers['questions'];
     }
 
     private function getRightVariantsQuantity(Question $question): int
