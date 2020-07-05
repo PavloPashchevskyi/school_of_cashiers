@@ -159,7 +159,7 @@ class AnswerService
             'points_quantity' => $totalPointsQuantity,
             'time_spent' => $timeSpent,
             'max_possible_time_spent' => $attempt->getTest()->getMaxTime(),
-            'deadline_is_up' => ($timeSpent > $attempt->getTest()->getMaxTime()),
+            'deadline_is_out' => ($timeSpent > $attempt->getTest()->getMaxTime()),
         ];
     }
 

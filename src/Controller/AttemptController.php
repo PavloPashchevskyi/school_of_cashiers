@@ -70,8 +70,8 @@ class AttemptController extends MainController
 
     /**
      * @Route("/api/{userId}/{testId}/attempt/prepare", methods={"POST"})
-     * @SWG\Parameter(name="userId", in="path", required=true, description="User's ID", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="testId", in="path", required=true, description="ID of test", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="userId", in="path", required=true, type="integer", description="User's ID")
+     * @SWG\Parameter(name="testId", in="path", required=true, type="integer", description="ID of test")
      *
      * @SWG\Response(
      *     response="200",

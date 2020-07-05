@@ -23,8 +23,8 @@ class AnswerController extends AbstractController
 
     /**
      * @Route("/api/{attemptId}/questions", methods={"GET"})
-     * @SWG\Parameter(name="attemptId", in="path", required=true, description="ID of User`s attempt to test", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="signature", in="query", required=true, description="User`s signature", @SWG\Schema(type="string"))
+     * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of User`s attempt to test", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="signature", in="query", required=true, type="string", description="User`s signature", @SWG\Schema(type="string"))
      *
      * @SWG\Response(
      *     response="200",
@@ -82,7 +82,7 @@ class AnswerController extends AbstractController
 
     /**
      * @Route("/api/{attemptId}/anwers", methods={"POST"})
-     * @SWG\Parameter(name="attemptId", in="path", required=true, description="ID of User`s attempt to test", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of User`s attempt to test")
      *
      * @SWG\Response(
      *     response="200",
