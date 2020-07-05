@@ -187,6 +187,7 @@ class AnswerService
         $answer->setVariantId($variant->getId());
         $answer->setValue($variant->getValue());
         $this->answerRepository->store($answer);
+        $attempt->addAnswer($answer);
 
         return $answer;
     }
