@@ -33,9 +33,9 @@ class Attempt
     private $test;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="float")
      */
-    private $numberOfPoints = 0;
+    private $numberOfPoints = 0.0;
 
     /**
      * @ORM\Column(type="integer")
@@ -86,12 +86,12 @@ class Attempt
         return $this;
     }
 
-    public function getNumberOfPoints(): int
+    public function getNumberOfPoints(): float
     {
         return $this->numberOfPoints;
     }
 
-    public function setNumberOfPoints(int $numberOfPoints): self
+    public function setNumberOfPoints(float $numberOfPoints): self
     {
         $this->numberOfPoints = $numberOfPoints;
 
