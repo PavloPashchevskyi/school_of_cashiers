@@ -33,7 +33,7 @@ class SecurityController extends AbstractController
      *     description="HR has been logged in successfully",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
-     *     @SWG\Parameter(name="apiToken", type="string", description="API token to store into HTTP header", @SWG\Schema(type="string"))
+     *     @SWG\Parameter(name="hr_id", type="integer", description="ID of HR logged in", @SWG\Schema(type="integer"))
      * )
      * @SWG\Response(
      *     response="401",
@@ -76,8 +76,32 @@ class SecurityController extends AbstractController
         }
     }
 
-    public function adminDashboard()
+    /**
+     * @Route("/api/hr/logout", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="HR has been logged out successfully",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
+     * )
+     *
+     * @return JsonResponse
+     */
+    public function logout(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $session = $this->get('session');
+        $session->remove('hr_id');
+        if ($session->has('hr_id')) {
+            return $this->json([
+                'code' => 4,
+                'message' => 'Unable to log out HR with ID#'.$session->get('hr_id'),
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->json([
+            'code' => 0,
+            'message' => 'OK',
+        ], JsonResponse::HTTP_OK);
     }
 }
