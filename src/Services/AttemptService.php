@@ -69,10 +69,10 @@ class AttemptService
         $test = $this->testRepository->find($dataToFindBy['testId']);
 
         if (!($user instanceof User)) {
-            throw new Exception('User with this ID has not been found!', 1);
+            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
         }
         if (!($test instanceof Test)) {
-            throw new Exception('Test with this ID has not been found!', 1);
+            throw new Exception('Тест с таким ID НЕ найден!', 1);
         }
 
         $attempt = new Attempt();

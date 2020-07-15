@@ -49,7 +49,7 @@ class UserController extends MainController
         if (!$this->isAdminAuthenticated()) {
             return $this->json([
                 'code' => 3,
-                'message' => 'Admin is NOT authenticated or time of session is up!',
+                'message' => 'HR-менеджер НЕ авторизован или время сеанса истекло!',
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
         try {

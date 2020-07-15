@@ -53,7 +53,7 @@ class SecurityController extends AbstractController
             if (empty($authenticationResult)) {
                 return $this->json([
                     'code' => 2,
-                    'message' => 'Authentication data is NOT correct!',
+                    'message' => 'Данные аутентификации НЕ верны!',
                 ], JsonResponse::HTTP_UNAUTHORIZED);
             }
             $session = $this->get('session');
@@ -95,7 +95,7 @@ class SecurityController extends AbstractController
         if ($session->has('hr_id')) {
             return $this->json([
                 'code' => 4,
-                'message' => 'Unable to log out HR with ID#'.$session->get('hr_id'),
+                'message' => 'Невозможно вывести из системы HR-менеджера с ID#'.$session->get('hr_id'),
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
 

@@ -52,7 +52,7 @@ class AnswerService
         /** @var Attempt $attempt */
         $attempt = $this->attemptRepository->find($attemptId);
         if (!($attempt instanceof Attempt)) {
-            throw new Exception('Attempt with this ID has not been registered by HR manager!', 1);
+            throw new Exception('Попытка с таким ID НЕ была зарегистрирована HR-менеджером!', 1);
         }
         $dataToCheck = [
             'attempt_id' => $attemptId,
@@ -64,7 +64,7 @@ class AnswerService
         $signatureToCheck = md5(json_encode($dataToCheck));
 
         if ($signature !== $signatureToCheck) {
-            throw new Exception('You do not have permission to attempt this test! Possibly, deadline is out!', 2);
+            throw new Exception('Вам больше НЕ разрешено предпринимать попытку сдать этот тест! Возможно, срок уже вышел!', 2);
         }
 
         $questions = $attempt->getTest()->getQuestions()->toArray();
@@ -113,7 +113,7 @@ class AnswerService
         /** @var Attempt $attempt */
         $attempt = $this->attemptRepository->find($attemptId);
         if (!($attempt instanceof Attempt)) {
-            throw new Exception('Attempt with this ID has not been registered by HR manager!', 1);
+            throw new Exception('Попытка с таким ID НЕ была зарегистрирована HR-менеджером!', 1);
         }
 
         $questions = $attempt->getTest()->getQuestions();
