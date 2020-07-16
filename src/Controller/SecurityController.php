@@ -41,6 +41,16 @@ class SecurityController extends AbstractController
      *     @SWG\Parameter(name="code", type="integer", description="Code of an error (if NOT 0, than error occured)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of an error", @SWG\Schema(type="string"))
      * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
      *
      * @param Request $request
      * @return JsonResponse
@@ -84,6 +94,12 @@ class SecurityController extends AbstractController
      *     description="HR has been logged out successfully",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is because of unable to log out the HR-manager",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of an error (if NOT 0, than error occured)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of an error", @SWG\Schema(type="string"))
      * )
      *
      * @return JsonResponse
