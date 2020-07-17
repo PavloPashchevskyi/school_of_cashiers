@@ -32,6 +32,14 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array|int|string
+     */
+    public function getAllUsersList()
+    {
+        return $this->createQueryBuilder('u')->getQuery()->getArrayResult();
+    }
+
+    /**
      * @param User $entity
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

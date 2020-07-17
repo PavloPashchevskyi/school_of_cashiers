@@ -89,7 +89,7 @@ class AttemptService
         ];
 
         $signature = md5(json_encode($result));
-        $result['link'] = 'https://'.$_SERVER['SERVER_NAME'].'/api/'.$result['attempt_id'].'/questions/?signature='.$signature;
+        $result['link'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/api/'.$result['attempt_id'].'/questions/?signature='.$signature;
 
         return $result;
     }

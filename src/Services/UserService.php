@@ -17,6 +17,14 @@ class UserService
     }
 
     /**
+     * @return array|int|string
+     */
+    public function list()
+    {
+        return $this->userRepository->getAllUsersList();
+    }
+
+    /**
      * @param array $data
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
