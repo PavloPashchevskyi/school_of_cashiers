@@ -42,12 +42,12 @@ class AnswerService
 
     /**
      * @param int $attemptId
-     * @param string $signature
+     * @param string|null $signature
      * @return array
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getQuestionsList(int $attemptId, string $signature): array
+    public function getQuestionsList(int $attemptId, ?string $signature): array
     {
         /** @var Attempt $attempt */
         $attempt = $this->attemptRepository->find($attemptId);
@@ -62,6 +62,10 @@ class AnswerService
         ];
 
         $signatureToCheck = md5(json_encode($dataToCheck));
+
+        if (empty($signature)) {
+            throw new Exception('Запрос НЕ подписан! Тест НЕ может быть для Вас подготовлен.', 2);
+        }
 
         if ($signature !== $signatureToCheck) {
             throw new Exception('Вам больше НЕ разрешено предпринимать попытку сдать этот тест! Возможно, срок уже вышел!', 2);
