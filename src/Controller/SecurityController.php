@@ -33,7 +33,8 @@ class SecurityController extends AbstractController
      *     description="HR has been logged in successfully",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
-     *     @SWG\Parameter(name="hr_id", type="integer", description="ID of HR logged in", @SWG\Schema(type="integer"))
+     *     @SWG\Parameter(name="hr_id", type="integer", description="ID of HR logged in", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="session_id", type="string", description="ID of User`s session", @SWG\Schema(type="string"))
      * )
      * @SWG\Response(
      *     response="401",
@@ -72,7 +73,8 @@ class SecurityController extends AbstractController
                 'code' => 0,
                 'message' => 'OK',
                 'hr_id' => $session->get('hr_id'),
-            ]);
+                'session_id' => $session->getId(),
+            ], JsonResponse::HTTP_OK);
         } catch (Exception $exc) {
             return $this->json([
                 'errors' => [
