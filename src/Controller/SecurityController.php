@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/api/hr/login", methods={"POST"})
+     * @Route("/api/login", methods={"POST"})
      * @SWG\Parameter(name="email", in="body", required=true, description="HR`s E-mail to log in", @SWG\Schema(type="string", maxLength=180))
      * @SWG\Parameter(name="password", in="body", type="string", required=true, description="HR`s password", @SWG\Schema(type="string"))
      *
@@ -87,7 +87,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/api/hr/logout", methods={"GET"})
+     * @Route("/api/logout", methods={"GET"})
      *
      * @SWG\Response(
      *     response="200",
