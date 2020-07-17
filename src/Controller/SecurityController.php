@@ -58,7 +58,7 @@ class SecurityController extends AbstractController
     public function login(Request $request): JsonResponse
     {
         try {
-            $authenticationData = $request->request->all();
+            $authenticationData = json_decode($request->getContent(), true);
             $authenticationResult = $this->adminService->authenticate($authenticationData);
             if (empty($authenticationResult)) {
                 return $this->json([
