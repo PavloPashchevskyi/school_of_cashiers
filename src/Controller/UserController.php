@@ -63,7 +63,7 @@ class UserController extends MainController
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
         try {
-            $data = $request->request->all();
+            $data = json_decode($request->getContent(), true);
             $this->userService->store($data);
             return $this->json([
                 'code' => 0,
