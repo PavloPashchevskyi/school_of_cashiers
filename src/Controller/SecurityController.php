@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Custom\MainController;
 use App\Services\AdminService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Exception;
 
-class SecurityController extends MainController
+class SecurityController extends AbstractController
 {
     /**
      * @var AdminService
