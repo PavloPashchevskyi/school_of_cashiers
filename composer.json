@@ -1,6 +1,23 @@
 {
     "type": "project",
     "license": "proprietary",
+    "version": "1.0.0",
+    "name": "kitgroup/school-of-cashiers",
+    "keywords": ["cashiers","school", "kitgroup"],
+    "authors": [
+        {
+            "name": "Yevgeniy Biriukov",
+            "email": "ye.biriukov@kitgroup.ua"
+        },
+        {
+            "name": "Pavlo Goryachko",
+            "email": "p.goriachko@kitgroup.ua"
+        },
+        {
+            "name": "Pavlo Pashchevskyi",
+            "email": "p.paschevkiy@kitgroup.ua"
+        }
+    ],
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
@@ -35,7 +52,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
         }
     },
     "replace": {
