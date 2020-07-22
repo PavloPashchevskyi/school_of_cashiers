@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Exception;
+use Throwable;
 
 class AnswerController extends AbstractController
 {
@@ -70,7 +70,7 @@ class AnswerController extends AbstractController
                 'message' => 'OK',
                 'data' => $questionsList,
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json(
                 [
                 'errors' => [
@@ -132,7 +132,7 @@ class AnswerController extends AbstractController
                 'message' => 'OK',
                 'data' => $rightlyAnswered,
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json(
                 [
                     'errors' => [

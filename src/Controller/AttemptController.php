@@ -8,7 +8,7 @@ use App\Services\AttemptService;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Exception;
+use Throwable;
 use Symfony\Component\HttpFoundation\Request;
 
 class AttemptController extends MainController
@@ -22,7 +22,8 @@ class AttemptController extends MainController
     }
 
     /**
-     * @Route("/api/attempts", methods={"GET"})
+     * @Route("/api/attempts", methods={"POST"})
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
      *
      * @SWG\Response(
      *     response="200",
@@ -65,7 +66,7 @@ class AttemptController extends MainController
                 'message' => 'OK',
                 'data' => $attempts,
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json([
                 'errors' => [
                     'server' => [
@@ -82,6 +83,7 @@ class AttemptController extends MainController
      * @Route("/api/{userId}/{testId}/attempt/prepare", methods={"POST"})
      * @SWG\Parameter(name="userId", in="path", required=true, type="integer", description="User's ID")
      * @SWG\Parameter(name="testId", in="path", required=true, type="integer", description="ID of test")
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
      *
      * @SWG\Response(
      *     response="200",
@@ -126,7 +128,7 @@ class AttemptController extends MainController
                 'message' => 'OK',
                 'data' => $prepared,
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json([
                 'errors' => [
                     'server' => [

@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Exception;
+use Throwable;
 
 class UserController extends MainController
 {
@@ -27,6 +27,7 @@ class UserController extends MainController
      * @SWG\Parameter(name="city", in="body", required=true, description="User's city", @SWG\Schema(type="string", maxLength=30))
      * @SWG\Parameter(name="email", in="body", required=false, description="User's e-mail", @SWG\Schema(type="string", maxLength=180))
      * @SWG\Parameter(name="phone", in="body", required=true, description="User's phone", @SWG\Schema(type="string", maxLength=15))
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
      *
      * @SWG\Response(
      *     response="200",
@@ -69,7 +70,7 @@ class UserController extends MainController
                 'code' => 0,
                 'message' => 'OK',
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json([
                 'errors' => [
                     'server' => [
@@ -83,7 +84,8 @@ class UserController extends MainController
     }
 
     /**
-     * @Route("/api/users", methods={"GET"})
+     * @Route("/api/users", methods={"POST"})
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
      *
      * @SWG\Response(
      *     response="200",
@@ -126,7 +128,7 @@ class UserController extends MainController
                 'message' => 'OK',
                 'data' => $users,
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json([
                 'errors' => [
                     'server' => [

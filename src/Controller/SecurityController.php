@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Exception;
+use Throwable;
 
 class SecurityController extends AbstractController
 {
@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/api/login", methods={"POST"})
+     * @Route("/api/login", methods={"POST", "OPTIONS"})
      * @SWG\Parameter(name="email", in="body", required=true, description="HR`s E-mail to log in", @SWG\Schema(type="string", maxLength=180))
      * @SWG\Parameter(name="password", in="body", type="string", required=true, description="HR`s password", @SWG\Schema(type="string"))
      *
@@ -75,7 +75,7 @@ class SecurityController extends AbstractController
                 'hr_id' => $session->get('hr_id'),
                 'session_id' => $session->getId(),
             ], JsonResponse::HTTP_OK);
-        } catch (Exception $exc) {
+        } catch (Throwable $exc) {
             return $this->json([
                 'errors' => [
                     'server' => [
