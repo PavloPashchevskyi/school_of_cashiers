@@ -70,7 +70,7 @@ class AdminService
         // check timestamps
         $currentTimestamp = (new DateTime())->format('U');
         if ($currentTimestamp - $authData['timestamp'] > 5) {
-            throw new Exception('Привышен интервал ожидания для запроса', 5);
+            throw new Exception('Превышен интервал ожидания для запроса', 5);
         }
 
         // check ID of HR-manager
