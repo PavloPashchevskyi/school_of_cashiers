@@ -95,7 +95,12 @@ class UserController extends AbstractController
                         'trace' => $exc->getTrace(),
                     ],
                 ],
-            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            ], ($exc->getCode() == 5) ?
+                JsonResponse::HTTP_REQUEST_TIMEOUT :
+                (($exc->getCode() == 3) ?
+                    JsonResponse::HTTP_UNAUTHORIZED :
+                    JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+            );
         }
     }
 
