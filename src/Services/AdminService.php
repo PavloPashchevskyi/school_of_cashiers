@@ -7,6 +7,7 @@ use App\Repository\AdminRepository;
 use App\Entity\Admin;
 use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use DateTime;
 
 class AdminService
 {
@@ -15,6 +16,9 @@ class AdminService
 
     /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;
+
+    /** @const int */
+    private const TOKEN_TTL = 3600;
 
     /**
      * AdminService constructor.
@@ -42,11 +46,60 @@ class AdminService
 
         $result = [];
         if ($this->passwordEncoder->isPasswordValid($admin, $authenticationData['password'])) {
+            $token = md5(json_encode(['hr_id' => $admin->getId(),]));
             $result = [
                 'hr_id' => $admin->getId(),
+                'token' => $token,
             ];
+
+            $admin->setApiToken($token);
+            $currentTimestamp = (new DateTime())->format('U');
+            $admin->setApiTokenValidUntil($currentTimestamp + self::TOKEN_TTL);
+            $this->adminRepository->store($admin);
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $authData
+     * @throws Exception
+     */
+    public function check(array $authData): void
+    {
+        // check timestamps
+        $currentTimestamp = (new DateTime())->format('U');
+        if ($currentTimestamp - $authData['timestamp'] > 5) {
+            throw new Exception('Привышен интервал ожидания для запроса', 5);
+        }
+
+        // check ID of HR-manager
+        $admin = $this->adminRepository->find($authData['hr_id']);
+        if (!($admin instanceof Admin)) {
+            throw new Exception('HR-менеджер НЕ авторизован или время сеанса истекло!', 3);
+        }
+
+        if ($admin->getApiToken() !== $authData['token'] || $admin->getApiTokenValidUntil() < $currentTimestamp) {
+            throw new Exception('HR-менеджер НЕ авторизован или время сеанса истекло!', 3);
+        }
+    }
+
+    /**
+     * @param array $authData
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function logout(array $authData): array
+    {
+        $admin = $this->adminRepository->find($authData['hr_id']);
+        $admin->setApiToken(null);
+        $admin->setApiTokenValidUntil(null);
+        $this->adminRepository->store($admin);
+
+        return [
+            'code' => 0,
+            'message' => 'OK',
+        ];
     }
 }

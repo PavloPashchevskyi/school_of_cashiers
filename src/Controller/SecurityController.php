@@ -67,13 +67,11 @@ class SecurityController extends AbstractController
                     'message' => 'Данные аутентификации НЕ верны!',
                 ], JsonResponse::HTTP_UNAUTHORIZED);
             }
-            $session = $this->get('session');
-            $session->set('hr_id', $authenticationResult['hr_id']);
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',
-                'hr_id' => $session->get('hr_id'),
-                'session_id' => $session->getId(),
+                'hr_id' => $authenticationResult['hr_id'],
+                'token' => $authenticationResult['token'],
             ], JsonResponse::HTTP_OK);
         } catch (Throwable $exc) {
             return $this->json([
@@ -89,7 +87,10 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/api/logout", methods={"GET"})
+     * @Route("/api/logout", methods={"POST"})
+     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
      *
      * @SWG\Response(
      *     response="200",
@@ -98,28 +99,62 @@ class SecurityController extends AbstractController
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
      * )
      * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
      *     response="500",
-     *     description="An exception has been thrown and it is because of unable to log out the HR-manager",
-     *     @SWG\Parameter(name="code", type="integer", description="Code of an error (if NOT 0, than error occured)", @SWG\Schema(type="integer")),
-     *     @SWG\Parameter(name="message", type="string", description="Description of an error", @SWG\Schema(type="string"))
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
      * )
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
-        $session = $this->get('session');
-        $session->remove('hr_id');
-        if ($session->has('hr_id')) {
+        try {
+            $data = json_decode($request->getContent(), true);
+            $this->adminService->check($data);
+            $logoutResult = $this->adminService->logout($data);
+            return $this->json($logoutResult, JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
             return $this->json([
-                'code' => 4,
-                'message' => 'Невозможно вывести из системы HR-менеджера с ID#'.$session->get('hr_id'),
-            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                    ],
+                ],
+            ],
+                ($exc->getCode() == 5) ?
+                    JsonResponse::HTTP_REQUEST_TIMEOUT :
+                    (($exc->getCode() == 3) ?
+                        JsonResponse::HTTP_UNAUTHORIZED :
+                        JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+            );
         }
-
-        return $this->json([
-            'code' => 0,
-            'message' => 'OK',
-        ], JsonResponse::HTTP_OK);
     }
 }

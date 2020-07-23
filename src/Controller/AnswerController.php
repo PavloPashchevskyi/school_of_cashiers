@@ -91,7 +91,7 @@ class AnswerController extends AbstractController
     }
 
     /**
-     * @Route("/api/{attemptId}/anwers", methods={"POST"})
+     * @Route("/api/{attemptId}/anwers", methods={"GET"})
      * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of User`s attempt to test")
      *
      * @SWG\Response(
