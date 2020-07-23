@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Custom\MainController;
 use App\Services\AdminService;
 use App\Services\AttemptService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Throwable;
 use Symfony\Component\HttpFoundation\Request;
 
-class AttemptController extends MainController
+class AttemptController extends AbstractController
 {
     /** @var AdminService */
     private $adminService;
