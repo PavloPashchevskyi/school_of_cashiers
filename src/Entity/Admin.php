@@ -50,6 +50,11 @@ class Admin implements UserInterface
      */
     private $apiToken;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $apiTokenValidUntil;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -179,6 +184,18 @@ class Admin implements UserInterface
     public function setApiToken(?string $apiToken): self
     {
         $this->apiToken = $apiToken;
+        return $this;
+    }
+
+    public function getApiTokenValidUntil(): ?int
+    {
+        return $this->apiTokenValidUntil;
+    }
+
+    public function setApiTokenValidUntil(?int $apiTokenValidUntil): self
+    {
+        $this->apiTokenValidUntil = $apiTokenValidUntil;
+
         return $this;
     }
 }
