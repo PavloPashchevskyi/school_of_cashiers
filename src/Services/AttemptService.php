@@ -93,4 +93,27 @@ class AttemptService
 
         return $result;
     }
+
+    /**
+     * 
+     * @param int $attemptId
+     * @param int $currentStage
+     * @return int
+     * @throws Exception
+     */
+    public function increaseStage(int $attemptId, int $currentStage): int
+    {
+        /** @var Attempt $attempt */
+        $attempt = $this->attemptRepository->find($attemptId);
+        if (!($attempt instanceof Attempt)) {
+            throw new Exception('Попытка с таким ID НЕ была зарегистрирована HR-менеджером!', 1);
+        }
+        if ($currentStage < 1 || $currentStage > 3) {
+            throw new Exception('Неверный номер шага теста', 6);
+        }
+        $attempt->setStage(($currentStage < 3) ? $currentStage + 1 : 0);
+        $this->attemptRepository->store($attempt);
+
+        return $attempt->getStage();
+    }
 }

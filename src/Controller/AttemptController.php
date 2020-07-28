@@ -180,4 +180,80 @@ class AttemptController extends AbstractController
             );
         }
     }
+
+    /**
+     * @Route("/api/{attemptId}/stages/{currentStageId}", methods={"GET"})
+     * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of User`s attempt to test", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="currentStageId", in="path", required=true, type="integer", description="User`s current stage", @SWG\Schema(type="integer"))
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Returns ID of next stage",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
+     *     @SWG\Parameter(name="next_stage_id", type="integer", description="ID of User`s next stage", @SWG\Schema(type="integer"))
+     * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Bad request (Incorrect current stage number)",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data, deadlines or incorrect current stage number",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function nextStage(Request $request): JsonResponse
+    {
+        try {
+            $nextStage = $this->attemptService->increaseStage(
+                $request->attributes->getInt('attemptId'),
+                $request->attributes->getInt('currentStageId')
+            );
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+                'next_stage_id' => $nextStage,
+            ]);
+        } catch (Throwable $exc) {
+            return $this->json([
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                    ],
+                ],
+            ], ($exc->getCode() === 1) ?
+                    JsonResponse::HTTP_UNAUTHORIZED :
+                    (($exc->getCode() === 6) ?
+                            JsonResponse::HTTP_BAD_REQUEST :
+                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
+    }
 }
