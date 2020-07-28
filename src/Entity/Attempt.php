@@ -52,6 +52,11 @@ class Attempt
      */
     private $answers;
 
+    /**
+     * @ORM\Column(type="integer", options={"default": 1})
+     */
+    private $stage = 1;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -149,6 +154,18 @@ class Attempt
                 $answer->setAttempt(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStage(): int
+    {
+        return $this->stage;
+    }
+
+    public function setStage(int $stage = 1): self
+    {
+        $this->stage = $stage;
 
         return $this;
     }
