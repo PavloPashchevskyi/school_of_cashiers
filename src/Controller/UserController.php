@@ -38,9 +38,10 @@ class UserController extends AbstractController
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Returns success/failure of User adding",
+     *     description="Returns success/failure of User adding and ID of user added",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
+     *     @SWG\Parameter(name="created_user_id", type="integer", description="ID of just-created User", @SWG\Schema(type="integer")),
      * )
      * @SWG\Response(
      *     response="401",
@@ -81,10 +82,11 @@ class UserController extends AbstractController
         try {
             $data = json_decode($request->getContent(), true);
             $this->adminService->check($data);
-            $this->userService->store($data);
+            $newUserId = $this->userService->store($data);
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',
+                'created_user_id' => $newUserId,
             ], JsonResponse::HTTP_OK);
         } catch (Throwable $exc) {
             return $this->json([

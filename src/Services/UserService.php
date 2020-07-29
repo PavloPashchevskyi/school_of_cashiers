@@ -28,8 +28,9 @@ class UserService
      * @param array $data
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @return int|null ID of User created
      */
-    public function store(array $data)
+    public function store(array $data): ?int
     {
         $user = new User();
         $user->setName($data['name']);
@@ -40,5 +41,7 @@ class UserService
         $user->setPhone($data['phone']);
 
         $this->userRepository->store($user);
+        
+        return $user->getId();
     }
 }
