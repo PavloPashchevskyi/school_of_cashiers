@@ -214,6 +214,16 @@ class AttemptController extends AbstractController
      *     )
      * )
      * @SWG\Response(
+     *     response="403",
+     *     description="Access denied, because transferred stage of test has been already done",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
      *     response="500",
      *     description="An exception has been thrown and it is NOT because of authorization data, deadlines or incorrect current stage number",
      *     @SWG\Parameter(
@@ -252,7 +262,9 @@ class AttemptController extends AbstractController
                     JsonResponse::HTTP_UNAUTHORIZED :
                     (($exc->getCode() === 6) ?
                             JsonResponse::HTTP_BAD_REQUEST :
-                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+                            (($exc->getCode() === 2) ?
+                                    JsonResponse::HTTP_FORBIDDEN :
+                                    JsonResponse::HTTP_INTERNAL_SERVER_ERROR))
             );
         }
     }

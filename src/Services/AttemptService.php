@@ -111,6 +111,12 @@ class AttemptService
         if ($currentStage < 1 || $currentStage > 3) {
             throw new Exception('Неверный номер шага теста', 6);
         }
+        if ($attempt->getStage() === 0) {
+            throw new Exception('Данный тест уже пройден. Невозможно пройти его еще раз!', 2);
+        }
+        if (($currentStage - $attempt->getStage()) > 1 || $currentStage < $attempt->getStage()) {
+            throw new Exception('Данный этап теста уже пройден. Невозможно пройти его ещё раз!', 2);
+        }
         $attempt->setStage(($currentStage < 3) ? $currentStage + 1 : 0);
         $this->attemptRepository->store($attempt);
 
