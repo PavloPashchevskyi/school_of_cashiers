@@ -83,6 +83,8 @@ class AttemptService
 
         $result = [
             'attempt_id' => $attempt->getId(),
+            'test_name' => $attempt->getTest()->getName(),
+            'created_at' => $attempt->getCreatedAt(),
             'current_date' => (new \DateTime())->format('Ymd'),
             'user' => $this->userRepository->getUserInfo($attempt->getUser()),
             'test' => $this->testRepository->getTestInfo($attempt->getTest()),
