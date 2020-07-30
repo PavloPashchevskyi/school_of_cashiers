@@ -17,11 +17,26 @@ class UserService
     }
 
     /**
-     * @return array|int|string
+     * 
+     * @return array
      */
-    public function list()
+    public function list(): array
     {
-        return $this->userRepository->getAllUsersList();
+        $users = $this->userRepository->getAllUsersList();
+        $usersArray = [];
+        /** @var \App\Entity\User $user */
+        foreach ($users as $i => $user) {
+            $usersArray[$i] = [
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'city' => $user->getCity(),
+                'email' => $user->getEmail(),
+                'phone' => $user->getPhone(),
+                'attempts_quantity' => $user->getAttempts()->count(),
+            ];
+        }
+        
+        return $usersArray;
     }
 
     /**
