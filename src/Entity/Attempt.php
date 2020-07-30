@@ -7,9 +7,11 @@ use App\Repository\AttemptRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=AttemptRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Attempt
 {
@@ -56,6 +58,11 @@ class Attempt
      * @ORM\Column(type="integer", options={"default": 1})
      */
     private $stage = 1;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -166,6 +173,23 @@ class Attempt
     public function setStage(int $stage = 1): self
     {
         $this->stage = $stage;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * 
+     * @return \self
+     */
+    public function setCreatedAt(): self
+    {
+        $this->createdAt = (int) (new DateTime())->format('U');
 
         return $this;
     }
