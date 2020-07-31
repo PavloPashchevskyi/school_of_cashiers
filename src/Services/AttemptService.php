@@ -83,15 +83,15 @@ class AttemptService
 
         $result = [
             'attempt_id' => $attempt->getId(),
-            'test_name' => $attempt->getTest()->getName(),
-            'created_at' => $attempt->getCreatedAt(),
             'current_date' => (new \DateTime())->format('Ymd'),
             'user' => $this->userRepository->getUserInfo($attempt->getUser()),
             'test' => $this->testRepository->getTestInfo($attempt->getTest()),
         ];
 
         $signature = md5(json_encode($result));
-        $result['link'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/api/'.$result['attempt_id'].'/questions/?signature='.$signature;
+        $result['test_name'] = $attempt->getTest()->getName();
+        $result['created_at'] = $attempt->getCreatedAt();
+        $result['link'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/cashier/'.$result['attempt_id'].'/'.$signature;
 
         return $result;
     }
