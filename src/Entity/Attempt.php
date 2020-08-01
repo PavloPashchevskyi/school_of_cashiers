@@ -64,6 +64,11 @@ class Attempt
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -190,6 +195,18 @@ class Attempt
     public function setCreatedAt(): self
     {
         $this->createdAt = (int) (new DateTime())->format('U');
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }
