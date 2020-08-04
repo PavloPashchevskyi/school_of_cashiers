@@ -103,7 +103,8 @@ class AttemptController extends AbstractController
     }
     
     /**
-     * @Route("/api/attempts/all", methods={"POST"})
+     * @Route("/api/attempts/{userId}", methods={"POST"})
+     * @SWG\Parameter(name="userId", in="path", required=true, type="integer", description="ID of User, which attempts are needed of")
      * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
@@ -149,12 +150,12 @@ class AttemptController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function list(Request $request): JsonResponse
+    public function userAttempts(Request $request): JsonResponse
     {
         try {
             $data = json_decode($request->getContent(), true);
             $this->adminService->check($data);
-            $attemptsList = $this->attemptService->getAttemptsList();
+            $attemptsList = $this->attemptService->getUserAttempts($request->attributes->getInt('userId'));
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',
@@ -170,11 +171,11 @@ class AttemptController extends AbstractController
                     ],
                 ],
             ],
-                    ($exc->getCode() == 5) ?
+                ($exc->getCode() == 5) ?
                     JsonResponse::HTTP_REQUEST_TIMEOUT :
                     (($exc->getCode() == 3) ?
-                            JsonResponse::HTTP_UNAUTHORIZED :
-                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+                        JsonResponse::HTTP_UNAUTHORIZED :
+                        JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
             );
         }
     }

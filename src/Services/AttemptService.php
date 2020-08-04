@@ -69,16 +69,24 @@ class AttemptService
 
         return $result;
     }
-    
+
     /**
-     * 
+     * @param int $userId
      * @return array
+     * @throws Exception
      */
-    public function getAttemptsList(): array
+    public function getUserAttempts(int $userId): array
     {
-        /** @var \App\Entity\Attempt[] $attempts */
-        $attempts = $this->attemptRepository->findAll();
-        
+        /** @var User $user */
+        $user = $this->userRepository->find($userId);
+
+        if (!($user instanceof User)) {
+            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
+        }
+
+        /** @var Attempt[] $attempts */
+        $attempts = $user->getAttempts();
+
         $attemptsArray = [];
         foreach ($attempts as $i => $attempt) {
             $attemptsArray[$i] = [
