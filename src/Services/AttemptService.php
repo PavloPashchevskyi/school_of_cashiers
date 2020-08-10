@@ -165,6 +165,7 @@ class AttemptService
 
             $questionsWithVariantsList = [
                 'next_stage_id' => $nextStageId,
+                'max_time' => $attempt->getTest()->getMaxTime(),
                 'test' => $attempt->getTest()->getName(),
                 'questions' => [],
             ];
