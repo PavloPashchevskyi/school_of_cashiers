@@ -239,7 +239,7 @@ class AttemptService
             $timeSpent = $attempt->getEndTimestamp() - $attempt->getStartTimestamp();
             return [
                 'next_stage_id' => $nextStageId,
-                'points_quantity' => $totalPointsQuantity,
+                'points_quantity' => ($timeSpent > $attempt->getTest()->getMaxTime()) ? 0 : $totalPointsQuantity,
                 'time_spent' => $timeSpent,
                 'max_possible_time_spent' => $attempt->getTest()->getMaxTime(),
                 'deadline_is_out' => ($timeSpent > $attempt->getTest()->getMaxTime()),
