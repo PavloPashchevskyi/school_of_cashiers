@@ -125,7 +125,7 @@ class AttemptService
 
         $result = [
             'attempt_id' => $attempt->getId(),
-            'current_date' => (new \DateTime())->format('Ymd'),
+            'current_date' => (new DateTime())->format('Ymd'),
             'user' => $this->userRepository->getUserInfo($attempt->getUser()),
             'test' => $this->testRepository->getTestInfo($attempt->getTest()),
         ];
@@ -197,7 +197,14 @@ class AttemptService
         if ($currentStage === 3) {
             $nextStageId = $this->increaseStage($attemptId, $currentStage, $token);
             if (empty($answers)) {
-                throw new Exception('Cписок ответов пользователя пуст!', 6);
+                $timeSpent = $attempt->getEndTimestamp() - $attempt->getStartTimestamp();
+                return [
+                    'next_stage_id' => $nextStageId,
+                    'points_quantity' => $attempt->getNumberOfPoints(),
+                    'time_spent' => $timeSpent,
+                    'max_possible_time_spent' => $attempt->getTest()->getMaxTime(),
+                    'deadline_is_out' => ($timeSpent > $attempt->getTest()->getMaxTime()),
+                ];
             }
             $questions = $attempt->getTest()->getQuestions();
             $answeredQuestions = $answers['questions'];
@@ -231,16 +238,18 @@ class AttemptService
                 }
             }
             $totalPointsQuantity = array_sum($pointsQuantity);
-            $attempt->setNumberOfPoints($totalPointsQuantity);
 
             // change end timestamp after questions list submitting
             $attempt->setEndTimestamp((int) (new DateTime())->format('U'));
             $this->attemptRepository->store($attempt);
 
             $timeSpent = $attempt->getEndTimestamp() - $attempt->getStartTimestamp();
+            $totalPointsQuantity = ($timeSpent > $attempt->getTest()->getMaxTime()) ? 0 : $totalPointsQuantity;
+            $attempt->setNumberOfPoints($totalPointsQuantity);
+            $this->attemptRepository->store($attempt);
             return [
                 'next_stage_id' => $nextStageId,
-                'points_quantity' => ($timeSpent > $attempt->getTest()->getMaxTime()) ? 0 : $totalPointsQuantity,
+                'points_quantity' => $attempt->getNumberOfPoints(),
                 'time_spent' => $timeSpent,
                 'max_possible_time_spent' => $attempt->getTest()->getMaxTime(),
                 'deadline_is_out' => ($timeSpent > $attempt->getTest()->getMaxTime()),
@@ -266,7 +275,7 @@ class AttemptService
         
         $tokenClauses = [
             'attempt_id' => $attempt->getId(),
-            'current_date' => (new \DateTime())->format('Ymd'),
+            'current_date' => (new DateTime())->format('Ymd'),
             'user' => $this->userRepository->getUserInfo($attempt->getUser()),
             'test' => $this->testRepository->getTestInfo($attempt->getTest()),
         ];
