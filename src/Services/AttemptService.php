@@ -284,7 +284,7 @@ class AttemptService
         if ($currentStage < 1 || $currentStage > 3) {
             throw new Exception('Неверный номер шага теста', 6);
         }
-        if ($attempt->getStage() === 0) {
+        if ($attempt->getStage() === 0 && $currentStage !== 3) {
             throw new Exception('Данный тест уже пройден. Ваш результат: '.$attempt->getNumberOfPoints().' Невозможно пройти тест еще раз!', 2);
         }
         if (($attempt->getStage() - $currentStage) > 1) {
