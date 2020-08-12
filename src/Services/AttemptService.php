@@ -290,7 +290,7 @@ class AttemptService
         if (($attempt->getStage() - $currentStage) > 1) {
             throw new Exception('Данный этап теста уже пройден. Невозможно пройти его ещё раз!', 2);
         }
-        if (($currentStage - $attempt->getStage()) >= 1) {
+        if (($currentStage - $attempt->getStage()) >= 1 && !($attempt->getStage() === 0 && $currentStage === 3)) {
             throw new Exception('Данный этап теста еще НЕ пройден. Невозможно пройти его, минуя предыдущий этап!', 2);
         }
         $attempt->setStage(($currentStage < 3) ? $currentStage + 1 : 0);
