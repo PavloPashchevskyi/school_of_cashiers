@@ -30,7 +30,6 @@ class UserService
                 'id' => $user->getId(),
                 'name' => $user->getName(),
                 'city' => $user->getCity(),
-                'email' => $user->getEmail(),
                 'phone' => $user->getPhone(),
                 'attempts_quantity' => $user->getAttempts()->count(),
             ];
@@ -50,9 +49,6 @@ class UserService
         $user = new User();
         $user->setName($data['name']);
         $user->setCity($data['city']);
-        if (!empty($data['email'])) {
-            $user->setEmail($data['email']);
-        }
         $user->setPhone($data['phone']);
 
         $this->userRepository->store($user);

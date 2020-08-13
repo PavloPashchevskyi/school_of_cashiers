@@ -55,7 +55,6 @@ class AttemptService
             $result[$i] = [
                 'name' => $user->getName(),
                 'city' => $user->getCity(),
-                'email' => $user->getEmail(),
                 'phone' => $user->getPhone(),
             ];
             $result[$i]['attempts'] = [];

@@ -31,11 +31,6 @@ class User
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
-     */
-    private $email;
-
-    /**
      * @ORM\Column(type="string", length=15, nullable=false)
      */
     private $phone;
@@ -109,25 +104,6 @@ class User
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string|null $email
-     * @return $this
-     */
-    public function setEmail(?string $email): self
-    {
-        $this->email = $email;
-
         return $this;
     }
 

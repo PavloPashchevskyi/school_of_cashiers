@@ -30,7 +30,6 @@ class UserController extends AbstractController
      * @Route("/api/user/add", methods={"POST"})
      * @SWG\Parameter(name="name", in="body", required=true, description="User's name", @SWG\Schema(type="string", maxLength=30))
      * @SWG\Parameter(name="city", in="body", required=true, description="User's city", @SWG\Schema(type="string", maxLength=30))
-     * @SWG\Parameter(name="email", in="body", required=false, description="User's e-mail", @SWG\Schema(type="string", maxLength=180))
      * @SWG\Parameter(name="phone", in="body", required=true, description="User's phone", @SWG\Schema(type="string", maxLength=15))
      * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
