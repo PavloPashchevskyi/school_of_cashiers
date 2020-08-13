@@ -30,6 +30,8 @@ class AttemptService
     /** @var AnswerRepository */
     private $answerRepository;
 
+    private const ATTEMPT_HOST = 'https://school1.kitgroup.org';
+
     public function __construct(
         UserRepository $userRepository,
         TestRepository $testRepository,
@@ -131,7 +133,7 @@ class AttemptService
         ];
 
         $signature = md5(json_encode($result));
-        $link = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/api/cashier/'.$result['attempt_id'].'/'.$signature;
+        $link = self::ATTEMPT_HOST.'/cashier/'.$result['attempt_id'].'/'.$signature;
 
         $attempt->setLink($link);
         $this->attemptRepository->store($attempt);
