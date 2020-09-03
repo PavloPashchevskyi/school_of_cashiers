@@ -85,6 +85,83 @@ class SecurityController extends AbstractController
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    
+    /**
+     * @Route("/api/auth/check", methods={"POST"})
+     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="HR is logged in",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function check(Request $request): JsonResponse
+    {    
+        try {
+            $data = json_decode($request->getContent(), true);
+            $authenticationData = $this->adminService->check($data);
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+                'hr_id' => $authenticationData['hr_id'],
+                'token' => $authenticationData['token'],
+            ], JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
+            return $this->json(
+                    [
+                        'errors' => [
+                            'server' => [
+                                'code' => $exc->getCode(),
+                                'message' => $exc->getMessage(),
+                                'trace' => $exc->getTrace(),
+                            ],
+                        ],
+                    ],
+                    ($exc->getCode() === 3) ?
+                    JsonResponse::HTTP_UNAUTHORIZED :
+                    (($exc->getCode() === 5) ?
+                            JsonResponse::HTTP_REQUEST_TIMEOUT :
+                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+                );
+        }
+    }
 
     /**
      * @Route("/api/logout", methods={"POST"})

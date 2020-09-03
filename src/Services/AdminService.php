@@ -62,10 +62,12 @@ class AdminService
     }
 
     /**
+     * 
      * @param array $authData
+     * @return array
      * @throws Exception
      */
-    public function check(array $authData): void
+    public function check(array $authData): array
     {
         // check timestamps
         $currentTimestamp = (new DateTime())->format('U');
@@ -82,6 +84,11 @@ class AdminService
         if ($admin->getApiToken() !== $authData['token'] || $admin->getApiTokenValidUntil() < $currentTimestamp) {
             throw new Exception('HR-менеджер НЕ авторизован или время сеанса истекло!', 3);
         }
+        
+        return [
+            'hr_id' => $authData['hr_id'],
+            'token' => $authData['token'],
+        ];
     }
 
     /**
