@@ -99,6 +99,34 @@ class AttemptService
         
         return $attemptsArray;
     }
+    
+    public function getUserAttemptsDetails(int $userId): array
+    {
+        /** @var User $user */
+        $user = $this->userRepository->find($userId);
+
+        if (!($user instanceof User)) {
+            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
+        }
+
+        /** @var Attempt[] $attempts */
+        $attempts = $user->getAttempts();
+        foreach ($attempts as $i => $attempt) {
+            $quizResults = $this->calculateWonAndLosedQuestions($attempt);
+            $attemptsArray[$i] = [
+                'test' => $attempt->getTest()->getName(),
+                'right_answers_quantity' => $quizResults['won'],
+                'wrong_answers_quantity' => $quizResults['losed'],
+                'right_answers_percentage' => $quizResults['won_percentage'],
+                'wrong_answers_percentage' => $quizResults['losed_percentage'],
+                'points_quantoity' => $attempt->getNumberOfPoints(),
+                'status' => $quizResults['status'],
+                'questions_quantity' => $quizResults['questions_quantity'],
+            ];
+        }
+        
+        return $attemptsArray;
+    }
 
     /**
      * @param array $dataToFindBy
@@ -160,7 +188,78 @@ class AttemptService
         }
         if ($currentStage === 2) {
             $nextStageId = $this->increaseStage($attemptId, $currentStage, $token);
-            $questions = $attempt->getTest()->getQuestions()->toArray();
+            return $this->getQuestionsList($attempt, $nextStageId);
+        }
+        if ($currentStage === 3) {
+            $nextStageId = $this->increaseStage($attemptId, $currentStage, $token);
+            return $this->calculateUserResults($attempt, $nextStageId, $answers);
+        }
+        
+        return [
+            'next_stage_id' => $this->increaseStage($attemptId, $currentStage, $token),
+        ];
+    }
+    
+    /**
+     * 
+     * @param Attempt $attempt
+     * @return array
+     */
+    public function calculateWonAndLosedQuestions(Attempt $attempt)
+    {
+        $results = [
+            'won' => 0,
+            'losed' => 0,
+        ];
+        $rvq = [];
+        $wvq = [];
+        $questions = $attempt->getTest()->getQuestions();
+        $answers = $attempt->getAnswers();
+        
+        $answeredQuestions = [];
+        /** @var Question $question */
+        foreach ($questions as $question) {
+            $rvq[$question->getId()] = 0;
+            $wvq[$question->getId()] = 0;
+            /** @var Variant $variant */
+            foreach ($question->getVariants() as $variant) {
+                /** @var Answer $answer */
+                foreach ($answers as $answer) {
+                    if ($answer->getVariantId() === $variant->getId()) {
+                        if ($variant->getValue() > 0) {
+                            $rvq[$question->getId()]++;
+                        } else {
+                            $wvq[$question->getId()]++;
+                        }
+                    }
+                }
+            }
+        }
+        
+        foreach ($questions as $question) {
+            if (
+                    $rvq[$question->getId()] > 0 && // if question is present in user`s right variants
+                    $wvq[$question->getId()] === 0 && // ...and it is absent in wrong variants
+                    $rvq[$question->getId()] === $this->getRightVariantsQuantity($question) // ...and all right variants are present in user`s answer
+                ) {
+                $results['won']++;
+            } else {
+                $results['losed']++; 
+            }
+        }
+
+        $results['questions_quantity'] = $questions->count();
+        $results['won_percentage'] = ($results['won'] / $questions->count()) * 100;
+        $results['losed_percentage'] = ($results['losed'] / $questions->count()) * 100;
+        $results['status'] = ($results['won_percentage'] >= 74);
+        
+        return $results;
+    }
+
+
+    private function getQuestionsList(Attempt $attempt, int $nextStageId): array
+    {
+        $questions = $attempt->getTest()->getQuestions()->toArray();
 
             shuffle($questions);
 
@@ -170,10 +269,8 @@ class AttemptService
                 'test' => $attempt->getTest()->getName(),
                 'questions' => [],
             ];
-            /**
-             * @var int $i
-             * @var Question $question
-             */
+
+            /** @var Question $question */
             foreach ($questions as $i => $question) {
                 $rvq = $this->getRightVariantsQuantity($question);
                 $questionsWithVariantsList['questions'][$i] = [
@@ -194,10 +291,11 @@ class AttemptService
             $this->attemptRepository->store($attempt);
 
             return $questionsWithVariantsList;
-        }
-        if ($currentStage === 3) {
-            $nextStageId = $this->increaseStage($attemptId, $currentStage, $token);
-            if (empty($answers)) {
+    }
+
+    private function calculateUserResults(Attempt $attempt, int $nextStageId, array $answers): array
+    {
+        if (empty($answers)) {
                 $timeSpent = $attempt->getEndTimestamp() - $attempt->getStartTimestamp();
                 return [
                     'next_stage_id' => $nextStageId,
@@ -255,11 +353,6 @@ class AttemptService
                 'max_possible_time_spent' => $attempt->getTest()->getMaxTime(),
                 'deadline_is_out' => ($timeSpent > $attempt->getTest()->getMaxTime()),
             ];
-        }
-        
-        return [
-            'next_stage_id' => $this->increaseStage($attemptId, $currentStage, $token),
-        ];
     }
 
     /**
@@ -308,7 +401,7 @@ class AttemptService
 
         return $attempt->getStage();
     }
-    
+
     /**
      * 
      * @param Question $question
