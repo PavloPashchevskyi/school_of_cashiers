@@ -27,7 +27,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/api/user/add", methods={"POST"})
+     * @Route("/api/guest/add", methods={"POST"})
      * @SWG\Parameter(name="name", in="body", required=true, description="User's name", @SWG\Schema(type="string", maxLength=30))
      * @SWG\Parameter(name="city", in="body", required=true, description="User's city", @SWG\Schema(type="string", maxLength=30))
      * @SWG\Parameter(name="phone", in="body", required=true, description="User's phone", @SWG\Schema(type="string", maxLength=15))
@@ -40,7 +40,7 @@ class UserController extends AbstractController
      *     description="Returns success/failure of User adding and ID of user added",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
-     *     @SWG\Parameter(name="created_user_id", type="integer", description="ID of just-created User", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="data", type="array", description="Info about just-created User", @SWG\Schema(type="array")),
      * )
      * @SWG\Response(
      *     response="401",
@@ -81,11 +81,11 @@ class UserController extends AbstractController
         try {
             $data = json_decode($request->getContent(), true);
             $this->adminService->check($data);
-            $newUserId = $this->userService->store($data);
+            $result = $this->userService->store($data);
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',
-                'created_user_id' => $newUserId,
+                'data' => $result,
             ], JsonResponse::HTTP_OK);
         } catch (Throwable $exc) {
             return $this->json([
@@ -106,7 +106,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/api/users", methods={"POST"})
+     * @Route("/api/guests", methods={"POST"})
      * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))

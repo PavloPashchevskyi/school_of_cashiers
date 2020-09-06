@@ -8,7 +8,6 @@ use App\Repository\TestRepository;
 use App\Repository\AttemptRepository;
 use App\Repository\AnswerRepository;
 use App\Entity\User;
-use App\Entity\Test;
 use Exception;
 use App\Entity\Attempt;
 use App\Entity\Question;
@@ -29,8 +28,6 @@ class AttemptService
     
     /** @var AnswerRepository */
     private $answerRepository;
-
-    private const ATTEMPT_HOST = 'https://school1.kitgroup.org';
 
     public function __construct(
         UserRepository $userRepository,
@@ -109,6 +106,7 @@ class AttemptService
             throw new Exception('Пользователь с таким ID НЕ найден!', 1);
         }
 
+        $attemptsArray = [];
         /** @var Attempt[] $attempts */
         $attempts = $user->getAttempts();
         foreach ($attempts as $i => $attempt) {
@@ -126,48 +124,6 @@ class AttemptService
         }
         
         return $attemptsArray;
-    }
-
-    /**
-     * @param array $dataToFindBy
-     * @return array
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function prepare(array $dataToFindBy): array
-    {
-        $user = $this->userRepository->find($dataToFindBy['userId']);
-        $test = $this->testRepository->find($dataToFindBy['testId']);
-
-        if (!($user instanceof User)) {
-            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
-        }
-        if (!($test instanceof Test)) {
-            throw new Exception('Тест с таким ID НЕ найден!', 1);
-        }
-
-        $attempt = new Attempt();
-        $attempt->setUser($user);
-        $attempt->setTest($test);
-        
-        $this->attemptRepository->store($attempt);
-
-        $result = [
-            'attempt_id' => $attempt->getId(),
-            'current_date' => (new DateTime())->format('Ymd'),
-            'user' => $this->userRepository->getUserInfo($attempt->getUser()),
-            'test' => $this->testRepository->getTestInfo($attempt->getTest()),
-        ];
-
-        $signature = md5(json_encode($result));
-        $link = self::ATTEMPT_HOST.'/cashier/'.$result['attempt_id'].'/'.$signature;
-
-        $attempt->setLink($link);
-        $this->attemptRepository->store($attempt);
-
-        $result['link'] = $link;
-
-        return $result;
     }
     
     /**
@@ -215,8 +171,7 @@ class AttemptService
         $wvq = [];
         $questions = $attempt->getTest()->getQuestions();
         $answers = $attempt->getAnswers();
-        
-        $answeredQuestions = [];
+
         /** @var Question $question */
         foreach ($questions as $question) {
             $rvq[$question->getId()] = 0;

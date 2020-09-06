@@ -23,6 +23,24 @@ class AttemptRepository extends ServiceEntityRepository
     /**
      * @param Attempt $entity
      * @throws \Doctrine\ORM\ORMException
+     */
+    public function preSave(Attempt $entity)
+    {
+        $this->_em->persist($entity);
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save()
+    {
+        $this->_em->flush();
+    }
+
+    /**
+     * @param Attempt $entity
+     * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function store(Attempt $entity)
