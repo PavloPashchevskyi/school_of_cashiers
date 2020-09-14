@@ -92,3 +92,4 @@ class AdminFixture extends Fixture implements FixtureGroupInterface
         return ['AdminFixtures'];
     }
 }
+
