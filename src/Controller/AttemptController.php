@@ -187,7 +187,7 @@ class AttemptController extends AbstractController
      * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
      * 
-     * * @SWG\Response(
+     * @SWG\Response(
      *     response="200",
      *     description="Returns list of user`s attempts in details",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
@@ -266,6 +266,189 @@ class AttemptController extends AbstractController
                             (($exc->getCode() == 1) ?
                                 JsonResponse::HTTP_BAD_REQUEST :
                                 JsonResponse::HTTP_INTERNAL_SERVER_ERROR))
+            );
+        }
+    }
+    
+    /**
+     * @Route("/api/guest/{guestId}/attempts", methods={"POST"})
+     * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="User's ID")
+     * @SWG\Parameter(
+     *     name="test_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="test_name",
+     *             type="string",
+     *             description="Name of the Test, which User was passing"
+     *         )
+     *     )
+     * )
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Returns list of user`s attempts in details",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
+     *     @SWG\Parameter(name="data", type="array", description="Array of user`s attempts described in details", @SWG\Schema(type="array"))
+     * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Incorrect User ID or Test name in request",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userAttemptsByTestName(Request $request): JsonResponse
+    {
+        try {
+            $testData = json_decode($request->getContent(), true);
+            $attemptsList = $this->attemptService->getUserAttemptsByTestName(
+                $request->attributes->getInt('guestId'),
+                $testData['test_name']
+            );
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+                'data' => $attemptsList,
+            ], JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
+            return $this->json([
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                    ],
+                ],
+            ],
+                    ($exc->getCode() == 5) ?
+                    JsonResponse::HTTP_REQUEST_TIMEOUT :
+                    (($exc->getCode() == 3) ?
+                            JsonResponse::HTTP_UNAUTHORIZED :
+                            (($exc->getCode() == 1) ?
+                                    JsonResponse::HTTP_BAD_REQUEST :
+                                    JsonResponse::HTTP_INTERNAL_SERVER_ERROR))
+            );
+        }
+    }
+
+    /**
+     * @Route("/api/{guestId}/{testId}/attempt/prepare", methods={"POST"})
+     * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="User's ID")
+     * @SWG\Parameter(name="testId", in="path", required=true, type="integer", description="ID of test")
+     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
+     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Returns success/failure of Attempt adding",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
+     *     @SWG\Parameter(name="data", type="array", description="Data returned after insertion preparition", @SWG\Schema(type="array"))
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function prepare(Request $request): JsonResponse
+    {
+        try {
+            $authData = json_decode($request->getContent(), true);
+            $this->adminService->check($authData);
+            $dataToFindBy = $request->attributes->all();
+            $prepared = $this->attemptService->prepare($dataToFindBy);
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+                'data' => $prepared,
+            ], JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
+            return $this->json([
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                    ],
+                ],
+            ], ($exc->getCode() == 5) ?
+                JsonResponse::HTTP_REQUEST_TIMEOUT :
+                (($exc->getCode() == 3) ?
+                    JsonResponse::HTTP_UNAUTHORIZED :
+                        (($exc->getCode() === 2) ?
+                            JsonResponse::HTTP_FORBIDDEN :
+                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR))
             );
         }
     }

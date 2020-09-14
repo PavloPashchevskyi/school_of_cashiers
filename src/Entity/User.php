@@ -40,6 +40,11 @@ class User
      */
     private $attempts;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link;
+
     public function __construct()
     {
         $this->attempts = new ArrayCollection();
@@ -134,6 +139,18 @@ class User
                 $attempt->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }

@@ -3,31 +3,20 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Entity\Attempt;
 use App\Entity\User;
-use App\Repository\AttemptRepository;
-use App\Repository\TestRepository;
 use App\Repository\UserRepository;
-use DateTime;
 
 class UserService
 {
     /** @var UserRepository */
     private $userRepository;
-
-    /** @var TestRepository */
-    private $testRepository;
-
-    /** @var AttemptRepository */
-    private $attemptRepository;
-
+    
+    /** @const string */
     private const ATTEMPT_HOST = 'https://school1.kitgroup.org';
 
-    public function __construct(UserRepository $userRepository, TestRepository $testRepository, AttemptRepository $attemptRepository)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->testRepository = $testRepository;
-        $this->attemptRepository = $attemptRepository;
     }
 
     /**
@@ -45,7 +34,7 @@ class UserService
                 'name' => $user->getName(),
                 'city' => $user->getCity(),
                 'phone' => $user->getPhone(),
-                'attempts_quantity' => $user->getAttempts()->count(),
+                'link' => $user->getLink(),
             ];
         }
         
@@ -54,11 +43,11 @@ class UserService
 
     /**
      * @param array $data
-     * @return array
+     * @return int
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function store(array $data): array
+    public function store(array $data): int
     {
         $user = new User();
         $user->setName($data['name']);
@@ -66,35 +55,10 @@ class UserService
         $user->setPhone($data['phone']);
 
         $this->userRepository->store($user);
-
-        // create attempt
-        $tests = $this->testRepository->findAll();
-        $result = [];
-        foreach ($tests as $i => $test) {
-            $attempt = new Attempt();
-            $attempt->setUser($user);
-            $attempt->setTest($test);
-            $this->attemptRepository->preSave($attempt);
-            if (empty($attempt->getId())) {
-                $this->attemptRepository->save();
-            }
-            $result[$i] = [
-                'attempt_id' => $attempt->getId(),
-                'current_date' => (new DateTime())->format('Ymd'),
-                'user' => $this->userRepository->getUserInfo($attempt->getUser()),
-            ];
-            $result[$i]['test'] = $this->testRepository->getTestInfo($attempt->getTest());
-
-            $signature = md5(json_encode($result[$i]));
-            $link = self::ATTEMPT_HOST.'/cashier/'.$result[$i]['attempt_id'].'/'.$signature;
-
-            $attempt->setLink($link);
-            $this->attemptRepository->preSave($attempt);
-            $result[$i]['link'] = $link;
-        }
-
-        $this->attemptRepository->save();
+        $link = self::ATTEMPT_HOST.'/cashier/'.$user->getId();
+        $user->setLink($link);
+        $this->userRepository->store($user);
         
-        return $result;
+        return $user->getId();
     }
 }

@@ -8,6 +8,7 @@ use App\Repository\TestRepository;
 use App\Repository\AttemptRepository;
 use App\Repository\AnswerRepository;
 use App\Entity\User;
+use App\Entity\Test;
 use Exception;
 use App\Entity\Attempt;
 use App\Entity\Question;
@@ -127,6 +128,47 @@ class AttemptService
     }
     
     /**
+     * @param array $dataToFindBy
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function prepare(array $dataToFindBy): array
+    {
+        $user = $this->userRepository->find($dataToFindBy['guestId']);
+        $test = $this->testRepository->find($dataToFindBy['testId']);
+
+        if (!($user instanceof User)) {
+            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
+        }
+        if (!($test instanceof Test)) {
+            throw new Exception('Тест с таким ID НЕ найден', 1);
+        }
+        /** @var Attempt[] $attempts */
+        $attempts = $this->attemptRepository->findBy(['user' => $user, 'test' => $test,]);
+        $factUserAttemptsCount = count($attempts);
+        $allowedUserAttemptsCount = $test->getMaximumAttemptsQuantity();
+        if ($factUserAttemptsCount < $allowedUserAttemptsCount) {
+            $attempt = new Attempt();
+            $attempt->setUser($user);
+            $attempt->setTest($test);
+
+            $this->attemptRepository->store($attempt);
+
+            $result = [
+                'attempt_id' => $attempt->getId(),
+                'current_date' => (new DateTime())->format('Ymd'),
+                'user' => $this->userRepository->getUserInfo($attempt->getUser()),
+                'test' => $this->testRepository->getTestInfo($attempt->getTest()),
+            ];
+            
+            return $result;
+        }
+        
+        throw new Exception('Вам больше НЕ разрешено предпринимать попытку сдать этот тест! Количество попыток исчерпано!', 2);
+    }
+    
+    /**
      * 
      * @param int $attemptId
      * @param int $currentStage
@@ -209,6 +251,68 @@ class AttemptService
         $results['status'] = ($results['won_percentage'] >= 74);
         
         return $results;
+    }
+    
+    /**
+     * 
+     * @param int $userId
+     * @param string $testName
+     * @return array
+     * @throws Exception
+     */
+    public function getUserAttemptsByTestName(int $userId, string $testName): array
+    {
+        $user = $this->userRepository->find($userId);
+        $test = $this->testRepository->findOneBy(['name' => $testName]);
+
+        if (!($user instanceof User)) {
+            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
+        }
+        if (!($test instanceof Test)) {
+            throw new Exception('Тест с таким названием НЕ найден', 1);
+        }
+        
+        /** @var Attempt[] $attempts */
+        $attempts = $this->attemptRepository->findBy(['user' => $user, 'test' => $test,]);
+        $remainingAttemptsQuantity = $test->getMaximumAttemptsQuantity() - count($attempts);
+        $result = [
+            'remaining_attempts_quantity' => $remainingAttemptsQuantity,
+            'questions' => [],
+        ];
+        if (empty($attempts)) {
+            $questionsList = $test->getQuestions();
+            $result['test_name'] = $test->getName();
+            foreach ($questionsList as $i => $question) {
+                $result['questions'][$i] = [
+                    'id' => $question->getId(),
+                    'text' => $question->getText(),
+                    'variants' => [],
+                ];
+                /** @var Variant $variant */
+                foreach ($question->getVariants() as $variant) {
+                    $result['questions'][$i]['variants'][$variant->getId()] = $variant->getText();
+                }
+            }
+            return $result;
+        }
+        foreach ($attempts as $attempt) {
+            /** @var Question[] $questionsList */
+            $questionsList = $attempt->getTest()->getQuestions();
+            $result['test_name'] = $attempt->getTest()->getName();
+            foreach ($questionsList as $i => $question) {
+                $result['questions'][$i] = [
+                    'id' => $question->getId(),
+                    'text' => $question->getText(),
+                    'variants' => [],
+                ];
+                /** @var Variant $variant */
+                foreach ($question->getVariants() as $variant) {
+                    $result['questions'][$i]['variants'][$variant->getId()] = $variant->getText();
+                }
+            }
+        }
+        
+        return $result;
     }
 
 
