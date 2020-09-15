@@ -118,7 +118,7 @@ class AttemptService
                 'wrong_answers_quantity' => $quizResults['losed'],
                 'right_answers_percentage' => $quizResults['won_percentage'],
                 'wrong_answers_percentage' => $quizResults['losed_percentage'],
-                'points_quantoity' => $attempt->getNumberOfPoints(),
+                'points_quantity' => $attempt->getNumberOfPoints(),
                 'status' => $quizResults['status'],
                 'questions_quantity' => $quizResults['questions_quantity'],
             ];
