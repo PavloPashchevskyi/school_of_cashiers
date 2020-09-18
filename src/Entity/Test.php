@@ -41,7 +41,7 @@ class Test
     private $maximumAttemptsQuantity = 5;
 
     /**
-     * @ORM\Column(type="string", length=10, unique=true)
+     * @ORM\Column(type="string", length=10, nullable=true, unique=true)
      */
     private $type;
 
@@ -122,12 +122,12 @@ class Test
         return $this;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 
