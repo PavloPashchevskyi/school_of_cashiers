@@ -28,9 +28,31 @@ class AttemptController extends AbstractController
 
     /**
      * @Route("/api/attempts", methods={"POST"})
-     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="hr_id",
+     *             type="integer",
+     *             description="ID of HR-manager supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="User`s API token"
+     *         )
+     *     )
+     * )
      *
      * @SWG\Response(
      *     response="200",
@@ -105,9 +127,31 @@ class AttemptController extends AbstractController
     /**
      * @Route("/api/attempts/{guestId}", methods={"POST"})
      * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="ID of User, which attempts are needed of")
-     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="hr_id",
+     *             type="integer",
+     *             description="ID of HR-manager supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="User`s API token"
+     *         )
+     *     )
+     * )
      * 
      * @SWG\Response(
      *     response="200",
@@ -183,9 +227,31 @@ class AttemptController extends AbstractController
     /**
      * @Route("/api/guest/details/{guestId}", methods={"POST"})
      * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="User's ID")
-     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="hr_id",
+     *             type="integer",
+     *             description="ID of HR-manager supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="User`s API token"
+     *         )
+     *     )
+     * )
      * 
      * @SWG\Response(
      *     response="200",
@@ -376,9 +442,31 @@ class AttemptController extends AbstractController
      * @Route("/api/{guestId}/{testId}/attempt/prepare", methods={"POST"})
      * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="User's ID")
      * @SWG\Parameter(name="testId", in="path", required=true, type="integer", description="ID of test")
-     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="hr_id",
+     *             type="integer",
+     *             description="ID of HR-manager supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="User`s API token"
+     *         )
+     *     )
+     * )
      *
      * @SWG\Response(
      *     response="200",

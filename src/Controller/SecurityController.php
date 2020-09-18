@@ -25,8 +25,25 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/api/login", methods={"POST", "OPTIONS"})
-     * @SWG\Parameter(name="email", in="body", required=true, description="HR`s E-mail to log in", @SWG\Schema(type="string", maxLength=180))
-     * @SWG\Parameter(name="password", in="body", type="string", required=true, description="HR`s password", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="email",
+     *             type="string",
+     *             maxLength=180,
+     *             description="HR`s E-mail"
+     *         ),
+     *         @SWG\Property(
+     *             property="password",
+     *             type="string",
+     *             description="HR`s password"
+     *         )
+     *     )
+     * )
      *
      * @SWG\Response(
      *     response="200",
