@@ -545,13 +545,18 @@ class AttemptController extends AbstractController
      * @Route("/api/cashier/{attemptId}/{token}", methods={"POST"})
      * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of User`s attempt to test", @SWG\Schema(type="integer"))
      * @SWG\Parameter(name="token", in="path", type="string", required=true, description="User`s API token", @SWG\Schema(type="string"))
-     * @SWG\Parameter(name="current_stage_id", in="body", required=true, type="integer", description="User`s current stage", @SWG\Schema(type="integer"))
      * @SWG\Parameter(
-     *     name="answers",
+     *     name="stage_id_and_actions",
      *     in="body",
-     *     required=false,
-     *     description="Answers of User",
+     *     required=true,
+     *     description="Stage ID and actions",
      *     @SWG\Schema(
+     *         @SWG\Property(
+     *             property="current_stage_id",
+     *             type="integer",
+     *             description="User`s current stage",
+     *             example=3
+     *         ),
      *         @SWG\Property(
      *             property="answers",
      *             type="array",

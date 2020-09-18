@@ -28,12 +28,52 @@ class UserController extends AbstractController
 
     /**
      * @Route("/api/guest/add", methods={"POST"})
-     * @SWG\Parameter(name="name", in="body", required=true, description="User's name", @SWG\Schema(type="string", maxLength=30))
-     * @SWG\Parameter(name="city", in="body", required=true, description="User's city", @SWG\Schema(type="string", maxLength=30))
-     * @SWG\Parameter(name="phone", in="body", required=true, description="User's phone", @SWG\Schema(type="string", maxLength=15))
-     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_and_guest_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="name",
+     *             type="string",
+     *             maxLength=80,
+     *             description="User's name",
+     *             example="Иванов Иван Иванович"
+     *         ),
+     *         @SWG\Property(
+     *             property="city",
+     *             type="string",
+     *             maxLength=30,
+     *             description="User's city",
+     *             example="Киев"
+     *         ),
+     *         @SWG\Property(
+     *             property="phone",
+     *             type="string",
+     *             maxLength=15,
+     *             description="User's phone",
+     *             example="+380441234544"
+     *         ),
+     *         @SWG\Property(
+     *             property="hr_id",
+     *             type="integer",
+     *             description="ID of HR-manager supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="User`s API token"
+     *         )
+     *     )
+     * )
      *
      * @SWG\Response(
      *     response="200",
@@ -107,9 +147,31 @@ class UserController extends AbstractController
 
     /**
      * @Route("/api/guests", methods={"POST"})
-     * @SWG\Parameter(name="hr_id", in="body", required=true, description="ID of HR-manager supposedly logged in", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="timestamp", in="body", required=true, description="When request was sent", @SWG\Schema(type="integer"))
-     * @SWG\Parameter(name="token", in="body", required=true, description="User`s API token", @SWG\Schema(type="string"))
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="hr_id",
+     *             type="integer",
+     *             description="ID of HR-manager supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="User`s API token"
+     *         )
+     *     )
+     * )
      *
      * @SWG\Response(
      *     response="200",
