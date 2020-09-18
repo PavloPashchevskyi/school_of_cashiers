@@ -40,6 +40,11 @@ class Test
      */
     private $maximumAttemptsQuantity = 5;
 
+    /**
+     * @ORM\Column(type="string", length=10, unique=true)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -113,6 +118,18 @@ class Test
     public function setMaximumAttemptsQuantity(int $maximumAttemptsQuantity = 5): self
     {
         $this->maximumAttemptsQuantity = $maximumAttemptsQuantity;
+
+        return $this;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

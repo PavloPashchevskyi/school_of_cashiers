@@ -35,10 +35,10 @@ class TestController extends AbstractController
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(
-     *             property="test_name",
+     *             property="type",
      *             type="string",
-     *             description="Name of the Test",
-     *             example="валюта"
+     *             description="Type of the Test",
+     *             example="currency"
      *         )
      *     )
      * )
@@ -75,7 +75,7 @@ class TestController extends AbstractController
     {
         try {
             $requestData = json_decode($request->getContent(), true);
-            $responseData = $this->testService->questions($requestData['test_name']);
+            $responseData = $this->testService->questions($requestData['type']);
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',

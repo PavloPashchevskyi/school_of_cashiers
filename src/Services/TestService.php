@@ -23,12 +23,12 @@ class TestService
     }
 
 
-    public function questions(string $testName): array
+    public function questions(string $testType): array
     {
-        $test = $this->testRepository->findOneBy(['name' => $testName]);
+        $test = $this->testRepository->findOneBy(['type' => $testType]);
         
         if (!($test instanceof Test)) {
-            throw new Exception('Тест с таким ID НЕ найден', 1);
+            throw new Exception('Тест такого типа НЕ найден', 1);
         }
         
         $commonTestData = $this->testRepository->getTestInfo($test);
