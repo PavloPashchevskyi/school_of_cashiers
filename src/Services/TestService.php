@@ -41,6 +41,8 @@ class TestService
                 'question_id' => $question->getId(),
                 'text' => $question->getText(),
                 'field_type' => ($rvq > 1) ? 1 : 0,
+                'value' => ($rvq > 1) ? [] : '',
+                'error' => null,
                 'variants' => [],
             ];
             /** @var \App\Entity\Variant $variant */
