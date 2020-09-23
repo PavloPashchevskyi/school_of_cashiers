@@ -35,8 +35,8 @@ class Test
      */
     private $questions;
 
-   /** 
-    * @ORM\Column(type="string", length=10, nullable=true, unique=true) 
+   /**
+    * @ORM\Column(type="string", length=10, nullable=true, unique=true)
     */
     private $type;
 
