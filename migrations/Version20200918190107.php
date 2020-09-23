@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200918065301 extends AbstractMigration
+final class Version20200918190107 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,7 +20,7 @@ final class Version20200918065301 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE test ADD type VARCHAR(10) NOT NULL');
+        $this->addSql('ALTER TABLE test ADD type VARCHAR(10) DEFAULT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_D87F7E0C8CDE5729 ON test (type)');
     }
 
