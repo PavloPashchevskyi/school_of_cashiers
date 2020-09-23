@@ -36,11 +36,6 @@ class Test
     private $questions;
 
     /**
-     * @ORM\Column(type="smallint", options={"default": 5})
-     */
-    private $maximumAttemptsQuantity = 5;
-
-    /**
      * @ORM\Column(type="string", length=10, unique=true)
      */
     private $type;
@@ -106,18 +101,6 @@ class Test
                 $question->setTest(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getMaximumAttemptsQuantity(): int
-    {
-        return $this->maximumAttemptsQuantity;
-    }
-
-    public function setMaximumAttemptsQuantity(int $maximumAttemptsQuantity = 5): self
-    {
-        $this->maximumAttemptsQuantity = $maximumAttemptsQuantity;
 
         return $this;
     }

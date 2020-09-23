@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -41,9 +42,29 @@ class User
     private $attempts;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="json")
      */
-    private $link;
+    private $profile = [];
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $login;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     */
+    private $apiToken;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $apiTokenValidUntil;
 
     public function __construct()
     {
@@ -143,15 +164,83 @@ class User
         return $this;
     }
 
-    public function getLink(): ?string
+    public function getProfile(): array
     {
-        return $this->link;
+        return $this->profile;
     }
 
-    public function setLink(?string $link): self
+    public function setProfile(array $profile): self
     {
-        $this->link = $link;
+        $this->profile = $profile;
 
         return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+    
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(?string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
+
+        return $this;
+    }
+
+    public function getApiTokenValidUntil(): ?int
+    {
+        return $this->apiTokenValidUntil;
+    }
+
+    public function setApiTokenValidUntil(?int $apiTokenValidUntil): self
+    {
+        $this->apiTokenValidUntil = $apiTokenValidUntil;
+
+        return $this;
+    }
+    
+    public function getSalt()
+    {
+        return '';
+    }
+
+
+    public function eraseCredentials()
+    {    
+    }
+    
+    public function getRoles(): array
+    {
+        return [];
+    }
+    
+    public function getUsername()
+    {
+        return $this->login;
     }
 }

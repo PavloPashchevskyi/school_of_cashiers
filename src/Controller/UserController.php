@@ -56,6 +56,10 @@ class UserController extends AbstractController
      *             example="+380441234544"
      *         ),
      *         @SWG\Property(
+     *             property="guest_data",
+     *             type="object"
+     *         ),
+     *         @SWG\Property(
      *             property="hr_id",
      *             type="integer",
      *             description="ID of HR-manager supposedly logged in",
@@ -145,6 +149,279 @@ class UserController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/api/guest/login", methods={"POST"})
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="login",
+     *             type="string",
+     *             maxLength=255,
+     *             description="Guest`s login"
+     *         ),
+     *         @SWG\Property(
+     *             property="password",
+     *             type="string",
+     *             description="Guest`s password"
+     *         )
+     *     )
+     * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Guest has been logged in successfully",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
+     *     @SWG\Parameter(name="guest_id", type="integer", description="ID of Guest logged in", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="token", type="string", description="Guest`s token", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of an error (if NOT 0, than error occured)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of an error", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
+    {
+        try {
+            $authenticationData = json_decode($request->getContent(), true);
+            $authenticationResult = $this->userService->authenticate($authenticationData);
+            if (empty($authenticationResult)) {
+                return $this->json([
+                    'code' => 2,
+                    'message' => 'Данные аутентификации НЕ верны!',
+                ], JsonResponse::HTTP_UNAUTHORIZED);
+            }
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+                'guest_id' => $authenticationResult['guest_id'],
+                'token' => $authenticationResult['token'],
+            ], JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
+            return $this->json([
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                        ],
+                    ],
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    /**
+     * @Route("/api/guest/auth/check", methods={"POST"})
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="guest_id",
+     *             type="integer",
+     *             description="ID of Guest supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="Guest`s API token"
+     *         )
+     *     )
+     * )
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Guest is logged in",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function check(Request $request): JsonResponse
+    {
+        try {
+            $data = json_decode($request->getContent(), true);
+            $authenticationData = $this->userService->check($data);
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+                'guest_id' => $authenticationData['guest_id'],
+                'token' => $authenticationData['token'],
+            ], JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
+            return $this->json(
+                    [
+                        'errors' => [
+                            'server' => [
+                                'code' => $exc->getCode(),
+                                'message' => $exc->getMessage(),
+                                'trace' => $exc->getTrace(),
+                            ],
+                        ],
+                    ],
+                    ($exc->getCode() === 3) ?
+                    JsonResponse::HTTP_UNAUTHORIZED :
+                    (($exc->getCode() === 5) ?
+                            JsonResponse::HTTP_REQUEST_TIMEOUT :
+                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+                );
+        }
+    }
+
+    /**
+     * @Route("/api/guest/logout", methods={"POST"})
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="guest_id",
+     *             type="integer",
+     *             description="ID of Guest supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="Guest`s API token"
+     *         )
+     *     )
+     * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Guest has been logged out successfully",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        try {
+            $data = json_decode($request->getContent(), true);
+            $this->userService->check($data);
+            $logoutResult = $this->userService->logout($data);
+            return $this->json($logoutResult, JsonResponse::HTTP_OK);
+        } catch (Throwable $exc) {
+            return $this->json([
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                    ],
+                ],
+            ],
+                ($exc->getCode() == 5) ?
+                    JsonResponse::HTTP_REQUEST_TIMEOUT :
+                    (($exc->getCode() == 3) ?
+                        JsonResponse::HTTP_UNAUTHORIZED :
+                        JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
+    }
+    
     /**
      * @Route("/api/guests", methods={"POST"})
      * @SWG\Parameter(

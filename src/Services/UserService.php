@@ -5,18 +5,103 @@ namespace App\Services;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use DateTime;
+use Exception;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserService
 {
     /** @var UserRepository */
     private $userRepository;
     
-    /** @const string */
-    private const ATTEMPT_HOST = 'https://school1.kitgroup.org';
+    /** @var UserPasswordEncoderInterface */
+    private $passwordEncoder;
+    
+    private const TOKEN_TTL = 1800;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->userRepository = $userRepository;
+        $this->passwordEncoder = $passwordEncoder;
+    }
+    
+    /**
+     * 
+     * @param array $authenticationData
+     * @return array
+     * @throws Exception
+     */
+    public function authenticate(array $authenticationData): array
+    {
+        $guest = $this->userRepository->findOneBy(['login' => $authenticationData['login']]);
+
+        if (!($guest instanceof User)) {
+            throw new Exception('Пользователь с таким login-ом НЕ найден!', 1);
+        }
+
+        $result = [];
+        if ($this->passwordEncoder->isPasswordValid($guest, $authenticationData['password'])) {
+            $token = md5(json_encode(['guest_id' => $guest->getId(),]));
+            $result = [
+                'guest_id' => $guest->getId(),
+                'token' => $token,
+            ];
+
+            $guest->setApiToken($token);
+            $currentTimestamp = (new DateTime())->format('U');
+            $guest->setApiTokenValidUntil($currentTimestamp + self::TOKEN_TTL);
+            $this->userRepository->store($guest);
+        }
+
+        return $result;
+    }
+    
+    /**
+     * 
+     * @param array $authData
+     * @return array
+     * @throws Exception
+     */
+    public function check(array $authData): array
+    {
+        // check timestamps
+        $currentTimestamp = (new DateTime())->format('U');
+        if ($currentTimestamp - $authData['timestamp'] > 5) {
+            throw new Exception('Превышен интервал ожидания для запроса', 5);
+        }
+
+        // check ID of HR-manager
+        $guest = $this->userRepository->find($authData['guest_id']);
+        if (!($guest instanceof User)) {
+            throw new Exception('Пользователь НЕ авторизован или время сеанса истекло!', 3);
+        }
+
+        if ($guest->getApiToken() !== $authData['token'] || $guest->getApiTokenValidUntil() < $currentTimestamp) {
+            throw new Exception('Пользователь НЕ авторизован или время сеанса истекло!', 3);
+        }
+        
+        return [
+            'guest_id' => $authData['guest_id'],
+            'token' => $authData['token'],
+        ];
+    }
+    
+    /**
+     * 
+     * @param array $authData
+     * @return array
+     */
+    public function logout(array $authData): array
+    {
+        $guest = $this->userRepository->find($authData['guest_id']);
+        $guest->setApiToken(null);
+        $guest->setApiTokenValidUntil(null);
+        $this->userRepository->store($guest);
+
+        return [
+            'code' => 0,
+            'message' => 'OK',
+        ];
     }
 
     /**
@@ -34,7 +119,8 @@ class UserService
                 'name' => $user->getName(),
                 'city' => $user->getCity(),
                 'phone' => $user->getPhone(),
-                'link' => $user->getLink(),
+                'login' => $user->getLogin(),
+                'guest_data' => $user->getProfile(),
             ];
         }
         
@@ -54,9 +140,12 @@ class UserService
         $user->setCity($data['city']);
         $user->setPhone($data['phone']);
 
-        $this->userRepository->store($user);
-        $link = self::ATTEMPT_HOST.'/cashier/'.$user->getId();
-        $user->setLink($link);
+        $user->setLogin('guest_'.(new DateTime())->format('U'));
+        
+        $encodedPassword = $this->passwordEncoder->encodePassword($user, 'guestpasswd_');
+        $user->setPassword($encodedPassword);
+        
+        $user->setProfile($data['guest_data']);
         $this->userRepository->store($user);
         
         return $user->getId();

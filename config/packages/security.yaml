@@ -2,6 +2,8 @@ security:
     encoders:
         App\Entity\Admin:
             algorithm: auto
+        App\Entity\User:
+            algorithm: auto
 
 
     enable_authenticator_manager: true
@@ -12,6 +14,10 @@ security:
             entity:
                 class: App\Entity\Admin
                 property: email
+        app_guest_provider:
+            entity:
+                class: App\Entity\User
+                property: login
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
