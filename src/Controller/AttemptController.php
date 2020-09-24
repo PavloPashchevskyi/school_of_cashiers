@@ -230,64 +230,19 @@ class AttemptController extends AbstractController
     }
     
     /**
-     * @Route("/api/guest/details/{guestId}", methods={"POST"})
-     * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="User's ID")
-     * @SWG\Parameter(
-     *     name="auth_details",
-     *     in="body",
-     *     required=true,
-     *     @SWG\Schema(
-     *         type="object",
-     *         @SWG\Property(
-     *             property="hr_id",
-     *             type="integer",
-     *             description="ID of HR-manager supposedly logged in",
-     *             example=1
-     *         ),
-     *         @SWG\Property(
-     *             property="timestamp",
-     *             type="integer",
-     *             description="When request was sent",
-     *             example=1147234007
-     *         ),
-     *         @SWG\Property(
-     *             property="token",
-     *             type="string",
-     *             description="User`s API token"
-     *         )
-     *     )
-     * )
+     * @Route("/api/guest/details/{guestId}", methods={"GET"})
+     * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="Guest's ID")
      * 
      * @SWG\Response(
      *     response="200",
-     *     description="Returns list of user`s attempts in details",
+     *     description="Returns list of guest`s attempts in details",
      *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
      *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string")),
      *     @SWG\Parameter(name="data", type="array", description="Array of user`s attempts described in details", @SWG\Schema(type="array"))
      * )
      * @SWG\Response(
      *     response="400",
-     *     description="Incorrect User ID in request",
-     *     @SWG\Parameter(
-     *         name="errors",
-     *         type="array",
-     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
-     *         @SWG\Schema(type="array")
-     *     )
-     * )
-     * @SWG\Response(
-     *     response="401",
-     *     description="incorrect authentication data",
-     *     @SWG\Parameter(
-     *         name="errors",
-     *         type="array",
-     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
-     *         @SWG\Schema(type="array")
-     *     )
-     * )
-     * @SWG\Response(
-     *     response="408",
-     *     description="Request timed out",
+     *     description="Incorrect Guest ID in request",
      *     @SWG\Parameter(
      *         name="errors",
      *         type="array",
@@ -297,7 +252,7 @@ class AttemptController extends AbstractController
      * )
      * @SWG\Response(
      *     response="500",
-     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     description="An exception has been thrown and it is NOT because of incorrect Guest ID",
      *     @SWG\Parameter(
      *         name="errors",
      *         type="array",
@@ -312,8 +267,6 @@ class AttemptController extends AbstractController
     public function detailedUserAttempts(Request $request): JsonResponse
     {
         try {
-            $data = json_decode($request->getContent(), true);
-            $this->adminService->check($data);
             $attemptsList = $this->attemptService->getUserAttemptsDetails($request->attributes->getInt('guestId'));
             return $this->json([
                 'code' => 0,
@@ -329,14 +282,10 @@ class AttemptController extends AbstractController
                         'trace' => $exc->getTrace(),
                     ],
                 ],
-            ],
-                ($exc->getCode() == 5) ?
-                    JsonResponse::HTTP_REQUEST_TIMEOUT :
-                    (($exc->getCode() == 3) ?
-                        JsonResponse::HTTP_UNAUTHORIZED :
-                            (($exc->getCode() == 1) ?
+            ], 
+                    (($exc->getCode() == 1) ?
                                 JsonResponse::HTTP_BAD_REQUEST :
-                                JsonResponse::HTTP_INTERNAL_SERVER_ERROR))
+                                JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
             );
         }
     }
