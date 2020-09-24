@@ -519,4 +519,105 @@ class UserController extends AbstractController
             );
         }
     }
+    
+    /**
+     * @Route("/api/guest/learningstatus/update", methods={"POST"})
+     * @SWG\Parameter(
+     *     name="auth_details",
+     *     in="body",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="guest_id",
+     *             type="integer",
+     *             description="ID of Guest supposedly logged in",
+     *             example=1
+     *         ),
+     *         @SWG\Property(
+     *             property="timestamp",
+     *             type="integer",
+     *             description="When request was sent",
+     *             example=1147234007
+     *         ),
+     *         @SWG\Property(
+     *             property="token",
+     *             type="string",
+     *             description="Guest`s API token"
+     *         ),
+     *         @SWG\Property(
+     *             property="guest_data",
+     *             type="object"
+     *         )
+     *     )
+     * )
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Guest data have been updated successfully",
+     *     @SWG\Parameter(name="code", type="integer", description="Code of API response (if 0, than OK)", @SWG\Schema(type="integer")),
+     *     @SWG\Parameter(name="message", type="string", description="Description of response", @SWG\Schema(type="string"))
+     * )
+     * @SWG\Response(
+     *     response="401",
+     *     description="incorrect authentication data",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="408",
+     *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="500",
+     *     description="An exception has been thrown and it is NOT because of authorization data or deadlines",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateLearningStatuses(Request $request): JsonResponse
+    {
+        try {
+            $data = json_decode($request->getContent(), true);
+            $this->userService->check($data);
+            $this->userService->updateLearningStatuses($data);
+            return $this->json([
+                'code' => 0,
+                'message' => 'OK',
+            ]);
+        } catch (Throwable $exc) {
+            return $this->json([
+                'errors' => [
+                    'server' => [
+                        'code' => $exc->getCode(),
+                        'message' => $exc->getMessage(),
+                        'trace' => $exc->getTrace(),
+                    ],
+                ],
+            ],
+                    ($exc->getCode() == 5) ?
+                    JsonResponse::HTTP_REQUEST_TIMEOUT :
+                    (($exc->getCode() == 3) ?
+                            JsonResponse::HTTP_UNAUTHORIZED :
+                            JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
+    }
 }

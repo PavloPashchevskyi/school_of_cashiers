@@ -150,4 +150,20 @@ class UserService
         
         return $user->getId();
     }
+    
+    public function updateLearningStatuses(array $data): void
+    {
+        $guest = $this->userRepository->find($data['guest_id']);
+        
+        if (!($guest instanceof User)) {
+            throw new Exception('Пользователь с таким ID НЕ найден!', 3);
+        }
+        
+        $existingGuestData = $guest->getProfile();
+        $newGuestData = $data['guest_data']['allMaterials'];
+        $existingGuestData['allMaterials'] = $newGuestData;
+        
+        $guest->setProfile($existingGuestData);
+        $this->userRepository->store($guest);
+    }
 }
