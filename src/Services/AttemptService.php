@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Repository\TestRepository;
 use App\Repository\AttemptRepository;
 use App\Repository\AnswerRepository;
+use App\Repository\VariantRepository;
 use App\Entity\User;
 use App\Entity\Test;
 use Exception;
@@ -29,17 +30,22 @@ class AttemptService
     
     /** @var AnswerRepository */
     private $answerRepository;
+    
+    /** @var VariantRepository */
+    private $variantRepository;
 
     public function __construct(
         UserRepository $userRepository,
         TestRepository $testRepository,
         AttemptRepository $attemptRepository,
-        AnswerRepository $answerRepository
+        AnswerRepository $answerRepository,
+        VariantRepository $variantRepository
     ) {
         $this->userRepository = $userRepository;
         $this->testRepository = $testRepository;
         $this->attemptRepository = $attemptRepository;
         $this->answerRepository = $answerRepository;
+        $this->variantRepository = $variantRepository;
     }
 
     public function getUsersAttempts(): array
@@ -128,46 +134,50 @@ class AttemptService
     }
     
     /**
-     * @param array $dataToFindBy
+     * 
+     * @param array $answers
      * @return array
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws Exception
      */
-    public function prepare(array $dataToFindBy): array
+    public function calculateUserResultsAndRegisterAttempt(array $answers): array
     {
-//        $user = $this->userRepository->find($dataToFindBy['guestId']);
-//        $test = $this->testRepository->find($dataToFindBy['testId']);
-//
-//        if (!($user instanceof User)) {
-//            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
-//        }
-//        if (!($test instanceof Test)) {
-//            throw new Exception('Тест с таким ID НЕ найден', 1);
-//        }
-//        /** @var Attempt[] $attempts */
-//        $attempts = $this->attemptRepository->findBy(['user' => $user, 'test' => $test,]);
-//        $factUserAttemptsCount = count($attempts);
-//        $allowedUserAttemptsCount = $test->getMaximumAttemptsQuantity();
-//        if ($factUserAttemptsCount < $allowedUserAttemptsCount) {
-//            $attempt = new Attempt();
-//            $attempt->setUser($user);
-//            $attempt->setTest($test);
-//
-//            $this->attemptRepository->store($attempt);
-//
-//            $result = [
-//                'attempt_id' => $attempt->getId(),
-//                'current_date' => (new DateTime())->format('Ymd'),
-//                'user' => $this->userRepository->getUserInfo($attempt->getUser()),
-//                'test' => $this->testRepository->getTestInfo($attempt->getTest()),
-//            ];
-//            
-//            return $result;
-//        }
+        $guest = $this->userRepository->find($answers['guest_id']);
+        if (!($guest instanceof User)) {
+            throw new Exception('Пользователь с таким ID НЕ найден!', 1);
+        }
+        $testData = $answers['data'];
+        $test = $this->testRepository->find($testData['id']);
+        if (!($test instanceof Test)) {
+            throw new Exception('Тест с таким ID НЕ найден', 1);
+        }
         
-        return [];
+        $guestData = $guest->getProfile();
+        $attemptsQuantityKey = $test->getType().'Attempts';
+        if ($guestData[$attemptsQuantityKey] == 0) {
+            throw new Exception('Вам больше НЕ разрешено предпринимать попытку сдать этот тест! Количество попыток исчерпано!', 2);
+        }
+        $attempt = new Attempt();
+        $attempt->setUser($guest);
+        $attempt->setTest($test);
         
-        throw new Exception('Вам больше НЕ разрешено предпринимать попытку сдать этот тест! Количество попыток исчерпано!', 2);
+        $this->attemptRepository->preSave($attempt);
+        
+        foreach ($answers['data']['questions'] as $answerOfUser) {
+            $questionVariants = $answerOfUser['variants'];
+            $userVariantIds = (!is_array($answerOfUser['value'])) ?
+                array_keys($questionVariants, $answerOfUser['value']) :
+                array_keys(array_intersect($questionVariants, $answerOfUser['value']));
+            foreach ($userVariantIds as $userVariantId) {
+                $userVariant = $this->variantRepository->find($userVariantId);
+                $this->prepareAnswerEntity($attempt, $userVariant);
+            }
+        }
+
+        $results = $this->calculateWonAndLosedQuestions($attempt);
+        
+        $this->attemptRepository->save();
+        
+        return $results;
     }
     
     /**

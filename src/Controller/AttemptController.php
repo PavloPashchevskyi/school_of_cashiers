@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\AdminService;
+use App\Services\UserService;
 use App\Services\AttemptService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,13 +18,17 @@ class AttemptController extends AbstractController
     /** @var AdminService */
     private $adminService;
 
+    /** @var UserService */
+    private $userService;
+    
     /** @var AttemptService */
     private $attemptService;
 
-    public function __construct(AttemptService $attemptService, AdminService $adminService)
+    public function __construct(AttemptService $attemptService, AdminService $adminService, UserService $userService)
     {
         $this->attemptService = $attemptService;
         $this->adminService = $adminService;
+        $this->userService = $userService;
     }
 
     /**
@@ -439,9 +444,7 @@ class AttemptController extends AbstractController
     }
 
     /**
-     * @Route("/api/{guestId}/{testId}/attempt/prepare", methods={"POST"})
-     * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="User's ID")
-     * @SWG\Parameter(name="testId", in="path", required=true, type="integer", description="ID of test")
+     * @Route("/api/attempt/register", methods={"POST"})
      * @SWG\Parameter(
      *     name="auth_details",
      *     in="body",
@@ -509,17 +512,16 @@ class AttemptController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function prepare(Request $request): JsonResponse
+    public function register(Request $request): JsonResponse
     {
         try {
-            $authData = json_decode($request->getContent(), true);
-            $this->adminService->check($authData);
-            $dataToFindBy = $request->attributes->all();
-            $prepared = $this->attemptService->prepare($dataToFindBy);
+            $data = json_decode($request->getContent(), true);
+            $this->userService->check($data);
+            $results = $this->attemptService->calculateUserResultsAndRegisterAttempt($data);
             return $this->json([
                 'code' => 0,
                 'message' => 'OK',
-                'data' => $prepared,
+                'data' => $results,
             ], JsonResponse::HTTP_OK);
         } catch (Throwable $exc) {
             return $this->json([
@@ -532,7 +534,7 @@ class AttemptController extends AbstractController
                 ],
             ], ($exc->getCode() == 5) ?
                 JsonResponse::HTTP_REQUEST_TIMEOUT :
-                (($exc->getCode() == 3) ?
+                (($exc->getCode() == 3 || $exc->getCode() === 1) ?
                     JsonResponse::HTTP_UNAUTHORIZED :
                         (($exc->getCode() === 2) ?
                             JsonResponse::HTTP_FORBIDDEN :
