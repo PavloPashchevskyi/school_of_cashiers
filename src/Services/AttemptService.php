@@ -146,14 +146,14 @@ class AttemptService
             throw new Exception('Пользователь с таким ID НЕ найден!', 1);
         }
         $testData = $answers['data'];
-        $test = $this->testRepository->find($testData['id']);
+        $test = $this->testRepository->findOneBy(['type' => $testData['type']]);
         if (!($test instanceof Test)) {
             throw new Exception('Тест с таким ID НЕ найден', 1);
         }
         
         $guestData = $guest->getProfile();
         $attemptsQuantityKey = $test->getType().'Attempts';
-        if ($guestData[$attemptsQuantityKey] == 0) {
+        if ($guestData[$attemptsQuantityKey] <= 0) {
             throw new Exception('Вам больше НЕ разрешено предпринимать попытку сдать этот тест! Количество попыток исчерпано!', 2);
         }
         $attempt = new Attempt();
@@ -177,6 +177,11 @@ class AttemptService
         
         $this->attemptRepository->save();
         
+        // decrease attempts quantity to pass Test for Guest
+        $guestData[$attemptsQuantityKey]--;
+        $guest->setProfile($guestData);
+        $this->userRepository->store($guest);
+
         return $results;
     }
     

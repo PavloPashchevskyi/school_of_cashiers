@@ -452,9 +452,9 @@ class AttemptController extends AbstractController
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(
-     *             property="hr_id",
+     *             property="guest_id",
      *             type="integer",
-     *             description="ID of HR-manager supposedly logged in",
+     *             description="ID of Guest supposedly logged in",
      *             example=1
      *         ),
      *         @SWG\Property(
@@ -466,7 +466,29 @@ class AttemptController extends AbstractController
      *         @SWG\Property(
      *             property="token",
      *             type="string",
-     *             description="User`s API token"
+     *             description="Guest`s API token"
+     *         ),
+     *         @SWG\Property(
+     *             property="data",
+     *             type="object",
+     *             @SWG\Property(
+     *                 property="type",
+     *                 type="string",
+     *                 description="type of the Test",
+     *                 example="currency"
+     *             ),
+     *             @SWG\Property(
+     *                 property="questions",
+     *                 type="array",
+     *                 @SWG\Items(
+     *                     @SWG\Property(property="question_id", type="integer", example=1),
+     *                     @SWG\Property(property="text", type="string", example="вопросы есть?"),
+     *                     @SWG\Property(property="field_type", type="integer", description="if 1, then question has many right answers, else - 0", example=0),
+     *                     @SWG\Property(property="value", type="string", description="variant chosen by user", example="вариант 1"),
+     *                     @SWG\Property(property="error", type="string"),
+     *                     @SWG\Property(property="variants", type="object", example={"161": "вариант 1", "162": "вариант 2"})
+     *                 )
+     *             )
      *         )
      *     )
      * )
