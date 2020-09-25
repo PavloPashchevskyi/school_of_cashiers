@@ -18,6 +18,8 @@ class UserService
     private $passwordEncoder;
     
     private const TOKEN_TTL = 1800;
+    
+    private const PLAIN_GUEST_PASSWORD = 'guestpasswd_';
 
     public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -119,7 +121,8 @@ class UserService
                 'name' => $user->getName(),
                 'city' => $user->getCity(),
                 'phone' => $user->getPhone(),
-                'login' => $user->getLogin(),
+                'guest_login' => $user->getLogin(),
+                'guest_password' => self::PLAIN_GUEST_PASSWORD,
                 'guest_data' => $user->getProfile(),
             ];
         }
@@ -142,7 +145,7 @@ class UserService
 
         $user->setLogin('guest_'.(new DateTime())->format('U'));
         
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, 'guestpasswd_');
+        $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PLAIN_GUEST_PASSWORD);
         $user->setPassword($encodedPassword);
         
         $user->setProfile($data['guest_data']);
