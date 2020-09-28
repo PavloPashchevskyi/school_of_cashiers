@@ -118,6 +118,7 @@ class AttemptService
         $attempts = $user->getAttempts();
         foreach ($attempts as $i => $attempt) {
             $quizResults = $this->calculateWonAndLosedQuestions($attempt);
+            $userProfile = $attempt->getUser()->getProfile();
             $attemptsArray[$i] = [
                 'test' => $attempt->getTest()->getName(),
                 'right_answers_quantity' => $quizResults['won'],
@@ -127,6 +128,8 @@ class AttemptService
                 'points_quantity' => $attempt->getNumberOfPoints(),
                 'status' => $quizResults['status'],
                 'questions_quantity' => $quizResults['questions_quantity'],
+                'user_materials' => $userProfile['allMaterials'],
+                'user_tests' => $userProfile['allTests'],
             ];
         }
         
