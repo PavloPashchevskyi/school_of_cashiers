@@ -113,12 +113,16 @@ class AttemptService
             throw new Exception('Пользователь с таким ID НЕ найден!', 1);
         }
 
+        $userProfile = $user->getProfile();
+        $userResults = [
+            'user_materials' => $userProfile['allMaterials'],
+            'user_tests' => $userProfile['allTests'],
+        ];
         $attemptsArray = [];
         /** @var Attempt[] $attempts */
         $attempts = $user->getAttempts();
         foreach ($attempts as $i => $attempt) {
             $quizResults = $this->calculateWonAndLosedQuestions($attempt);
-            $userProfile = $attempt->getUser()->getProfile();
             $attemptsArray[$i] = [
                 'test' => $attempt->getTest()->getName(),
                 'right_answers_quantity' => $quizResults['won'],
@@ -128,12 +132,11 @@ class AttemptService
                 'points_quantity' => $attempt->getNumberOfPoints(),
                 'status' => $quizResults['status'],
                 'questions_quantity' => $quizResults['questions_quantity'],
-                'user_materials' => $userProfile['allMaterials'],
-                'user_tests' => $userProfile['allTests'],
             ];
+            $attemptsArray[$i] += $userResults;
         }
         
-        return $attemptsArray;
+        return (!empty($attemptsArray)) ? $attemptsArray : $userResults;
     }
     
     /**
