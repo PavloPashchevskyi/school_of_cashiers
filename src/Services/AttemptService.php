@@ -114,16 +114,17 @@ class AttemptService
         }
 
         $userProfile = $user->getProfile();
-        $userResults = [
+        $results = [
             'user_materials' => $userProfile['allMaterials'],
             'user_tests' => $userProfile['allTests'],
+            'attempts' => [],
         ];
-        $attemptsArray = [];
+
         /** @var Attempt[] $attempts */
         $attempts = $user->getAttempts();
         foreach ($attempts as $i => $attempt) {
             $quizResults = $this->calculateWonAndLosedQuestions($attempt);
-            $attemptsArray[$i] = [
+            $results['attempts'][$i] = [
                 'test' => $attempt->getTest()->getName(),
                 'right_answers_quantity' => $quizResults['won'],
                 'wrong_answers_quantity' => $quizResults['losed'],
@@ -133,10 +134,9 @@ class AttemptService
                 'status' => $quizResults['status'],
                 'questions_quantity' => $quizResults['questions_quantity'],
             ];
-            $attemptsArray[$i] += $userResults;
         }
         
-        return (!empty($attemptsArray)) ? $attemptsArray : $userResults;
+        return $results;
     }
     
     /**
