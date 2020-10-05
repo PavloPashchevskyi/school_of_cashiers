@@ -117,8 +117,16 @@ class AttemptService
         $results = [
             'user_materials' => $userProfile['allMaterials'],
             'user_tests' => $userProfile['allTests'],
+            'remaining_attempts_count' => [],
             'attempts' => [],
         ];
+        
+        $tests = $this->testRepository->findAll();
+        /** @var Test $test */
+        foreach ($tests as $test) {
+            $testType = $test->getType();
+            $results['remaining_attempts_count'][$testType] = $userProfile[$testType.'Attempts'];
+        }
 
         /** @var Attempt[] $attempts */
         $attempts = $user->getAttempts();
@@ -184,7 +192,9 @@ class AttemptService
         $this->attemptRepository->save();
         
         // decrease attempts quantity to pass Test for Guest
-        $guestData[$attemptsQuantityKey]--;
+        $guestData[$attemptsQuantityKey] = ($results['won_percentage'] >= 74) ?
+                0 :
+                ($guestData[$attemptsQuantityKey] - 1);
         $guest->setProfile($guestData);
         $this->userRepository->store($guest);
 

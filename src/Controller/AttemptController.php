@@ -230,7 +230,7 @@ class AttemptController extends AbstractController
     }
     
     /**
-     * @Route("/api/guest/details/{guestId}", methods={"GET"})
+     * @Route("/api/guest/details/{guestId}", methods={"POST"})
      * @SWG\Parameter(name="guestId", in="path", required=true, type="integer", description="Guest's ID")
      * 
      * @SWG\Response(
