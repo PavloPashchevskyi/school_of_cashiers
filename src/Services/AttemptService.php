@@ -369,8 +369,8 @@ class AttemptService
                     'question_id' => $question->getId(),
                     'question' => $question->getText(),
                     'question_type' => $question->getType(),
-                    'value' => ($rvq > 1) ? [] : '',
-                    'field_type' => ($rvq > 1) ? 1 : 0,
+                    'value' => ($rvq > 1 || $question->getType() === 2) ? [] : '',
+                    'field_type' => ($question->getType() === 2) ? 2 : (($rvq > 1) ? 1 : 0),
                     'variants' => [],
                 ];
                 foreach ($question->getVariants() as $variant) {

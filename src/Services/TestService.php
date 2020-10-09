@@ -40,8 +40,8 @@ class TestService
             $commonTestData['questions'][$i] = [
                 'question_id' => $question->getId(),
                 'text' => $question->getText(),
-                'field_type' => ($rvq > 1) ? 1 : 0,
-                'value' => ($rvq > 1) ? [] : '',
+                'field_type' => ($question->getType() === 2) ? 2 : (($rvq > 1) ? 1 : 0),
+                'value' => ($rvq > 1 || $question->getType() === 2) ? [] : '',
                 'error' => null,
                 'variants' => [],
             ];
