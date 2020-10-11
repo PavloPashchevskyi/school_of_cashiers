@@ -12,5 +12,5 @@
 /nbproject/
 ###< NetBeans project ###
 ###< Fixtures, which are different in test and prod ###
-/src/DataFixtures/AdminFixture.php
+/src/DataFixtures/__AdminFixture__.php
 ###> Fixtures, which are different in test and prod ###
