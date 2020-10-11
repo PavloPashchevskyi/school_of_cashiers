@@ -174,6 +174,7 @@ class AttemptService
         $attempt = new Attempt();
         $attempt->setUser($guest);
         $attempt->setTest($test);
+        $attempt->setStartTimestamp((int) (new DateTime())->format('U'));
         
         $this->attemptRepository->preSave($attempt);
         
@@ -189,6 +190,7 @@ class AttemptService
         }
 
         $results = $this->calculateWonAndLosedQuestions($attempt);
+        $attempt->setNumberOfPoints($results['won_percentage']);
         $attempt->setEndTimestamp((int) (new DateTime())->format('U'));
         
         $this->attemptRepository->save();
