@@ -141,7 +141,7 @@ class AttemptService
                 'points_quantity' => $attempt->getNumberOfPoints(),
                 'status' => $quizResults['status'],
                 'questions_quantity' => $quizResults['questions_quantity'],
-                'created_at' => $attempt->getCreatedAt(),
+                'end_timestamp' => $attempt->getEndTimestamp(),
             ];
         }
         
@@ -189,6 +189,7 @@ class AttemptService
         }
 
         $results = $this->calculateWonAndLosedQuestions($attempt);
+        $attempt->setEndTimestamp((int) (new DateTime())->format('U'));
         
         $this->attemptRepository->save();
         
