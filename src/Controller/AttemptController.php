@@ -427,6 +427,12 @@ class AttemptController extends AbstractController
      *                 example="currency"
      *             ),
      *             @SWG\Property(
+     *                 property="test_start_timestamp",
+     *                 type="integer",
+     *                 description="When Guest began the Test",
+     *                 example=1602490436
+     *             ),
+     *             @SWG\Property(
      *                 property="questions",
      *                 type="array",
      *                 @SWG\Items(

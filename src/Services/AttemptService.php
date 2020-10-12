@@ -139,8 +139,9 @@ class AttemptService
                 'right_answers_percentage' => $quizResults['won_percentage'],
                 'wrong_answers_percentage' => $quizResults['losed_percentage'],
                 'points_quantity' => $attempt->getNumberOfPoints(),
-                'status' => $quizResults['status'],
+                'status' => ($attempt->getNumberOfPoints() >= 74),
                 'questions_quantity' => $quizResults['questions_quantity'],
+                'start_timestamp' => $attempt->getStartTimestamp(),
                 'end_timestamp' => $attempt->getEndTimestamp(),
             ];
         }
@@ -174,7 +175,7 @@ class AttemptService
         $attempt = new Attempt();
         $attempt->setUser($guest);
         $attempt->setTest($test);
-        $attempt->setStartTimestamp((int) (new DateTime())->format('U'));
+        $attempt->setStartTimestamp((int) $testData['test_start_timestamp']);
         
         $this->attemptRepository->preSave($attempt);
         
@@ -190,10 +191,18 @@ class AttemptService
         }
 
         $results = $this->calculateWonAndLosedQuestions($attempt);
+        $startTimestamp = $testData['test_start_timestamp'];
+        $endTimestamp = (int) (new DateTime())->format('U');
+        $execTimestamp = $endTimestamp - $startTimestamp;
+        $results['won_percentage'] = ($execTimestamp > $test->getMaxTime()) ? 0 : $results['won_percentage'];
+        $attempt->setEndTimestamp($endTimestamp);
         $attempt->setNumberOfPoints($results['won_percentage']);
-        $attempt->setEndTimestamp((int) (new DateTime())->format('U'));
         
         $this->attemptRepository->save();
+        
+        $results['status'] = ($results['won_percentage'] >= 74);
+        $results['start_timestamp'] = $startTimestamp;
+        $results['end_timestamp'] = $endTimestamp;
         
         // decrease attempts quantity to pass Test for Guest
         $guestData[$attemptsQuantityKey] = ($results['won_percentage'] >= 74) ?
@@ -285,7 +294,6 @@ class AttemptService
         $results['questions_quantity'] = $questions->count();
         $results['won_percentage'] = ($results['won'] / $questions->count()) * 100;
         $results['losed_percentage'] = ($results['losed'] / $questions->count()) * 100;
-        $results['status'] = ($results['won_percentage'] >= 74);
         
         return $results;
     }
