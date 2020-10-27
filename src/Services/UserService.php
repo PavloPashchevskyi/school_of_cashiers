@@ -163,8 +163,9 @@ class UserService
         }
         
         $existingGuestData = $guest->getProfile();
-        $newGuestData = $data['guest_data']['allMaterials'];
-        $existingGuestData['allMaterials'] = $newGuestData;
+        $newGuestData = $data['guest_data'];
+        $existingGuestData['allMaterials'] = $newGuestData['allMaterials'];
+        $existingGuestData['allTests'] = $newGuestData['allTests'];
         
         $guest->setProfile($existingGuestData);
         $this->userRepository->store($guest);
