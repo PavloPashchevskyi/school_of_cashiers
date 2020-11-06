@@ -181,12 +181,36 @@ class AttemptService
         
         foreach ($answers['data']['questions'] as $answerOfUser) {
             $questionVariants = $answerOfUser['variants'];
-            $userVariantIds = (!is_array($answerOfUser['value'])) ?
-                array_keys($questionVariants, $answerOfUser['value']) :
-                array_keys(array_intersect($questionVariants, $answerOfUser['value']));
-            foreach ($userVariantIds as $userVariantId) {
-                $userVariant = $this->variantRepository->find($userVariantId);
-                $this->prepareAnswerEntity($attempt, $userVariant);
+            if ($answerOfUser['field_type'] < 2) {
+                $userVariantIds = (!is_array($answerOfUser['value'])) ?
+                    array_keys($questionVariants, $answerOfUser['value']) :
+                    array_keys(array_intersect($questionVariants, $answerOfUser['value']));
+                foreach ($userVariantIds as $userVariantId) {
+                    $userVariant = $this->variantRepository->find($userVariantId);
+                    $this->prepareAnswerEntity($attempt, $userVariant);
+                }
+            } else {
+                // parse user allocation of values
+                $userAllocationValues = explode('|', $answerOfUser['value']);
+                $userAllocationValues = array_map(function ($uaValue) {
+                    return trim($uaValue);
+                }, $userAllocationValues);
+                // search for variants IDs
+                $userVariantIds = [];
+                foreach ($userAllocationValues as $i => $userAllocationValue) {
+                    $userVariantIds[$i + 1] = array_search($userAllocationValue, $questionVariants);
+                }
+                foreach ($userVariantIds as $userVariantOrder => $userVariantId) { 
+                    $userVariant = $this->variantRepository->find($userVariantId);
+                    $answer = new Answer();
+                    $answer->setAttempt($attempt);
+                    $answer->setVariantId($userVariant->getId());
+                    $answer->setValue($userVariantOrder);
+                    $this->answerRepository->preSave($answer);
+                    $attempt->addAnswer($answer);
+                }
+                $this->answerRepository->save();
+                $this->attemptRepository->preSave($attempt);
             }
         }
 
@@ -269,7 +293,7 @@ class AttemptService
                 /** @var Answer $answer */
                 foreach ($answers as $answer) {
                     if ($answer->getVariantId() === $variant->getId()) {
-                        if ($variant->getValue() > 0) {
+                        if ($variant->getValue() > 0 && $variant->getValue() === $answer->getValue()) {
                             $rvq[$question->getId()]++;
                         } else {
                             $wvq[$question->getId()]++;
@@ -359,7 +383,7 @@ class AttemptService
         
         return $result;
     }
-
+    
 
     private function getQuestionsList(Attempt $attempt, int $nextStageId): array
     {

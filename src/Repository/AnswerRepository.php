@@ -18,6 +18,20 @@ class AnswerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Answer::class);
     }
+    
+    /**
+     * 
+     * @param Answer $entity
+     */
+    public function preSave(Answer $entity)
+    {
+        $this->_em->persist($entity);
+    }
+    
+    public function save()
+    {
+        $this->_em->flush();
+    }
 
     /**
      * @param Answer $entity
