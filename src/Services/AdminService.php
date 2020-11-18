@@ -41,7 +41,7 @@ class AdminService
         $admin = $this->adminRepository->findOneBy(['email' => $authenticationData['email']]);
 
         if (!($admin instanceof Admin)) {
-            throw new Exception('HR-менеджер с таким e-mail НЕ найден!', 1);
+            throw new Exception('Email указан неверно', 1);
         }
 
         $result = [];
