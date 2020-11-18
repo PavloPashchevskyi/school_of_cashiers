@@ -218,7 +218,7 @@ class UserController extends AbstractController
             if (empty($authenticationResult)) {
                 return $this->json([
                     'code' => 2,
-                    'message' => 'Данные аутентификации НЕ верны!',
+                    'message' => 'Пароль указан неверно',
                 ], JsonResponse::HTTP_UNAUTHORIZED);
             }
             return $this->json([

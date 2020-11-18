@@ -38,7 +38,7 @@ class UserService
         $guest = $this->userRepository->findOneBy(['login' => $authenticationData['login']]);
 
         if (!($guest instanceof User)) {
-            throw new Exception('Пользователь с таким login-ом НЕ найден!', 1);
+            throw new Exception('Логин указан неверно', 1);
         }
 
         $result = [];
