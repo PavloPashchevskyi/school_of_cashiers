@@ -122,7 +122,7 @@ class UserService
                 'city' => $user->getCity(),
                 'phone' => $user->getPhone(),
                 'guest_login' => $user->getLogin(),
-                'guest_password' => self::PLAIN_GUEST_PASSWORD,
+                'guest_password' => self::PLAIN_GUEST_PASSWORD.$user->getUsername(),
                 'guest_data' => $user->getProfile(),
             ];
         }
@@ -147,10 +147,10 @@ class UserService
         $user->setName($data['name']);
         $user->setCity($data['city']);
         $user->setPhone($data['phone']);
-
+        
         $user->setLogin('guest_'.(new DateTime())->format('U'));
         
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PLAIN_GUEST_PASSWORD);
+        $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PLAIN_GUEST_PASSWORD.$user->getUsername());
         $user->setPassword($encodedPassword);
         
         $user->setProfile($data['guest_data']);

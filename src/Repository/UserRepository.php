@@ -38,6 +38,20 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')->getQuery()->getResult();
     }
+    
+    /**
+     * 
+     * @param User $entity
+     */
+    public function preSave(User $entity)
+    {
+        $this->_em->persist($entity);
+    }
+    
+    public function save()
+    {
+        $this->_em->flush();
+    }
 
     /**
      * @param User $entity
