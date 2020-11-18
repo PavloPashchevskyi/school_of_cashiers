@@ -7,24 +7,17 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use DateTime;
 use Exception;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserService
 {
     /** @var UserRepository */
     private $userRepository;
     
-    /** @var UserPasswordEncoderInterface */
-    private $passwordEncoder;
-    
     private const TOKEN_TTL = 1800;
-    
-    private const PLAIN_GUEST_PASSWORD = 'guestpasswd_';
 
-    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
     }
     
     /**
@@ -42,7 +35,7 @@ class UserService
         }
 
         $result = [];
-        if ($this->passwordEncoder->isPasswordValid($guest, $authenticationData['password'])) {
+        if ($guest->getPassword() === $authenticationData['password']) {
             $token = md5(json_encode(['guest_id' => $guest->getId(),]));
             $result = [
                 'guest_id' => $guest->getId(),
@@ -122,7 +115,7 @@ class UserService
                 'city' => $user->getCity(),
                 'phone' => $user->getPhone(),
                 'guest_login' => $user->getLogin(),
-                'guest_password' => self::PLAIN_GUEST_PASSWORD.$user->getUsername(),
+                'guest_password' => $user->getPassword(),
                 'guest_data' => $user->getProfile(),
             ];
         }
@@ -150,8 +143,7 @@ class UserService
         
         $user->setLogin('guest_'.(new DateTime())->format('U'));
         
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PLAIN_GUEST_PASSWORD.$user->getUsername());
-        $user->setPassword($encodedPassword);
+        $user->setPassword($data['password']);
         
         $user->setProfile($data['guest_data']);
         $this->userRepository->store($user);
