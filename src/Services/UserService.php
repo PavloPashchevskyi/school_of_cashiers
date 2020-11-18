@@ -131,13 +131,18 @@ class UserService
     }
 
     /**
+     * 
      * @param array $data
      * @return int
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws Exception
      */
     public function store(array $data): int
     {
+        $user = $this->userRepository->findOneBy(['name' => $data['name'], 'phone' => $data['phone']]);
+        if ($user instanceof User) {
+            throw new Exception('Такой пользователь уже существует', 4);       
+        }
+
         $user = new User();
         $user->setName($data['name']);
         $user->setCity($data['city']);

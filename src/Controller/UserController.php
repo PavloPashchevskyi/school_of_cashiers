@@ -88,7 +88,7 @@ class UserController extends AbstractController
      * )
      * @SWG\Response(
      *     response="401",
-     *     description="incorrect authentication data",
+     *     description="Incorrect authentication data",
      *     @SWG\Parameter(
      *         name="errors",
      *         type="array",
@@ -99,6 +99,16 @@ class UserController extends AbstractController
      * @SWG\Response(
      *     response="408",
      *     description="Request timed out",
+     *     @SWG\Parameter(
+     *         name="errors",
+     *         type="array",
+     *         description="Array, which only key is 'server' and it contains an array with code and message of thrown exception",
+     *         @SWG\Schema(type="array")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="409",
+     *     description="User already exists",
      *     @SWG\Parameter(
      *         name="errors",
      *         type="array",
@@ -142,9 +152,10 @@ class UserController extends AbstractController
                 ],
             ], ($exc->getCode() == 5) ?
                 JsonResponse::HTTP_REQUEST_TIMEOUT :
+                    (($exc->getCode() === 4) ? JsonResponse::HTTP_CONFLICT :
                 (($exc->getCode() == 3) ?
                     JsonResponse::HTTP_UNAUTHORIZED :
-                    JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+                    JsonResponse::HTTP_INTERNAL_SERVER_ERROR))
             );
         }
     }
