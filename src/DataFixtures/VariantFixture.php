@@ -41,70 +41,70 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variant10Euros);
 
         $variantSecurityThread = new Variant();
-        $variantSecurityThread->setText('защитная нить');
+        $variantSecurityThread->setText('Защитная нить');
         $variantSecurityThread->setValue(0);
         $variantSecurityThread->setQuestion($this->getReference('question-2'));
         $this->addReference('variant-security-thread', $variantSecurityThread);
         $manager->persist($variantSecurityThread);
 
         $variantSoundAndStiffnessOfPaper = new Variant();
-        $variantSoundAndStiffnessOfPaper->setText('звонкость и жесткость бумаги');
+        $variantSoundAndStiffnessOfPaper->setText('Звонкость и жесткость бумаги');
         $variantSoundAndStiffnessOfPaper->setValue(1);
         $variantSoundAndStiffnessOfPaper->setQuestion($this->getReference('question-2'));
         $this->addReference('variant-sound-and-stiffness-of-paper', $variantSoundAndStiffnessOfPaper);
         $manager->persist($variantSoundAndStiffnessOfPaper);
 
         $variantWaterImage = new Variant();
-        $variantWaterImage->setText('водяное изображение (слева лицевой стороны) на белом поле');
+        $variantWaterImage->setText('Водяное изображение (слева лицевой стороны) на белом поле');
         $variantWaterImage->setValue(1);
         $variantWaterImage->setQuestion($this->getReference('question-2'));
         $this->addReference('variant-water-image', $variantWaterImage);
         $manager->persist($variantWaterImage);
 
         $variantHologram = new Variant();
-        $variantHologram->setText('голограмма');
+        $variantHologram->setText('Голограмма');
         $variantHologram->setValue(0);
         $variantHologram->setQuestion($this->getReference('question-2'));
         $this->addReference('variant-hologram', $variantHologram);
         $manager->persist($variantHologram);
 
         $variantLuminescentFibers = new Variant();
-        $variantLuminescentFibers->setText('люминисцирующие волокна');
+        $variantLuminescentFibers->setText('Люминисцирующие волокна');
         $variantLuminescentFibers->setValue(0);
         $variantLuminescentFibers->setQuestion($this->getReference('question-2'));
         $this->addReference('variant-luminescent-fibers', $variantLuminescentFibers);
         $manager->persist($variantLuminescentFibers);
 
         $variantMagneticControl = new Variant();
-        $variantMagneticControl->setText('магнитный контроль');
+        $variantMagneticControl->setText('Магнитный контроль');
         $variantMagneticControl->setValue(0);
         $variantMagneticControl->setQuestion($this->getReference('question-2'));
         $this->addReference('variant-magnetic-control', $variantMagneticControl);
         $manager->persist($variantMagneticControl);
 
         $variantPortraits = new Variant();
-        $variantPortraits->setText('портреты известных людей');
+        $variantPortraits->setText('Портреты известных людей');
         $variantPortraits->setValue(0);
         $variantPortraits->setQuestion($this->getReference('question-3'));
         $this->addReference('variant-portraits', $variantPortraits);
         $manager->persist($variantPortraits);
 
         $variantArchitecturalStructures = new Variant();
-        $variantArchitecturalStructures->setText('архитектурные сооружения');
+        $variantArchitecturalStructures->setText('Архитектурные сооружения');
         $variantArchitecturalStructures->setValue(0);
         $variantArchitecturalStructures->setQuestion($this->getReference('question-3'));
         $this->addReference('variant-architectural-structures', $variantArchitecturalStructures);
         $manager->persist($variantArchitecturalStructures);
 
         $variantAnimals = new Variant();
-        $variantAnimals->setText('изображения животных');
+        $variantAnimals->setText('Изображения животных');
         $variantAnimals->setValue(1);
         $variantAnimals->setQuestion($this->getReference('question-3'));
         $this->addReference('variant-animals', $variantAnimals);
         $manager->persist($variantAnimals);
 
         $variantCoatOfArms = new Variant();
-        $variantCoatOfArms->setText('изображение герба');
+        $variantCoatOfArms->setText('Изображение герба');
         $variantCoatOfArms->setValue(0);
         $variantCoatOfArms->setQuestion($this->getReference('question-3'));
         $this->addReference('variant-coat-of-arms', $variantCoatOfArms);
@@ -202,7 +202,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantUltravioletInscription);
 
         $variantSignsForLowVision = new Variant();
-        $variantSignsForLowVision->setText('спец знаки для ослабленного зрения');
+        $variantSignsForLowVision->setText('Спец знаки для ослабленного зрения');
         $variantSignsForLowVision->setValue(0);
         $variantSignsForLowVision->setQuestion($this->getReference('question-7'));
         $this->addReference('variant-signs-for-low-vision', $variantSignsForLowVision);
@@ -216,7 +216,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantHiddenFaceValueImage);
 
         $variantMicroSeal = new Variant();
-        $variantMicroSeal->setText('микропечать');
+        $variantMicroSeal->setText('Микропечать');
         $variantMicroSeal->setValue(0);
         $variantMicroSeal->setQuestion($this->getReference('question-7'));
         $this->addReference('variant-micro-seal', $variantMicroSeal);
@@ -230,7 +230,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantLatentImage);
 
         $variantSignsForLowVision8 = new Variant();
-        $variantSignsForLowVision8->setText('спец знаки для ослабленного зрения');
+        $variantSignsForLowVision8->setText('Спец знаки для ослабленного зрения');
         $variantSignsForLowVision8->setValue(0);
         $variantSignsForLowVision8->setQuestion($this->getReference('question-8'));
         $this->addReference('variant-signs-for-low-vision-8', $variantSignsForLowVision8);
@@ -244,35 +244,35 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantUltravioletInscription8);
 
         $variantMicroSeal8 = new Variant();
-        $variantMicroSeal8->setText('микропечать');
+        $variantMicroSeal8->setText('Микропечать');
         $variantMicroSeal8->setValue(0);
         $variantMicroSeal8->setQuestion($this->getReference('question-8'));
         $this->addReference('variant-micro-seal-8', $variantMicroSeal8);
         $manager->persist($variantMicroSeal8);
 
         $variantFrontSideWithUltraviolet = new Variant();
-        $variantFrontSideWithUltraviolet->setText('только с лицевой строны при ультрофиолете');
+        $variantFrontSideWithUltraviolet->setText('Только с лицевой строны при ультрофиолете');
         $variantFrontSideWithUltraviolet->setValue(0);
         $variantFrontSideWithUltraviolet->setQuestion($this->getReference('question-9'));
         $this->addReference('variant-front-side-with-ultraviolet', $variantFrontSideWithUltraviolet);
         $manager->persist($variantFrontSideWithUltraviolet);
 
         $variantBothSidesWithUltraviolet = new Variant();
-        $variantBothSidesWithUltraviolet->setText('нить видно с двух сторон при ультрофиолете');
+        $variantBothSidesWithUltraviolet->setText('Нить видно с двух сторон при ультрофиолете');
         $variantBothSidesWithUltraviolet->setValue(0);
         $variantBothSidesWithUltraviolet->setQuestion($this->getReference('question-9'));
         $this->addReference('variant-both-sides-with-ultraviolet', $variantBothSidesWithUltraviolet);
         $manager->persist($variantBothSidesWithUltraviolet);
 
         $variantBackSideWithInfrared = new Variant();
-        $variantBackSideWithInfrared->setText('только с обратной стороны при инфракрасном контроле');
+        $variantBackSideWithInfrared->setText('Только с обратной стороны при инфракрасном контроле');
         $variantBackSideWithInfrared->setValue(1);
         $variantBackSideWithInfrared->setQuestion($this->getReference('question-9'));
         $this->addReference('variant-back-side-with-infrared', $variantBackSideWithInfrared);
         $manager->persist($variantBackSideWithInfrared);
 
         $variantBothSidesWithInfrared = new Variant();
-        $variantBothSidesWithInfrared->setText('нить видно с двух сторон при инфракрасном контроле');
+        $variantBothSidesWithInfrared->setText('Нить видно с двух сторон при инфракрасном контроле');
         $variantBothSidesWithInfrared->setValue(0);
         $variantBothSidesWithInfrared->setQuestion($this->getReference('question-9'));
         $this->addReference('variant-both-sides-with-infrared', $variantBothSidesWithInfrared);
@@ -286,7 +286,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantRR);
 
         $variantNominal = new Variant();
-        $variantNominal->setText('номинал');
+        $variantNominal->setText('Номинал');
         $variantNominal->setValue(0);
         $variantNominal->setQuestion($this->getReference('question-10'));
         $this->addReference('variant-nominal', $variantNominal);
@@ -363,7 +363,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantUsd);
 
         $variantVarnish = new Variant();
-        $variantVarnish->setText('эмблема нанесена цветопеременным лаком');
+        $variantVarnish->setText('Эмблема нанесена цветопеременным лаком');
         $variantVarnish->setValue(1);
         $variantVarnish->setQuestion($this->getReference('question-13'));
         $this->addReference('variant-varnish', $variantVarnish);
@@ -377,14 +377,14 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantInTheLight);
 
         $variantWithUltraviolet = new Variant();
-        $variantWithUltraviolet->setText('эмблему видно только при ультрафиолете');
+        $variantWithUltraviolet->setText('Эмблему видно только при ультрафиолете');
         $variantWithUltraviolet->setValue(0);
         $variantWithUltraviolet->setQuestion($this->getReference('question-13'));
         $this->addReference('variant-with-ultraviolet', $variantWithUltraviolet);
         $manager->persist($variantWithUltraviolet);
 
         $variantWithInfrared = new Variant();
-        $variantWithInfrared->setText('эмблему видно только при инфракрасном просвете');
+        $variantWithInfrared->setText('Эмблему видно только при инфракрасном просвете');
         $variantWithInfrared->setValue(0);
         $variantWithInfrared->setQuestion($this->getReference('question-13'));
         $this->addReference('variant-with-infrared', $variantWithInfrared);
@@ -419,28 +419,28 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantLeftBottomBack);
 
         $variantNominalInDigits = new Variant();
-        $variantNominalInDigits->setText('номенал купюры цифрами');
+        $variantNominalInDigits->setText('Номенал купюры цифрами');
         $variantNominalInDigits->setValue(0);
         $variantNominalInDigits->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-nominal-in-digits', $variantNominalInDigits);
         $manager->persist($variantNominalInDigits);
 
         $variantPortraitCollar = new Variant();
-        $variantPortraitCollar->setText('воротник портрета');
+        $variantPortraitCollar->setText('Воротник портрета');
         $variantPortraitCollar->setValue(1);
         $variantPortraitCollar->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-portrait-collar', $variantPortraitCollar);
         $manager->persist($variantPortraitCollar);
 
         $variantUsaSubscription = new Variant();
-        $variantUsaSubscription->setText('надпись the united states of Amerika');
+        $variantUsaSubscription->setText('Надпись the united states of Amerika');
         $variantUsaSubscription->setValue(1);
         $variantUsaSubscription->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-usa-subscription', $variantUsaSubscription);
         $manager->persist($variantUsaSubscription);
 
         $variantNominalInLetters = new Variant();
-        $variantNominalInLetters->setText('номенал купюры буквами');
+        $variantNominalInLetters->setText('Номенал купюры буквами');
         $variantNominalInLetters->setValue(1);
         $variantNominalInLetters->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-nominal-in-letters', $variantNominalInLetters);
@@ -587,28 +587,28 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantWillTakeAndDeduct);
 
         $variant211 = new Variant();
-        $variant211->setText('открыть отделение, ввести код доступа охранной сигнализации, включить свет');
+        $variant211->setText('Открыть отделение, ввести код доступа охранной сигнализации, включить свет');
         $variant211->setValue(0);
         $variant211->setQuestion($this->getReference('question-21'));
         $this->addReference('variant-21-1', $variant211);
         $manager->persist($variant211);
 
         $variant212 = new Variant();
-        $variant212->setText('открыть отделение, сообщить видеооператору о начале работы');
+        $variant212->setText('Открыть отделение, сообщить видеооператору о начале работы');
         $variant212->setValue(0);
         $variant212->setQuestion($this->getReference('question-21'));
         $this->addReference('variant-21-2', $variant212);
         $manager->persist($variant212);
 
         $variant213 = new Variant();
-        $variant213->setText('осмотреть объект визуально, открыть отделение, включить свет, ввести код доступа охранной сигнализации');
+        $variant213->setText('Осмотреть объект визуально, открыть отделение, включить свет, ввести код доступа охранной сигнализации');
         $variant213->setValue(1);
         $variant213->setQuestion($this->getReference('question-21'));
         $this->addReference('variant-21-3', $variant213);
         $manager->persist($variant213);
 
         $variant214 = new Variant();
-        $variant214->setText('открыть отделение, снять сигнализацию, сообщить видеооператору о начале работы');
+        $variant214->setText('Открыть отделение, снять сигнализацию, сообщить видеооператору о начале работы');
         $variant214->setValue(0);
         $variant214->setQuestion($this->getReference('question-21'));
         $this->addReference('variant-21-4', $variant214);
@@ -916,56 +916,56 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variant284);
 
         $variant291 = new Variant();
-        $variant291->setText('дата выдачи');
+        $variant291->setText('Дата выдачи');
         $variant291->setValue(1);
         $variant291->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-1', $variant291);
         $manager->persist($variant291);
 
         $variant292 = new Variant();
-        $variant292->setText('подпись и печать контролиующего органа');
+        $variant292->setText('Подпись и печать контролиующего органа');
         $variant292->setValue(1);
         $variant292->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-2', $variant292);
         $manager->persist($variant292);
 
         $variant293 = new Variant();
-        $variant293->setText('наименование контролирующего органа');
+        $variant293->setText('Наименование контролирующего органа');
         $variant293->setValue(1);
         $variant293->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-3', $variant293);
         $manager->persist($variant293);
 
         $variant294 = new Variant();
-        $variant294->setText('основания для проведения проверки');
+        $variant294->setText('Основания для проведения проверки');
         $variant294->setValue(1);
         $variant294->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-4', $variant294);
         $manager->persist($variant294);
 
         $variant295 = new Variant();
-        $variant295->setText('наименование и реквизиты субъекта, который проверяется');
+        $variant295->setText('Наименование и реквизиты субъекта, который проверяется');
         $variant295->setValue(1);
         $variant295->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-5', $variant295);
         $manager->persist($variant295);
 
         $variant296 = new Variant();
-        $variant296->setText('дата начала и продолжительность проверки');
+        $variant296->setText('Дата начала и продолжительность проверки');
         $variant296->setValue(1);
         $variant296->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-6', $variant296);
         $manager->persist($variant296);
 
         $variant297 = new Variant();
-        $variant297->setText('вид (документальная плановая / внеплановая или фактическая проверка)');
+        $variant297->setText('Вид (документальная плановая / внеплановая или фактическая проверка)');
         $variant297->setValue(1);
         $variant297->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-7', $variant297);
         $manager->persist($variant297);
 
         $variant298 = new Variant();
-        $variant298->setText('цель проверки');
+        $variant298->setText('Цель проверки');
         $variant298->setValue(1);
         $variant298->setQuestion($this->getReference('question-29'));
         $this->addReference('variant-29-8', $variant298);
@@ -1119,7 +1119,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variant332);
 
         $variant333 = new Variant();
-        $variant333->setText('всегда необходимо ставить в известность сотрудников видеонаблюдения');
+        $variant333->setText('Всегда необходимо ставить в известность сотрудников видеонаблюдения');
         $variant333->setValue(0);
         $variant333->setQuestion($this->getReference('question-33'));
         $this->addReference('variant-33-3', $variant333);
