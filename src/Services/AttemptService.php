@@ -115,6 +115,7 @@ class AttemptService
 
         $userProfile = $user->getProfile();
         $results = [
+            'user_name' => $user->getName(),
             'user_materials' => $userProfile['allMaterials'],
             'user_tests' => $userProfile['allTests'],
             'remaining_attempts_count' => [],
