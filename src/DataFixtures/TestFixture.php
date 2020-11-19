@@ -15,7 +15,7 @@ class TestFixture extends Fixture implements OrderedFixtureInterface
         $testValue = new Test();
         $testValue->setName('валюта');
         $testValue->setType('currency');
-        $testValue->setMaxTime(1800);
+        $testValue->setMaxTime(3600);
 
         $this->addReference('test-value', $testValue);
         $manager->persist($testValue);
@@ -23,7 +23,7 @@ class TestFixture extends Fixture implements OrderedFixtureInterface
         $testSB = new Test();
         $testSB->setName('СБ');
         $testSB->setType('secure');
-        $testSB->setMaxTime(1800);
+        $testSB->setMaxTime(3600);
 
         $this->addReference('test-sb', $testSB);
         $manager->persist($testSB);
@@ -31,7 +31,7 @@ class TestFixture extends Fixture implements OrderedFixtureInterface
         $testBank = new Test();
         $testBank->setName('НБУ');
         $testBank->setType('bank');
-        $testBank->setMaxTime(1800);
+        $testBank->setMaxTime(3600);
         
         $this->addReference('test-bank', $testBank);
         $manager->persist($testBank);
