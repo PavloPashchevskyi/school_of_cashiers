@@ -183,7 +183,7 @@ class AttemptService
         foreach ($answers['data']['questions'] as $answerOfUser) {
             $questionVariants = [];
             foreach ($answerOfUser['variants'] as $aouv) {
-                $questionVariants[$aouv['variant_id']] = $questionVariants[$aouv['variant_text']];
+                $questionVariants[$aouv['variant_id']] = $aouv['variant_text'];
             }
             if ($answerOfUser['field_type'] < 2) {
                 $userVariantIds = (!is_array($answerOfUser['value'])) ?
