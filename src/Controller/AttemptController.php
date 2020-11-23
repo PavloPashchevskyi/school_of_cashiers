@@ -441,7 +441,14 @@ class AttemptController extends AbstractController
      *                     @SWG\Property(property="field_type", type="integer", description="if 1, then question has many right answers, else - 0", example=0),
      *                     @SWG\Property(property="value", type="string", description="variant chosen by user", example="вариант 1"),
      *                     @SWG\Property(property="error", type="string"),
-     *                     @SWG\Property(property="variants", type="object", example={"161": "вариант 1", "162": "вариант 2"})
+     *                     @SWG\Property(
+     *                         property="variants",
+     *                         type="array",
+     *                         @SWG\Items(
+     *                             @SWG\Property(property="variant_id", type="integer", example=1),
+     *                             @SWG\Property(property="variant_text", type="string", example="1 евро")
+     *                         )
+     *                     )
      *                 )
      *             )
      *         )
