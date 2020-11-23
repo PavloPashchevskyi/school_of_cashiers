@@ -181,7 +181,10 @@ class AttemptService
         $this->attemptRepository->preSave($attempt);
         
         foreach ($answers['data']['questions'] as $answerOfUser) {
-            $questionVariants = $answerOfUser['variants'];
+            $questionVariants = [];
+            foreach ($answerOfUser['variants'] as $aouv) {
+                $questionVariants[$aouv['variant_id']] = $questionVariants[$aouv['variant_text']];
+            }
             if ($answerOfUser['field_type'] < 2) {
                 $userVariantIds = (!is_array($answerOfUser['value'])) ?
                     array_keys($questionVariants, $answerOfUser['value']) :
