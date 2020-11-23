@@ -49,7 +49,7 @@ class TestService
             $shuffledVariands = [];
             /** @var \App\Entity\Variant $variant */
             foreach ($question->getVariants() as $variant) {
-                $shuffledVariands['questions'][$i]['variants'][] = [
+                $shuffledVariands[] = [
                     'variant_id' => $variant->getId(),
                     'variant_text' => $variant->getText(),
                 ];
