@@ -13,7 +13,7 @@ class UserService
     /** @var UserRepository */
     private $userRepository;
     
-    private const TOKEN_TTL = 3600;
+    private const TOKEN_TTL = 32400;
 
     public function __construct(UserRepository $userRepository)
     {
