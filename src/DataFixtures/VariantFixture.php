@@ -13,28 +13,28 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $variant1Euro = new Variant();
-        $variant1Euro->setText('1 евро');
+        $variant1Euro->setText('1 Евро');
         $variant1Euro->setValue(0);
         $variant1Euro->setQuestion($this->getReference('question-1'));
         $this->addReference('variant-1-euro', $variant1Euro);
         $manager->persist($variant1Euro);
 
         $variant5Euros = new Variant();
-        $variant5Euros->setText('5 евро');
+        $variant5Euros->setText('5 Евро');
         $variant5Euros->setValue(1);
         $variant5Euros->setQuestion($this->getReference('question-1'));
         $this->addReference('variant-5-euros', $variant5Euros);
         $manager->persist($variant5Euros);
 
         $variant2Euros = new Variant();
-        $variant2Euros->setText('2 евро');
+        $variant2Euros->setText('2 Евро');
         $variant2Euros->setValue(0);
         $variant2Euros->setQuestion($this->getReference('question-1'));
         $this->addReference('variant-2-euros', $variant2Euros);
         $manager->persist($variant2Euros);
 
         $variant10Euros = new Variant();
-        $variant10Euros->setText('10 евро');
+        $variant10Euros->setText('10 Евро');
         $variant10Euros->setValue(0);
         $variant10Euros->setQuestion($this->getReference('question-1'));
         $this->addReference('variant-10-euros', $variant10Euros);
@@ -111,28 +111,28 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantCoatOfArms);
 
         $variant200Euros = new Variant();
-        $variant200Euros->setText('200 евро');
+        $variant200Euros->setText('200 Евро');
         $variant200Euros->setValue(0);
         $variant200Euros->setQuestion($this->getReference('question-4'));
         $this->addReference('variant-200-euros', $variant200Euros);
         $manager->persist($variant200Euros);
 
         $variant1000Euros = new Variant();
-        $variant1000Euros->setText('1000 евро');
+        $variant1000Euros->setText('1000 Евро');
         $variant1000Euros->setValue(0);
         $variant1000Euros->setQuestion($this->getReference('question-4'));
         $this->addReference('variant-1000-euros', $variant1000Euros);
         $manager->persist($variant1000Euros);
 
         $variant500Euros = new Variant();
-        $variant500Euros->setText('500 евро');
+        $variant500Euros->setText('500 Евро');
         $variant500Euros->setValue(1);
         $variant500Euros->setQuestion($this->getReference('question-4'));
         $this->addReference('variant-500-euros', $variant500Euros);
         $manager->persist($variant500Euros);
 
         $variant10000Euros = new Variant();
-        $variant10000Euros->setText('10000 евро');
+        $variant10000Euros->setText('10000 Евро');
         $variant10000Euros->setValue(0);
         $variant10000Euros->setQuestion($this->getReference('question-4'));
         $this->addReference('variant-10000-euros', $variant10000Euros);
@@ -307,28 +307,28 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantTsrb);
 
         $variant500Rub = new Variant();
-        $variant500Rub->setText('500рублей');
+        $variant500Rub->setText('500 Рублей');
         $variant500Rub->setValue(0);
         $variant500Rub->setQuestion($this->getReference('question-11'));
         $this->addReference('variant-500-rub', $variant500Rub);
         $manager->persist($variant500Rub);
 
         $variant2000Rub = new Variant();
-        $variant2000Rub->setText('2000рублей');
+        $variant2000Rub->setText('2000 Рублей');
         $variant2000Rub->setValue(0);
         $variant2000Rub->setQuestion($this->getReference('question-11'));
         $this->addReference('variant-2000-rub', $variant2000Rub);
         $manager->persist($variant2000Rub);
 
         $variant1000Rub = new Variant();
-        $variant1000Rub->setText('1000рублей');
+        $variant1000Rub->setText('1000 Рублей');
         $variant1000Rub->setValue(0);
         $variant1000Rub->setQuestion($this->getReference('question-11'));
         $this->addReference('variant-1000-rub', $variant1000Rub);
         $manager->persist($variant1000Rub);
 
         $variant5000Rub = new Variant();
-        $variant5000Rub->setText('5000рублей');
+        $variant5000Rub->setText('5000 Рублей');
         $variant5000Rub->setValue(1);
         $variant5000Rub->setQuestion($this->getReference('question-11'));
         $this->addReference('variant-5000-rub', $variant5000Rub);
