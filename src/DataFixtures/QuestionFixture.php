@@ -112,7 +112,7 @@ class QuestionFixture extends Fixture implements OrderedFixtureInterface
 
         $question15 = new Question();
         $question15->setType(1);
-        $question15->setText('Что напечатанно на всех номиналах валюты доллар с помощью рельефной печати?');
+        $question15->setText('Что напечатано на всех номиналах валюты доллар с помощью рельефной печати?');
         $question15->setTest($this->getReference('test-value'));
         $this->addReference('question-15', $question15);
         $manager->persist($question15);
