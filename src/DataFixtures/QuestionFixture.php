@@ -49,7 +49,7 @@ class QuestionFixture extends Fixture implements OrderedFixtureInterface
 
         $question6 = new Question();
         $question6->setType(1);
-        $question6->setText('Кто изображен на купюре 200грн?');
+        $question6->setText('Кто изображен на купюре 200 грн?');
         $question6->setTest($this->getReference('test-value'));
         $this->addReference('question-6', $question6);
         $manager->persist($question6);
