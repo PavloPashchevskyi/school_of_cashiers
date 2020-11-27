@@ -195,7 +195,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantIvanFranko);
 
         $variantUltravioletInscription = new Variant();
-        $variantUltravioletInscription->setText('Специальная надпись которую видно в ультрофиолете');
+        $variantUltravioletInscription->setText('Специальная надпись, которую видно в ультрофиолете');
         $variantUltravioletInscription->setValue(0);
         $variantUltravioletInscription->setQuestion($this->getReference('question-7'));
         $this->addReference('variant-ultraviolet-inscription', $variantUltravioletInscription);
@@ -237,7 +237,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantSignsForLowVision8);
 
         $variantUltravioletInscription8 = new Variant();
-        $variantUltravioletInscription8->setText('Специальная надпись которую видно в ультрофиолете');
+        $variantUltravioletInscription8->setText('Специальная надпись, которую видно в ультрофиолете');
         $variantUltravioletInscription8->setValue(1);
         $variantUltravioletInscription8->setQuestion($this->getReference('question-8'));
         $this->addReference('variant-ultraviolet-inscription-8', $variantUltravioletInscription8);
@@ -419,7 +419,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantLeftBottomBack);
 
         $variantNominalInDigits = new Variant();
-        $variantNominalInDigits->setText('Номенал купюры цифрами');
+        $variantNominalInDigits->setText('Номинал купюры цифрами');
         $variantNominalInDigits->setValue(0);
         $variantNominalInDigits->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-nominal-in-digits', $variantNominalInDigits);
@@ -440,7 +440,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantUsaSubscription);
 
         $variantNominalInLetters = new Variant();
-        $variantNominalInLetters->setText('Номенал купюры буквами');
+        $variantNominalInLetters->setText('Номинал купюры буквами');
         $variantNominalInLetters->setValue(1);
         $variantNominalInLetters->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-nominal-in-letters', $variantNominalInLetters);
@@ -811,7 +811,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variant261);
 
         $variant262 = new Variant();
-        $variant262->setText('Наименование и адрес ТТ на которое выписано направление');
+        $variant262->setText('Наименование и адрес ТТ, на которое выписано направление');
         $variant262->setValue(1);
         $variant262->setQuestion($this->getReference('question-26'));
         $this->addReference('variant-26-2', $variant262);
@@ -986,7 +986,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variant2910);
 
         $variant301 = new Variant();
-        $variant301->setText('Ознакомиться с распоряжением, сверить ФИО в документе с удостоверением личности,  выключить компьютер, сообщить о проверке руководству, описать всю технику которую изымают и переписать номера банкнот которые изымают');
+        $variant301->setText('Ознакомиться с распоряжением, сверить ФИО в документе с удостоверением личности,  выключить компьютер, сообщить о проверке руководству, описать всю технику, которую изымают и переписать номера банкнот, которые изымают');
         $variant301->setValue(0);
         $variant301->setQuestion($this->getReference('question-30'));
         $this->addReference('variant-30-1', $variant301);

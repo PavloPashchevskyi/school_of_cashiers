@@ -98,21 +98,21 @@ class QuestionFixture extends Fixture implements OrderedFixtureInterface
 
         $question13 = new Question();
         $question13->setType(1);
-        $question13->setText('Все номиналы росийских рублей содержат эмблему банка "двуглавый орел"');
+        $question13->setText('Все номиналы российских рублей содержат эмблему банка "двуглавый орел"');
         $question13->setTest($this->getReference('test-value'));
         $this->addReference('question-13', $question13);
         $manager->persist($question13);
 
         $question14 = new Question();
         $question14->setType(1);
-        $question14->setText('Где расположено антисканерное изображение номинала на росийских рублях?');
+        $question14->setText('Где расположено антисканерное изображение номинала на российских рублях?');
         $question14->setTest($this->getReference('test-value'));
         $this->addReference('question-14', $question14);
         $manager->persist($question14);
 
         $question15 = new Question();
         $question15->setType(1);
-        $question15->setText('Что напечатанно на всех номеналах валюты доллар с помощью рельефной печати?');
+        $question15->setText('Что напечатанно на всех номиналах валюты доллар с помощью рельефной печати?');
         $question15->setTest($this->getReference('test-value'));
         $this->addReference('question-15', $question15);
         $manager->persist($question15);
