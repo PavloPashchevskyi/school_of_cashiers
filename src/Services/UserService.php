@@ -124,13 +124,13 @@ class UserService
             $left = $userItem1['guest_data']['createdAt'];
             $right = $userItem2['guest_data']['createdAt'];
             if ($left > $right) {
-                return 1;
+                return -1;
             }
             if ($left == $right) {
                 return 0;
             }
             if ($left < $right) {
-                return -1;
+                return 1;
             }
         });
 
@@ -181,6 +181,7 @@ class UserService
         $newGuestData = $data['guest_data'];
         $existingGuestData['allMaterials'] = $newGuestData['allMaterials'];
         $existingGuestData['allTests'] = $newGuestData['allTests'];
+        
         
         $guest->setProfile($existingGuestData);
         $this->userRepository->store($guest);
