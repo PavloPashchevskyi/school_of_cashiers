@@ -119,24 +119,6 @@ class UserService
                 'guest_data' => $user->getProfile(),
             ];
         }
-        
-        $sorted = uasort($usersArray, function (array $userItem1, array $userItem2) {
-            $left = $userItem1['guest_data']['createdAt'];
-            $right = $userItem2['guest_data']['createdAt'];
-            if ($left > $right) {
-                return -1;
-            }
-            if ($left == $right) {
-                return 0;
-            }
-            if ($left < $right) {
-                return 1;
-            }
-        });
-
-        if ($sorted === false) {
-            throw new Exception('Не удалось отсортировать список пользователей!', 4);
-        }
 
         return $usersArray;
     }
