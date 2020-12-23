@@ -389,6 +389,97 @@ class AttemptService
         return $result;
     }
     
+    public function calculateAttemptResultDetails(int $attemptId): array
+    {
+        $attempt = $this->attemptRepository->find($attemptId);
+        if (!($attempt instanceof Attempt)) {
+            throw new Exception('Попытка пользователя с таким ID НЕ найдена!', 1);
+        }
+        
+        $questions = $attempt->getTest()->getQuestions();
+        $detailedUserResultAttempt = ['questions' => [],];
+        /** @var Question $question */
+        foreach ($questions as $i => $question) {
+            $questionAnswersInAttempt = $this->getQuestionAnswersInAttempt($attempt, $question);
+            $detailedUserResultAttempt['questions'][$i] = [
+                'text' => $question->getText(),
+                'user_answer' => $questionAnswersInAttempt['user_answer'],
+                'answers_list' => $questionAnswersInAttempt['answers_list'],
+                'answer_status' => $questionAnswersInAttempt['answer_status'],
+                'right_answers_list' => $questionAnswersInAttempt['right_answers_list'],
+            ];
+        }
+        
+        return $detailedUserResultAttempt;
+    }
+    
+    private function getQuestionAnswersInAttempt(Attempt $attempt, Question $question): array
+    {
+        $questionVariants = $question->getVariants();
+        $questionAnswersInAttempt = [];
+        /** @var Variant $questionVariant */
+        foreach ($questionVariants as $questionVariant) {
+            $questionAnswersInAttempt['answers_list'][] = [
+                'question_variant_id' => $questionVariant->getId(),
+                'question_variant_text' => $questionVariant->getText(),
+                'question_variant_value' => $questionVariant->getValue(),
+            ];
+        }
+        
+        $userAnswers = $attempt->getAnswers();
+        /** @var Answer $answer */
+        foreach ($userAnswers as $answer) {
+            $variantId = $answer->getVariantId();
+            /** @var Variant $variant */
+            $variant = $this->variantRepository->find($variantId);
+            // two different instances of THE SAME question (use operator == only)
+            if ($variant->getQuestion() == $question) {
+                $questionAnswersInAttempt['user_answer'][] = [
+                    'user_variant_id' => $variant->getId(),
+                    'user_variant_text' => $variant->getText(),
+                    'user_variant_value' => $variant->getValue(),
+                ];
+                $questionAnswersInAttempt['answer_status'] = $this->isMultivariantQuestionAnswerRight($attempt, $question);
+                $questionAnswersInAttempt['right_answers_list'] = array_filter($questionAnswersInAttempt['answers_list'], function ($questionAnswerInAttempt) {
+                    return $questionAnswerInAttempt['question_variant_value'] > 0;
+                });
+            }
+        }
+        
+        return $questionAnswersInAttempt;
+    }
+    
+    private function isMultivariantQuestionAnswerRight(Attempt $attempt, Question $question): bool
+    {
+        $answers = $attempt->getAnswers();
+        
+        $questionRightVariantsQuantity = 0;
+        $questionVariants = $question->getVariants();
+        /** @var Variant $questionVariant */
+        foreach ($questionVariants as $questionVariant) {
+            if ($questionVariant->getValue() > 0) {
+                $questionRightVariantsQuantity++;
+            }
+        }
+        
+        $rightAnswersQuantity = 0;
+        $wrongAnswersQuantity = 0;
+        /** @var Answer $answer */
+        foreach ($answers as $answer) {
+            $variantId = $answer->getVariantId();
+            /** @var Variant $variant */
+            $variant = $this->variantRepository->find($variantId);
+            if ($variant->getQuestion() == $question) {
+                if ($variant->getValue() === $answer->getValue()) {
+                    $rightAnswersQuantity++;
+                } else {
+                    $wrongAnswersQuantity++;
+                }
+            }
+        }
+        
+        return ($rightAnswersQuantity === $questionRightVariantsQuantity && $wrongAnswersQuantity === 0);
+    }
     
     private function getQuestionsList(Attempt $attempt, int $nextStageId): array
     {
