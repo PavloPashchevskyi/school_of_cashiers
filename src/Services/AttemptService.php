@@ -134,6 +134,7 @@ class AttemptService
         foreach ($attempts as $i => $attempt) {
             $quizResults = $this->calculateWonAndLosedQuestions($attempt);
             $results['attempts'][$i] = [
+                'attempt_id' => $attempt->getId(),
                 'test' => $attempt->getTest()->getName(),
                 'right_answers_quantity' => $quizResults['won'],
                 'wrong_answers_quantity' => $quizResults['losed'],
@@ -388,7 +389,7 @@ class AttemptService
         return $result;
     }
     
-
+    
     private function getQuestionsList(Attempt $attempt, int $nextStageId): array
     {
         $questions = $attempt->getTest()->getQuestions()->toArray();
