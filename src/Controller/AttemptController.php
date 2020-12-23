@@ -292,7 +292,7 @@ class AttemptController extends AbstractController
     
     /**
      * @Route("/api/attempt/{attemptId}/result/details", methods={"POST"})
-     * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of user`s Attempt, which result`s details are needed of")
+     * @SWG\Parameter(name="attemptId", in="path", required=true, type="integer", description="ID of user's Attempt, which result`s details are needed of")
      * @SWG\Parameter(
      *     name="auth_details",
      *     in="body",
