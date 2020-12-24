@@ -348,7 +348,9 @@ class AttemptService
         
         /** @var Attempt[] $attempts */
         $attempts = $this->attemptRepository->findBy(['user' => $user, 'test' => $test,]);
-        $remainingAttemptsQuantity = $test->getMaximumAttemptsQuantity() - count($attempts);
+        $userProfile = $user->getProfile();
+        $remainingAQKey = $test->getType().'Attempts';
+        $remainingAttemptsQuantity = (int) $userProfile[$remainingAQKey];
         $result = [
             'remaining_attempts_quantity' => $remainingAttemptsQuantity,
             'questions' => [],
