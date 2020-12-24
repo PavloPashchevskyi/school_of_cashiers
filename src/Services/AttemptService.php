@@ -453,34 +453,31 @@ class AttemptService
     
     private function isMultivariantQuestionAnswerRight(Attempt $attempt, Question $question): bool
     {
+        // answers for ALL questions in Test of User
         $answers = $attempt->getAnswers();
-        
-        $questionRightVariantsQuantity = 0;
-        $questionVariants = $question->getVariants();
-        /** @var Variant $questionVariant */
-        foreach ($questionVariants as $questionVariant) {
-            if ($questionVariant->getValue() > 0) {
-                $questionRightVariantsQuantity++;
-            }
-        }
         
         $rightAnswersQuantity = 0;
         $wrongAnswersQuantity = 0;
         /** @var Answer $answer */
         foreach ($answers as $answer) {
-            $variantId = $answer->getVariantId();
-            /** @var Variant $variant */
-            $variant = $this->variantRepository->find($variantId);
-            if ($variant->getQuestion() == $question) {
-                if ($variant->getValue() === $answer->getValue()) {
-                    $rightAnswersQuantity++;
-                } else {
-                    $wrongAnswersQuantity++;
+            $userVariantId = $answer->getVariantId();
+            /** @var Variant $userVariant */
+            $userVariant = $this->variantRepository->find($userVariantId);
+            if ($userVariant->getQuestion() == $question) {
+                /** @var Variant $questionVariant */
+                foreach ($question->getVariants() as $questionVariant) {
+                    if ($questionVariant->getId() === $answer->getVariantId()) {
+                        if ($questionVariant->getValue() > 0 && $questionVariant->getValue() === $answer->getValue()) {
+                            $rightAnswersQuantity++;
+                        } else {
+                            $wrongAnswersQuantity++;
+                        }
+                    }
                 }
             }
         }
         
-        return ($rightAnswersQuantity === $questionRightVariantsQuantity && $wrongAnswersQuantity === 0);
+        return ($rightAnswersQuantity === $this->getRightVariantsQuantity($question) && $wrongAnswersQuantity === 0);
     }
     
     private function getQuestionsList(Attempt $attempt, int $nextStageId): array
