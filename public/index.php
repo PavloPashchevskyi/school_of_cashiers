@@ -1,10 +1,13 @@
 <?php
 
-header('Access-Control-Allow-Origin: http://localhost:3000');
-header('Access-Control-Allow-Credentials: true');
-if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    header('Access-Control-Allow-Headers: Content-Type, Token');
-    exit;
+$referer = (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_SCHEME'].'//'.$_SERVER['SERVER_NAME'];
+if (substr($referer, 0, 21) === 'http://127.0.0.1:3000' || substr($referer, 0, 21) === 'http://localhost:3000' || substr($referer, 0, 28) === 'https://school1.kitgroup.org') {
+    header('Access-Control-Allow-Origin: '.substr($referer, 0, -1));
+    header('Access-Control-Allow-Credentials: true');
+    if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        header('Access-Control-Allow-Headers: Content-Type, Token');
+        exit;
+    }
 }
 
 use App\Kernel;
