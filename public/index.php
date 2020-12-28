@@ -1,6 +1,6 @@
 <?php
 
-$referer = (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_SCHEME'].'//'.$_SERVER['SERVER_NAME'];
+$referer = (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_SCHEME'].'//'.$_SERVER['SERVER_NAME'].'/';
 if (substr($referer, 0, 21) === 'http://127.0.0.1:3000' || substr($referer, 0, 21) === 'http://localhost:3000' || substr($referer, 0, 28) === 'https://school1.kitgroup.org') {
     header('Access-Control-Allow-Origin: '.substr($referer, 0, -1));
     header('Access-Control-Allow-Credentials: true');
