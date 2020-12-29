@@ -433,7 +433,7 @@ class VariantFixture extends Fixture implements OrderedFixtureInterface
         $manager->persist($variantPortraitCollar);
 
         $variantUsaSubscription = new Variant();
-        $variantUsaSubscription->setText('Надпись the united states of Amerika');
+        $variantUsaSubscription->setText('Надпись the united states of America');
         $variantUsaSubscription->setValue(1);
         $variantUsaSubscription->setQuestion($this->getReference('question-15'));
         $this->addReference('variant-usa-subscription', $variantUsaSubscription);
